@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard/Index';
+import EOD from './pages/EOD/Index';
+import { Route, Routes } from "react-router-dom"
+import 'react-toastify/dist/ReactToastify.css';
+import ManageOrders from './pages/ManageOrder/Index';
+import Register from './pages/Signup/Index';
+import Receipt from './pages/Receipt/index';
+import Error from './pages/404/Index';
+import OrderMeal from './pages/OrderMeal/Index';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/admin/register" element={<Register />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/eod" element={<EOD />} />
+      <Route path="/order-meal" element={<OrderMeal />} />
+      <Route path="/manage-orders" element={<ManageOrders />} />
+      {/* <Routes>
+        <Route path="invoices" element={<Invoices />}>
+          <Route path=":invoiceId" element={<QueryInvoice />} />
+          <Route path="printReceipt" element={<PrintReceipt />} />
+        </Route>
+      </Routes> */}
+      <Route
+        path="/printReceipt/:id"
+        element={<Receipt businessAddress='Mechanic Site, Auchi Edo State' businessName='Orisfina Eatery' totalOrderPrice='54984' orderCart={[{ meal: 'Fried Beans & Chicken', quantity: 2, price: 1800, totalAmount: 3600 }]} />} />
+      <Route
+        path="*"
+        element={<Error />}
+      />
+    </Routes>
   );
 }
 
 export default App;
+
+
+

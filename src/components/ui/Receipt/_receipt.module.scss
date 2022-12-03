@@ -1,0 +1,134 @@
+.meal__container {
+    margin-top: 6rem;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.selectMeal {
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.7rem;
+    border: 1px solid #2ADC9D;
+
+    &:focus {
+        outline: 1px solid #f1c40f;
+        border: none;
+    }
+}
+
+.mealLabel {
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+table {
+    border: none;
+}
+
+.selectedMeal {
+    &__container {
+
+        width: 75%;
+        margin-top: 5rem;
+    }
+
+    &__table {
+       /*  border-collapse: collapse; */
+        width: 100%;
+        border: none;
+    }
+
+    &__thead {
+        background-color: #098c5e;
+        color: #fff;
+        border: none;
+
+        &>th {
+            padding: 0.7rem 1rem;
+        }
+    }
+
+    &__td {
+        text-align: center;
+        padding: 1rem 1rem;
+
+        &:nth-child(2) {
+            text-align: left;
+            padding-left: 4rem;
+        }
+
+
+    }
+
+    &__tr {
+        background-color: #e9f2ef;
+        padding: 2rem 3rem;
+
+        &:hover {
+            background-color: #d4ede5;
+        }
+    }
+}
+
+tfoot {
+    background-color: #b1e1d2;
+    height: 5rem;
+}
+
+.printMealReceipt {
+    margin-top: 5rem;
+    padding: 1rem 2rem;
+    background-color: rgb(7, 125, 45);
+    color: #fff;
+}
+
+.selectQty {
+    /* flex-basis: 5%; */
+    max-width: 70px;
+    margin: 0 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.7rem;
+    border: 1px solid #2ADC9D;
+
+    &:focus {
+        outline: 1px solid #f1c40f;
+        border: none;
+    }
+}
+
+.selectPrice {
+    width: 120px !important;
+    margin: 0 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.7rem;
+    border: 1px solid #2ADC9D;
+
+    &:focus {
+        outline: 1px solid #f1c40f;
+        border: none;
+    }
+}
+
+.add-order {
+    flex-basis: 15%;
+    height: 46px;
+    align-self: end;
+    border-radius: 5px;
+}
+
+.error {
+    border: 1px solid red !important;
+}
+
+.formContainer {
+
+    &:first-child {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 55%;
+        flex-grow: 2;
+    }
+}

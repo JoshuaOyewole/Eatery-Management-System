@@ -1,0 +1,16 @@
+.navbar {
+    &-header {
+        background-color: #ffffff;
+        height: 65px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 5rem;
+    }
+
+    &__logoutIcon {
+        margin-right: .5rem;
+    }
+
+   
+}

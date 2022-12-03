@@ -1,0 +1,65 @@
+@use '../../abstract/mixin' as mixin;
+
+.sidebar {
+    background-color: #1EB580;
+    color: #f4f4f4;
+    font-size: 1.4rem;
+    flex-basis: 20%;
+
+    &__logoContainer {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem 4rem 1.5rem 4rem;
+        border-bottom: 1px solid #21a67756;
+
+        @media (max-width:'1275px') {
+            padding: 1.3rem 2rem 1.3rem 1rem;
+        }
+    }
+
+    &__logo {
+        width: 4rem;
+    }
+
+    &__logoTitle {
+        padding-left: 1rem;
+        font-weight: 600;
+    }
+}
+
+.nav-menu {
+    list-style-type: none;
+    margin-top: 5rem;
+}
+
+.nav-list {
+    background-color: #21a67741;
+
+    &:hover {
+        background: rgba(42, 220, 157, 0.8);
+    }
+
+    &:not(:first-child) {
+        margin-top: .3rem;
+
+    }
+
+    &:active {
+        background-color: #2ADC9D;
+    }
+}
+
+.nav-link {
+    display: block;
+    padding: 2rem 4rem;
+
+    @media (max-width:'1200px') {
+        padding: 2rem;
+    }
+
+    /* CHECK WHY IT'S NOT WORKING
+        @include mixins.media("tab") {
+            padding: 2rem;
+        }
+    */
+}
