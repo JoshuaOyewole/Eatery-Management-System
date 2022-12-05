@@ -1,4 +1,5 @@
 import DashboardLayout from '../../Layout/Dashboard/Dashboard';
+import Styles from "./_addOrder.module.scss"
 import { useState, useEffect, useRef, useCallback } from "react"
 import Modal from '../../components/ui/Modal/Modal'
 import axios from 'axios';
@@ -146,12 +147,14 @@ const OrderMeal = () => {
                 orders: orderCart,
                 totalPrice: totalOrderPrice
             });
-            setResponseMessage(response.data.message);
-            setInvoiceID(response.data.id);
+            if (response) {
+                setResponseMessage(response.data.message);
+                setInvoiceID(response.data.id);
 
-            setIsModalOpen(true);
-            setorderCart([]);
-            setTotalOrderPrice(0);
+                setIsModalOpen(true);
+                setorderCart([]);
+                setTotalOrderPrice(0);
+            }
         } catch (error) {
 
             toast.success(`${error}`, {
@@ -164,21 +167,17 @@ const OrderMeal = () => {
                 progress: undefined,
             });
         }
-        /* POP UP MODEL FOR RECEIPT 
-        1. PRINT THE RECEIPT OR DECLINE
-        2. RESET EVERYTHING TO START PLACING ANOTHER ORDER 
-        */
     }
     const resetModal = () => {
         setIsModalOpen(false)
     }
-    
+
     return (
         <>
             <DashboardLayout >
-                <main className='dashboard__content'>
-                    <div className="dashboard__content--top">
-                        <h2 className='dashboard__heading'>Make an Order</h2>
+                <main className={Styles.dashboard__content}>
+                    <div className={Styles["dashboard__content--top"]}>
+                        <h2 className={Styles.dashboard__heading}>Make an Order</h2>
                         <p>The buttons below show a few things you can do right away</p>
 
                     </div>
@@ -255,9 +254,8 @@ const OrderMeal = () => {
                             /* onChange={updateTotalAmount}  */
                             />
                         </div>
-
-                        <button onClick={handleAddOrder} className='btn primary-btn add-order'>Add Order</button>
-
+                            <button onClick={handleAddOrder} className='btn primary-btn add-order'>Add Order</button>
+                        
                     </div>
                     <div className="selectedMeal__container">
                         {
@@ -311,8 +309,11 @@ const OrderMeal = () => {
                     </div>
 
                     {orderCart.length !== 0 &&
-                        <div className="flex">
-                            <button onClick={handleSubmit} className='printMealReceipt'>
+                        <div className="flex mt-m">
+                            <button onClick={() => setorderCart([])} className='btn danger-btn'>
+                                CLEAR ORDER'S
+                            </button>
+                            <button onClick={handleSubmit} className='btn blue-btn ml-s'>
                                 PROCESS ORDER
                             </button>
                         </div>
@@ -332,8 +333,8 @@ const OrderMeal = () => {
             />
 
             {/* MODAL FOR SUCCESSFUL TRANSACTION OR FAILURE */}
-            {isModalOpen && <Modal response={ResponseMessage} orderID={invoiceID} resetModal={resetModal} />}
-            
+            {isModalOpen && <Modal orderID={invoiceID} resetModal={resetModal} />}
+
         </>
     )
 }

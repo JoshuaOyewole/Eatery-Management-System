@@ -4,18 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCheck} from "@fortawesome/free-solid-svg-icons"
 
 type ModalProps = {
-  response: string | null,
   orderID: string,
   resetModal:()=>void;
 }
 
 const Modal = (props: ModalProps) => {
-  const navigate = useNavigate();
-
   const { orderID,resetModal } = props;
+
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<Boolean>(true)
 
-  const handlePrint = (event: React.MouseEvent<HTMLElement>) => {
+  const handlePrint = () => {
     navigate(`/printReceipt/${orderID}`);
   };
 
@@ -50,3 +49,4 @@ const Modal = (props: ModalProps) => {
 }
 
 export default Modal
+

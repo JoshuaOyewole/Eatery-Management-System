@@ -1,0 +1,117 @@
+@use "../../sass/abstract/variable" as variable;
+@use "../../sass/abstract/mixin" as mixin;
+
+
+.dashboard {
+    &__heading {
+        font-size: 2.5rem;
+        color: #098c5e;
+        text-transform: uppercase;
+        text-decoration: underline;
+        margin-bottom: 1rem;
+    }
+
+    &__box-container {
+        @include mixin.flex($justify: space-between);
+        flex-wrap: wrap;
+        flex-basis: 30rem;
+        row-gap: 4rem;
+        width: 90%;
+        margin-top: 5rem;
+    }
+
+    &__content {
+        @include mixin.flex($align: center);
+        flex-direction: column;
+        padding: 2rem 0rem;
+        height: 100%;
+        overflow: scroll;
+
+        &--top {
+            text-align: center;
+        }
+    }
+
+    &__box-content {
+        &--left {
+            @include mixin.flex();
+            width: 60%;
+            flex-direction: column;
+            row-gap: 2rem;
+
+            &Wrapper {
+                @include mixin.flex($justify: space-between, $align: center);
+                width: 100%;
+            }
+        }
+
+        &--right {
+            @include mixin.flex();
+            flex-direction: column;
+            row-gap: 2rem;
+            width: 38%;
+        }
+    }
+
+    &__sales-overview {
+        background-color: variable.$white;
+        box-shadow: 1rem 2px 1rem rgb(15 94 66 / 5%);
+        border-radius: 5px;
+        padding: 2rem 3rem 3rem;
+        width: 100%;
+
+
+        &--first {
+            background-image: url('../../assets/images/profileSetupBg.png');
+            background-size: cover;
+            color: variable.$white;
+        }
+
+        &--second {
+            background-image: url('../../assets/images/ProductTourBg.png');
+            background-size: cover;
+            color: variable.$white;
+        }
+
+        &--top {
+            @include mixin.flex($align: center, $justify: space-between);
+            margin-bottom: 2rem;
+        }
+
+        &--record-type {
+            background-color: #f2f3f5;
+            color: variable.$Grey;
+            border-radius: .7rem;
+            padding: .5rem 1rem;
+            font-size: 1.4rem;
+
+            &:hover {
+                background-color: darken($color: #f2f3f5, $amount: 0.9);
+                cursor: pointer;
+            }
+        }
+
+        &--sales-datas {
+            font-size: 1.8rem;
+        }
+    }
+
+
+}
+
+.item {
+    font-size: 1.6rem;
+}
+
+.data {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: variable.$primary;
+}
+
+.orderValue {
+    background: variable.$white;
+    color: variable.$Grey;
+    padding: 0.2rem 1rem;
+    border-radius: 0.32rem;
+}

@@ -26,7 +26,7 @@ function App() {
       </Routes> */}
       <Route
         path="/printReceipt/:id"
-        element={<Receipt businessAddress='Mechanic Site, Auchi Edo State' businessName='Orisfina Eatery' totalOrderPrice='54984' orderCart={[{ meal: 'Fried Beans & Chicken', quantity: 2, price: 1800, totalAmount: 3600 }]} />} />
+        element={<Receipt />} />
       <Route
         path="*"
         element={<Error />}
