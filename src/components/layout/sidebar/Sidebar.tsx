@@ -30,16 +30,16 @@ const Sidebar = () => {
 
           <Link to="/order-meal" className="nav-link">
             <FontAwesomeIcon icon={faCreditCard} className='fontawesomeIcon' />
-            Order Meal
+            Make an Order
           </Link>
         </li>
         <li className="nav-list">
 
-          <Link to="/order-meal" className="nav-link"><FontAwesomeIcon icon={faBook} className='fontawesomeIcon' /> View Orders</Link>
+          <Link to="/view-orders" className="nav-link"><FontAwesomeIcon icon={faBook} className='fontawesomeIcon' /> View Orders</Link>
         </li>
         <li className="nav-list">
 
-          <Link to="/manage-orders" className="nav-link"> <FontAwesomeIcon icon={faFilePen} className='fontawesomeIcon' /> Manage Orders</Link>
+          <Link to="/manage-orders" className="nav-link"> <FontAwesomeIcon icon={faFilePen} className='fontawesomeIcon' /> Manage Store</Link>
         </li>
         <li className="nav-list">
 
