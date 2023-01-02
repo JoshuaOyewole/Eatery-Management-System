@@ -3,8 +3,11 @@
 
 .meal__container {
     margin-top: 6rem;
-    width: 75%;
+    width: 80%;
     @include mixin.flex($justify:space-between);
+    background: variable.$white;
+    padding: 4rem 3rem;
+    border-radius: 1rem;
 }
 
 .selectMeal {
@@ -30,7 +33,7 @@ table {
 
 .selectedMeal {
     &__container {
-        width: 75%;
+        width: 80%;
         margin-top: 5rem;
     }
 
@@ -86,9 +89,9 @@ tfoot {
     color: variable.$white;
     text-transform: uppercase;
     border-radius: .5rem;
-    &:last-child{
+    /* &:last-child{
         margin-top: 1rem;  
-    }
+    } */
 
     &:hover{
         background-color: rgb(3, 111, 136);

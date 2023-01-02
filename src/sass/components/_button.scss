@@ -1,16 +1,35 @@
-.btn{
-    width: 100%;
-    padding: 1.3rem 1.2rem;
-    font-size: 1.6rem;
-    border: none;
-}
+@use "../abstract/variable" as variable;
 
-.primary-btn{
-    background-color: #2da44e;
-    color: #f4f4f4;
+.btn {
+    padding: 1rem 2rem;
+    min-width: 8rem;
+    text-transform: uppercase;
+    border-radius: 0.5rem;
+    font-weight: 600;
     font-weight: 600;
 }
 
-.primary-btn:hover{
-    background-color: #0b6d27;
+.danger-btn {
+    background-color: variable.$danger;
+    color: variable.$white;
+    &:hover{
+        background-color: lighten($color: variable.$danger, $amount: 8);
+    }
+}
+
+.blue-btn {
+    background-color: variable.$blue;
+    color: variable.$white;
+    &:hover{
+        background-color: lighten($color: variable.$blue, $amount: 8);
+    }
+}
+
+.primary-btn {
+    background-color: #2da44e;
+    color: #f4f4f4;
+
+    &:hover {
+        background-color: #0b6d27;
+    }
 }
