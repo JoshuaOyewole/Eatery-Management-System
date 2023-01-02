@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Input from '../../components/forms/formInput/Index'
 import axios from 'axios';
-import { RootState } from "../../redux/store";
+/* import { RootState } from "../../redux/store"; */
 import { ToastContainer, toast } from 'react-toastify';
-import { useSelector, useDispatch } from 'react-redux';
-import { increment, decrement} from '../../redux/counter/counterSlice';
 
 const logo = require('../../assets/images/logo.png')
 
@@ -15,12 +13,6 @@ type LoginProps = {
 }
 
 const Index = () => {
-    const dispatch = useDispatch();
-    const { counter } = useSelector((state: RootState) => state.counter);
-
-    const incrementAmount = useSelector(
-        (state: RootState) => state.counter.incrementBy
-    );
 
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState<LoginProps>({ email: "", password: "" });
@@ -55,17 +47,13 @@ const Index = () => {
             console.log(errMsg);
         }
     }
-const handleIncrement =() =>{
-    counter + 
-}
 
     return (
         <div className='login-container'>
             <div className="loginLeft">
                 <h1 className="title">
                     <>
-                        Welcome Back! counter is {counter}
-                        <button onClick={handleIncrement}>Increment By 5</button>
+                        Welcome Back! 
                     </>
                 </h1>
                 <p className='info'>Kindly Login with correct Email and Password</p>
