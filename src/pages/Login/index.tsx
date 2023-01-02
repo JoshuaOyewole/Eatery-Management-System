@@ -2,26 +2,42 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Input from '../../components/forms/formInput/Index'
 import axios from 'axios';
+import { RootState } from "../../redux/store";
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement} from '../../redux/counter/counterSlice';
 
 const logo = require('../../assets/images/logo.png')
 
-const Index = () => {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+type LoginProps = {
+    email: string,
+    password: string
+}
 
+const Index = () => {
+    const dispatch = useDispatch();
+    const { counter } = useSelector((state: RootState) => state.counter);
+
+    const incrementAmount = useSelector(
+        (state: RootState) => state.counter.incrementBy
+    );
+
+    const navigate = useNavigate();
+    const [credentials, setCredentials] = useState<LoginProps>({ email: "", password: "" });
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCredentials({ ...credentials, [e.currentTarget.name]: e.currentTarget.value })
+    }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3100/login', {
-                email, password
-            });
-            
+            const response = await axios.post(`${process.env.API_URL}/login`, { email: credentials.email, password: credentials.password });
+
             if (response.data.success === true) {
-                 navigate('/dashboard') 
+                navigate('/dashboard')
             }
-            else{
+            else {
                 alert('Error occured')
             }
         } catch (error: any) {
@@ -35,20 +51,32 @@ const Index = () => {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                }); 
+            });
             console.log(errMsg);
         }
     }
-
+const handleIncrement =() =>{
+    counter + 
+}
 
     return (
         <div className='login-container'>
+            <div className="loginLeft">
+                <h1 className="title">
+                    <>
+                        Welcome Back! counter is {counter}
+                        <button onClick={handleIncrement}>Increment By 5</button>
+                    </>
+                </h1>
+                <p className='info'>Kindly Login with correct Email and Password</p>
+                <div className="bg-overlay"></div>
+            </div>
             <div className='login'>
                 <div className="logo_container">
                     <img src={logo} alt="logo" className='logo' />
                 </div>
                 <h3 className="secondary-text">
-                    Login in to Valchi MS
+                    Login in to Eatman
                 </h3>
                 <form
                     className="login-form"
@@ -57,19 +85,19 @@ const Index = () => {
                     <Input
                         type='text'
                         name='email'
-                        value={email}
+                        value={credentials.email}
                         placeholder='Enter your email'
                         labelName='Enter your email'
-                        onChange={(e: React.ChangeEvent<HTMLFormElement>) => setEmail(e.target.value)}
+                        onChange={handleChange}
                         required
                     />
                     <Input
                         type='password'
                         name='password'
-                        value={password}
+                        value={credentials.password}
+                        onChange={handleChange}
                         placeholder='Enter your password'
                         labelName='Enter your password'
-                        onChange={(e: React.ChangeEvent<HTMLFormElement>) => setPassword(e.target.value)}
                         required
                     />
                     <Input
@@ -77,7 +105,7 @@ const Index = () => {
                         value='Sign in'
                         className='btn primary-btn'
                     />
-                    
+
                 </form>
             </div>
             <ToastContainer

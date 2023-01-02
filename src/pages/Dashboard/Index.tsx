@@ -11,11 +11,11 @@ const Dashboard = () => {
 
     function getCurrentMonth() {
         const months = ['January', 'Febraury', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        const currentMonth = new Date().getMonth();
-        return setcurrentMonth(months[currentMonth]);
+        return setcurrentMonth(months[new Date().getMonth()]);
     }
 
     useEffect(() => {
+        //Get all Sales Record
         getCurrentMonth();
     }, [])
 

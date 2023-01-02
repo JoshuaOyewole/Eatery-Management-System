@@ -66,7 +66,7 @@ const StaffDashboard = (props: Props) => {
                         <div className={Styles["dashboard__box-content--right"]}>
                             <div className={Styles["dashboard__sales-overview"]}>
                                 <div className={Styles["dashboard__sales-overview--top"]}>
-                                    <h4 className={Styles["dashboard__sales-overview--title"]}>Top Selling Items</h4>
+                                    <h4 className={Styles["dashboard__sales-overview--title"]}>Top Selling Categories</h4>
                                 </div>
                                 <ul className={Styles["dashboard__sales-overview--sales-datas"]}>
                                     <li>
