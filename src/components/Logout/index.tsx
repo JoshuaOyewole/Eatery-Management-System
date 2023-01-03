@@ -19,7 +19,7 @@ const Index = (props: LogoutBtnprops) => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.get("http://localhost:3100/logout");
+            const response = await axios.get(`${process.env.REACT_API_URL}/logout`);
 
             if (response.data.success === true) navigate('/')
         } catch (error: any) {

@@ -31,9 +31,8 @@ const AdminDashboard = (props: Props) => {
 
                                 <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--second"]} ml-s`} >
                                     <div className={Styles["dashboard__sales-overview--top"]}>
-                                        <h4 className={Styles["dashboard__sales-overview--title"]}><>
-                                        ({currentMonth}) Overview 
-                                        </></h4>
+                                        <h4 className={Styles["dashboard__sales-overview--title"]}>{`${currentMonth} Overview`}
+                                        </h4>
                                         <div className={Styles["dashboard__sales-overview--record-type"]}>Monthly</div>
                                     </div>
                                     <p className={Styles["dashboard__sales-overview--sales-datas"]}>

@@ -43,7 +43,7 @@ const OrderMeal = () => {
     //Fetch Meals from the DB when the App loads
     const fetchMeal = useCallback(
         async () => {
-            const fetchMeal = await axios.get('http://localhost:3100/api/meal');
+            const fetchMeal = await axios.get(`${process.env.REACT_API_URL}/api/meal`);
             setMeals(fetchMeal?.data);
         }, [])
 
@@ -81,7 +81,7 @@ const OrderMeal = () => {
             setPrice(selectedmeal[0].price);
         }
 
-    }, [meal]);
+    }, [meal, meals]);
 
 
     //Change Qty of the meal ordering
@@ -142,7 +142,7 @@ const OrderMeal = () => {
             });
         }
         try {
-            const response = await axios.post("http://localhost:3100/api/order", {
+            const response = await axios.post(`${process.env.REACT_API_URL}/api/order`, {
                 name: "Customer ----",
                 orders: orderCart,
                 totalPrice: totalOrderPrice
@@ -171,6 +171,7 @@ const OrderMeal = () => {
     const resetModal = () => {
         setIsModalOpen(false)
     }
+console.log(ResponseMessage);
 
     return (
         <>

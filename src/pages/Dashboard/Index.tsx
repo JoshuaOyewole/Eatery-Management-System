@@ -7,7 +7,7 @@ import DashboardLayout from '../../Layout/Dashboard/Dashboard';
 const Dashboard = () => {
     const [currentMonth, setcurrentMonth] = useState<String>('');
     const [isAdmin] = useState<Boolean>(true);//Should be gotten from REQUEST after LOGIN
-    /* const [username, setUsername] = useState('');*/
+    const [username] = useState<String>('Joshua');
 
     function getCurrentMonth() {
         const months = ['January', 'Febraury', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -16,6 +16,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         //Get all Sales Record
+
+        //Get Current Month
         getCurrentMonth();
     }, [])
 
@@ -25,8 +27,8 @@ const Dashboard = () => {
             <DashboardLayout >
                 {
                     isAdmin 
-                        ? <AdminDashboard currentMonth={currentMonth} name='Joshua O' /> 
-                        : <StaffDashboard currentMonth={currentMonth} name='John Doe' /> 
+                        ? <AdminDashboard currentMonth={currentMonth} name={username} /> 
+                        : <StaffDashboard currentMonth={currentMonth} name={username} /> 
                 }
             </DashboardLayout>
 

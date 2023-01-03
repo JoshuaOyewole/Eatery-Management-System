@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react"
 import Styles from "./_receipt.module.scss"
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 type OrderProps = {
     orders: {
@@ -44,7 +44,7 @@ function Index() {
     const [orderInfo, setOrderInfo] = useState<OrderProps | null>(null)
 
     const fetchReceiptInfo = async () => {
-        const response = await axios.get(`http://localhost:3100/api/order/${id}`);
+        const response = await axios.get(`${process.env.REACT_API_URL}/api/order/${id}`);
         setOrderInfo(response?.data);
     }
 
@@ -62,7 +62,7 @@ function Index() {
         return () => {
             clearTimeout(interval);
         }
-    }, [])
+    })
 
 
 

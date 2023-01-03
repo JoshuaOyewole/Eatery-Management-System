@@ -12,15 +12,15 @@ const Modal = (props: ModalProps) => {
   const { orderID,resetModal } = props;
 
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState<Boolean>(true)
+  const [isOpen] = useState<Boolean>(true)
 
   const handlePrint = () => {
     navigate(`/printReceipt/${orderID}`);
   };
 
-  const handleCloseModal = ()=>{
+  /* const handleCloseModal = ()=>{
     setIsOpen(!isOpen);
-  }
+  } */
 
   return isOpen && (
     <div className='modalContainer'>

@@ -24,7 +24,7 @@ const Index = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.API_URL}/login`, { email: credentials.email, password: credentials.password });
+            const response = await axios.post(`${process.env.REACT_API_URL}/login`, { email: credentials.email, password: credentials.password });
 
             if (response.data.success === true) {
                 navigate('/dashboard')
@@ -47,6 +47,10 @@ const Index = () => {
             console.log(errMsg);
         }
     }
+    console.log(process.env);
+    console.log(process.env.REACT_APP_TITLE);
+    
+    
 
     return (
         <div className='login-container'>
