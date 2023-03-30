@@ -1,0 +1,116 @@
+@use "../../abstract/variable" as variable;
+
+.react_select_container {
+  width: 100%;
+
+  [class$="-control"] {
+    border: 0 !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    border-radius: variable.$input-radius !important;
+  }
+
+  [class="-control--is-focused"] {
+    border: 0 !important;
+  }
+
+  [class$="-input-container"] {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  [class$="-value-container"] {
+    padding: 0.22rem 1.25rem !important;
+  }
+
+  [class*="option--is-selected"] {
+    background-color: variable.$Grey-95 !important;
+    color: variable.$Grey-10 !important;
+  }
+
+  [class*="option--is-focused"] {
+    background-color: variable.$Accretio-Green-T1 !important;
+  }
+
+  [class$="-indicatorSeparator"] {
+    display: none;
+  }
+
+  [class$="-multi-value"] {
+    margin: 0 !important;
+    padding: 0.33rem 0.89rem;
+    border-radius: variable.$rounded-full !important;
+  }
+}
+
+.input_container {
+  .input-label {
+    margin-bottom: 0.44rem;
+    color: variable.$Grey-10;
+  }
+}
+
+.input_field_container {
+  width: 100%;
+  border: 1.4px solid;
+  border-color: variable.$Grey-95;
+  border-radius: variable.$input-radius;
+  @include mixin.flex($align: center);
+
+  &:focus-within {
+    border-color: red;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.67rem 0.89rem;
+    border-radius: variable.$input-radius;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+
+    &:active {
+      border: 0;
+      outline: 0;
+    }
+
+    &:focus {
+      border: 0;
+      outline: 0;
+    }
+
+    &::placeholder {
+      color: variable.$Grey-50;
+    }
+  }
+
+  &.icon-right {
+    position: relative;
+
+    input {
+      padding-right: 2rem;
+    }
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      right: 0.89rem;
+      transform: translateY(-50%);
+    }
+  }
+
+  &.icon-left {
+    position: relative;
+
+    input {
+      padding-left: 2rem;
+    }
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 0.89rem;
+      transform: translateY(-50%);
+    }
+  }
+}

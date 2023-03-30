@@ -1,0 +1,219 @@
+@use "../../../sass/abstract/variable" as variable;
+@use "../../../sass/abstract/mixin" as mixin;
+
+
+.userInfo {
+
+    &__top {
+        @include mixin.flex($align: center);
+        flex-wrap: wrap;
+
+        @include mixin.media("tab") {
+            row-gap: 1rem;
+        }
+    }
+
+    &__profileImgWrapper {
+        @include mixin.flex($align: center)
+    }
+
+    &__header {
+        background: variable.$white;
+        border: 1px solid rgba(33, 63, 125, 0.06);
+        box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
+        border-radius: 4px;
+        margin-top: 3rem;
+        padding: 1.5rem 2rem 0rem 2rem;
+    }
+
+    &__otherDetailsWrapper {
+        @include mixin.flex($align: center, $justify: space-between);
+
+        @include mixin.media("phone") {
+            @include mixin.flex($align: center, $justify: space-around);
+            flex-basis: 73%;
+        }
+    }
+
+    &__profilePixs {
+        &>img {
+            width: 8rem;
+            height: 8rem;
+            @include mixin.flex($align: center, $justify: center);
+            border-radius: 50%;
+            background-color: rgba($color: variable.$Grey, $alpha: 0.16);
+            margin-right: 3rem;
+        }
+    }
+
+    &__userNameContainer,
+    &__userTierContainer {
+        margin-right: 3rem;
+
+        @include mixin.media("phone") {
+            margin-right: 0;
+        }
+    }
+
+    &__userTier {
+        font-weight: 600;
+        font-size: 1.4rem;
+        color: variable.$Grey;
+        margin-bottom: .5rem;
+    }
+
+    &__name {
+        font-weight: 600;
+        font-size: 2.2rem;
+        line-height: 2.6rem;
+        color: variable.$Grey;
+        margin-bottom: .5rem;
+    }
+
+    &__username {
+        font-size: 1.4rem;
+        line-height: 1.6rem;
+        color: variable.$Grey;
+    }
+
+    &__top {
+        @include mixin.flex($align: center)
+    }
+
+    &__usertTierStar {
+        width: 1.5rem;
+    }
+
+    &__accountNumber {
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        color: variable.$Grey;
+    }
+}
+
+.navigateUser {
+    & svg {
+        color: variable.$Grey;
+        margin-right: 1rem;
+    }
+
+    &__text {
+        color: variable.$Grey;
+    }
+
+    &__header {
+        @include mixin.flex($align: center, $justify: space-between);
+        margin-top: 2rem;
+
+        @include mixin.media("phone") {
+            flex-direction: column;
+            width: 100%;
+            row-gap: 2rem;
+        }
+
+        &--title {
+            color: variable.$Grey;
+            font-weight: 500;
+            font-size: 2.4rem;
+        }
+    }
+}
+
+.userActionBtn {
+    &__container {
+        @include mixin.flex($align: center, $justify: space-between);
+        flex-basis: 33%;
+
+        @include mixin.media("desktop") {
+            flex-basis: 47%;
+        }
+
+        @include mixin.media("phone") {
+            width: 85%;
+        }
+
+        @include mixin.media("xs-phone") {
+            width: 100%;
+        }
+    }
+}
+
+.userInfoTabs {
+    @include mixin.flex($justify: space-between, $align: center);
+    margin-top: 5rem;
+
+    @include mixin.media("tab") {
+        flex-wrap: wrap;
+        row-gap: 2rem;
+    }
+
+    &__tab {
+        background: transparent;
+        font-size: 1.6rem;
+        line-height: 1.9rem;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.8);
+        flex-basis: 20rem;
+        padding-bottom: 1.2rem;
+
+        @include mixin.media("sm-phone") {
+            flex-basis: 15rem;
+        }
+
+        &:first-child {
+            border-bottom: 2px solid variable.$primary;
+        }
+
+        &:active {
+            color: variable.$primary;
+        }
+    }
+}
+
+.userDetails {
+    &Container {
+        background: variable.$white;
+        border: 1px solid rgba(33, 63, 125, 0.06);
+        box-shadow: 3px 5px 2rem rgba(0, 0, 0, 0.04);
+        border-radius: 4px;
+        margin-top: 3rem;
+        padding: 1rem;
+        overflow: scroll;
+    }
+
+    &__sectionTitle {
+        font-weight: 600;
+        font-size: 1.7rem;
+        text-decoration: underline;
+        text-transform: uppercase;
+        line-height: 1.9rem;
+        color: variable.$Grey;
+        padding: 2rem 0 3rem 0rem;
+    }
+
+    &__tableContainer {
+        padding: 0 2rem !important;
+        height: 100%;
+    }
+
+    &__tableHeader {
+        padding: 0 2rem !important;
+        height: 100%;
+        flex-basis: 20%;
+
+        &Container {
+            @include mixin.flex($align: center);
+            flex-wrap: wrap;
+        }
+    }
+
+}
+
+.defaultUserStatus {
+    display: block;
+    width: 85%;
+    text-align: center;
+    padding: 1rem 2rem !important;
+    border-radius: 100px;
+}
+

@@ -1,0 +1,32 @@
+@use "../abstract/mixin" as mixin;
+
+.fontawesomeIcon{
+    display: inline-block;
+    margin-right: 2rem;
+}
+
+.uppercase{
+    text-transform: uppercase;
+}
+.font-bold{
+    font-weight: 600;
+}
+ul{
+    list-style-type: none;
+}
+
+.ml-s{
+    margin-left: 2rem;
+}
+.mt-m{
+    margin-top: 4rem;
+}
+.flex{
+    display: flex;
+}
+.space-between{
+    justify-content: space-between;  
+}
+.align-center{
+    align-items: center;
+}
