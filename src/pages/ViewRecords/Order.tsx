@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Styles from "./_viewRecord.module.scss";
@@ -15,14 +15,14 @@ type Props = {
 type OrderProps = {
   orders: {
     meal: string;
-    price: React.ReactNode;
-    quantity: React.ReactNode;
-    totalAmount: React.ReactNode;
+    price: Number;
+    quantity: ReactNode;
+    totalAmount: ReactNode;
     _id: string;
   }[];
   name: string;
   payment_medium:string;
-  totalPrice: React.ReactNode;
+  totalPrice: ReactNode;
   payment_date:string
 };
 
@@ -35,6 +35,7 @@ const Index = (props: Props) => {
     const response = await axios.get(
       `http://localhost:3100/api/order/${orderId}`
     );
+    setOrderInfo(response?.data)
   };
 
   useEffect(() => {
@@ -107,10 +108,10 @@ const Index = (props: Props) => {
                               <tr className={Styles.service} key={index}>
                                 <td className={Styles.itemtext}>{item.meal}</td>
                                 <td className={Styles.itemtext}>
-                                  {item.quantity}
+                                  {item?.quantity}
                                 </td>
                                 <td className={Styles.itemtext}>
-                                  {item.totalAmount}
+                                  {item?.totalAmount}
                                 </td>
                               </tr>
                             );

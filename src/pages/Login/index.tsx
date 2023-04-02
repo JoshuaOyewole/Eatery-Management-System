@@ -5,7 +5,7 @@ import axios from 'axios';
 /* import { RootState } from "../../redux/store"; */
 import { ToastContainer, toast } from 'react-toastify';
 
-const logo = require('../../assets/images/logo.png')
+import logo from '../../assets/images/logo.png';
 
 type LoginProps = {
     email: string,
@@ -21,13 +21,13 @@ const Index = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCredentials({ ...credentials, [e.currentTarget.name]: e.currentTarget.value })
     }
+    
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-
-            console.log(process.env.REACT_APP_API_URL);
             
             const response = await axios.post(`http://localhost:3100/login`, { email: credentials.email, password: credentials.password });
+           
 
             if (response.data.success === true) {
                 navigate('/dashboard')
@@ -47,7 +47,6 @@ const Index = () => {
                 draggable: true,
                 progress: undefined,
             });
-            console.log(error);
         }
     }
 
