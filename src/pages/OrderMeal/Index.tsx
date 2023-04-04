@@ -88,8 +88,8 @@ const OrderMeal = () => {
       Number(
         e.currentTarget.parentElement?.parentElement?.firstChild?.textContent
       ) - 1;
-      /* FILTER OUT THE ITEM FROM ARRAY AND UPDATE THE ORDERCART */
-      setorderCart(orderCart.filter((item,index) => index !== itemIndex)); 
+    /* FILTER OUT THE ITEM FROM ARRAY AND UPDATE THE ORDERCART */
+    setorderCart(orderCart.filter((item, index) => index !== itemIndex));
   };
 
   const handleAddOrder = () => {
@@ -109,8 +109,7 @@ const OrderMeal = () => {
     setQty(1); // Reset Quantity Field
     setMeal(undefined); // Reset selectedOption Field
     setPrice(price); // Reset Price Field
-    const order = { meal, quantity, price, totalAmount };
-    orderCart.push(order);
+    orderCart.push({ meal, quantity, price, totalAmount });
     setorderCart(orderCart); //update OrderCart
   };
 
@@ -128,6 +127,7 @@ const OrderMeal = () => {
   }, [orderCart.length, orderCart]);
 
   const handleSubmit = async () => {
+    
     /* Check if totalPrice and orders are empty. If EMPTY then throw up an ERROR message */
     if (orderCart.length === 0 || totalOrderPrice === 0) {
       return toast.error(`Kindly select an Item to Order`, {
@@ -139,34 +139,43 @@ const OrderMeal = () => {
         draggable: true,
         progress: undefined,
       });
-    }
-    try {
-      const response = await axios.post(`http://localhost:3100/api/order`, {
-        name: "Customer ----",
-        orders: orderCart,
-        totalPrice: totalOrderPrice,
-      });
+    } 
+    
+    else if (window.confirm("Are you sure you want to Proceed?")) {
+      /* IF NOT EMPTY THEN SEND THE ORDER TO THE ENDPOINT */
+      try {
+        const response = await axios.post(`http://localhost:3100/api/order`, {
+          name: "Customer ----",
+          orders: orderCart,
+          totalPrice: totalOrderPrice,
+        });
 
-      if (response) {
-        setResponseMessage(response.data.message);
-        setInvoiceID(response.data.id);
-
-        setIsModalOpen(true);
-        setorderCart([]);
-        setTotalOrderPrice(0);
+        if (response) {
+          /* UPDATE RESPONSE MESSAGE */
+          setResponseMessage(response.data.message);
+          /* UPDATE INVOICE ID */
+          setInvoiceID(response.data.id);
+          /* OPEN MODAL DISPLAY ORDER SUCCESS INFORMATION*/
+          setIsModalOpen(true);
+          /* SET THE ORDERCART TO EMPTY */
+          setorderCart([]);
+          /* UPDATE THE TOTAL ORDER PRICE TO 0 */
+          setTotalOrderPrice(0);
+        }
+      } catch (error) {
+        toast.success(`${error}`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
-    } catch (error) {
-      toast.success(`${error}`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
     }
   };
+
   const resetModal = () => {
     setIsModalOpen(false);
   };
@@ -312,17 +321,27 @@ const OrderMeal = () => {
           </div>
 
           {orderCart.length !== 0 && (
-            <div className="flex mt-m">
-              <button
-                onClick={() => setorderCart([])}
-                className="btn danger-btn"
-              >
-                CLEAR ORDER'S
-              </button>
-              <button onClick={handleSubmit} className="btn blue-btn ml-s">
-                PROCESS ORDER
-              </button>
-            </div>
+            <>
+              <div className={Styles.payment_type}>
+                <p>Select Payment Type: </p>
+                <div className={Styles.payment_method}>
+                  <button className={Styles.payment_btn}>Cash</button>
+                  <button className={Styles.payment_btn}>ATM POS</button>
+                  <button className={Styles.payment_btn}>Transfer</button>
+                </div>
+              </div>
+              <div className="flex mt-m">
+                <button
+                  onClick={() => setorderCart([])}
+                  className="btn danger-btn"
+                >
+                  CLEAR ORDER'S
+                </button>
+                <button onClick={handleSubmit} className="btn blue-btn ml-s">
+                  PROCESS ORDER
+                </button>
+              </div>
+            </>
           )}
         </main>
       </DashboardLayout>
