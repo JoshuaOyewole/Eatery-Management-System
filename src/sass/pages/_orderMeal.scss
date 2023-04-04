@@ -63,6 +63,7 @@ table {
 
     &:nth-child(2) {
       text-align: left;
+      line-break: anywhere;
       padding-left: 4rem;
     }
   }
