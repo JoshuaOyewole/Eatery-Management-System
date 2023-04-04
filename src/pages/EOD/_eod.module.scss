@@ -1,0 +1,53 @@
+@use "../../sass/abstract/variable" as variable;
+
+.heading {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #314659;
+}
+.paragraph {
+  font-size: 1.5rem;
+  color: #314659;
+}
+.box__small {
+  flex-basis: 40%;
+  margin: 0rem;
+  height: 14rem;
+
+  &:first-child {
+    background-color: #314659;
+    flex-basis: 50%;
+    &:hover{
+        background: darken($color: #50687d, $amount: 0.8) !important;
+    }
+    & > h2, h4 {
+      color: variable.$white ;
+      
+    }
+    &>h4{
+        text-transform: uppercase;
+        font-size: 1.4rem;
+        letter-spacing: .15rem;
+    }
+  }
+  &:nth-child(2){
+    background-color: #d6cd1b;
+    flex-basis: 46%;
+
+    &:hover{
+        background: darken($color: #b2ab1a, $amount: 0.8) !important;
+    }
+
+    & > h2, h4 {
+      color: variable.$white ;
+    }
+    &>h4{
+        text-transform: uppercase;
+        font-size: 1.4rem;
+        letter-spacing: .2rem;
+    }
+  }
+  &:hover {
+    animation: none;
+  }
+}
