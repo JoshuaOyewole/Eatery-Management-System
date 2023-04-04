@@ -37,14 +37,6 @@ const Index = (props: Props) => {
       payment_date: "2023-03-30",
       payment_status: "Successful"
     },
-    {
-      _id: "2",
-      name: "Lookman Harus",
-      payment_medium: "Cash",
-      totalPrice: "4564",
-      payment_date: "2023-03-30",
-      payment_status: "Successful"
-    },
   ];
 
   /* TABLE HEADER */
@@ -95,7 +87,7 @@ const Index = (props: Props) => {
               </span>
             </h2>
             <Button
-              text={"EXPORT REPORT"}
+              text={"PRINT TRANSACTIONS"}
               handleClick={handleClick}
               classname={"primary-btn"}
             />
@@ -116,7 +108,7 @@ const Index = (props: Props) => {
                         <td>{index + 1}</td>
                         <td>{order.name}</td>
                         <td>{order.payment_medium}</td>
-                        <td>{order.totalPrice}</td>
+                        <td>&#8358; {order.totalPrice}</td>
                         <td>
                             {order.payment_date}
                         </td>

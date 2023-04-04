@@ -15,7 +15,7 @@ type Props = {
 type OrderProps = {
   orders: {
     meal: string;
-    price: Number;
+    price: ReactNode;
     quantity: ReactNode;
     totalAmount: ReactNode;
     _id: string;
@@ -35,7 +35,8 @@ const Index = (props: Props) => {
     const response = await axios.get(
       `http://localhost:3100/api/order/${orderId}`
     );
-    setOrderInfo(response?.data)
+    setOrderInfo(response?.data);
+    
   };
 
   useEffect(() => {
@@ -70,7 +71,7 @@ const Index = (props: Props) => {
               <div className={Styles.bot}>
                 <div className={Styles.infoTop}>
                   <div className={Styles.customerDetails}>
-                    <h4>Customers Name: </h4>
+                    <h4>Customer Name: </h4>
                     <p>{orderInfo?.name}</p>
                   </div>
                   <div className={Styles.customerDetails}>
@@ -94,6 +95,9 @@ const Index = (props: Props) => {
                             <h2>Item</h2>
                           </td>
                           <td className={Styles.td}>
+                            <h2>Price</h2>
+                          </td>
+                          <td className={Styles.td}>
                             <h2>Qty</h2>
                           </td>
                           <td className={Styles.td}>
@@ -107,11 +111,12 @@ const Index = (props: Props) => {
                             return (
                               <tr className={Styles.service} key={index}>
                                 <td className={Styles.itemtext}>{item.meal}</td>
+                                <td className={Styles.itemtext}>&#8358; {item.price}</td>
                                 <td className={Styles.itemtext}>
                                   {item?.quantity}
                                 </td>
                                 <td className={Styles.itemtext}>
-                                  {item?.totalAmount}
+                                  &#8358; {item?.totalAmount}
                                 </td>
                               </tr>
                             );
@@ -122,7 +127,7 @@ const Index = (props: Props) => {
                               <h2>Total</h2>
                             </td>
                             <td className={Styles.itemtext}>
-                              <h2>{orderInfo?.totalPrice}</h2>
+                              <h2>&#8358; {orderInfo?.totalPrice}</h2>
                             </td>
                           </tr>
                         </>
