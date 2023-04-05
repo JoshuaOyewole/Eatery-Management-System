@@ -7,20 +7,34 @@ import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
 import Styles from "./_eod.module.scss";
 import Box from "../../components/ui/Dashboard/Box";
 import MultiLayoutBox from "../../components/ui/Dashboard/MultiLayoutBox";
+import axios from "axios";
 
 const EOD = () => {
-  /* 
-        const [username, setUsername] = useState('');
-        const [password, setPassword] = useState(''); 
-    */
-  let currDate = new Date().getDate();
-  const [date, setDate] = useState('2023-04-06');
 
+  const getDate = () => {
+    const date = new Date();
+    let dd = String(date.getDate()).padStart(2, "0");
+    let mm = String(date.getMonth()+1).padStart(2, "0"); //January is 0!
+    let yyyy = date.getFullYear();
 
+    const today = `${yyyy}-${mm}-${dd}`;
+    return today;
+  };
+
+  const today = getDate();
+  const [date, setDate] = useState(today);
+
+  /* Handle Custom Search EOD Transaction Form  */
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(typeof date); 
   };
+
+  /* FETCH EOD */
+  const fetchEOD = () =>{
+    const res = axios.get('http://localhost:3100/eod')
+  }
+
+  fetchEOD();
 
   return (
     <>
@@ -111,8 +125,9 @@ const EOD = () => {
                       type="date"
                       name="eod-date"
                       className="dashboard__search-form--input"
+                      value={date}
                       onChange={(e) => {
-                        setDate(e.target.value)
+                        setDate(e.target.value);
                       }}
                       required
                     />
