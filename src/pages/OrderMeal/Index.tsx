@@ -38,6 +38,17 @@ const OrderMeal = () => {
   const [orderCart, setorderCart] = useState<orderCartProps>([]);
   const [totalAmount, setTotalAmount] = useState<number>(price * quantity);
   const tableHeader = ["SN", "Description", "Price", "Qty", "Total", "Actions"];
+  
+  const getDate = () => {
+    const date = new Date();
+    let dd = String(date.getDate()).padStart(2, "0");
+    let mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+    let yyyy = date.getFullYear();
+
+    const today = `${yyyy}-${mm}-${dd}`;
+    return today;
+  };
+  const today = getDate();
 
   //Fetch Meals from the DB when the App loads
   const fetchMeal = useCallback(async () => {
@@ -127,7 +138,6 @@ const OrderMeal = () => {
   }, [orderCart.length, orderCart]);
 
   const handleSubmit = async () => {
-    
     /* Check if totalPrice and orders are empty. If EMPTY then throw up an ERROR message */
     if (orderCart.length === 0 || totalOrderPrice === 0) {
       return toast.error(`Kindly select an Item to Order`, {
@@ -139,15 +149,14 @@ const OrderMeal = () => {
         draggable: true,
         progress: undefined,
       });
-    } 
-    
-    else if (window.confirm("Are you sure you want to Proceed?")) {
+    } else if (window.confirm("Are you sure you want to Proceed?")) {
       /* IF NOT EMPTY THEN SEND THE ORDER TO THE ENDPOINT */
       try {
         const response = await axios.post(`http://localhost:3100/api/order`, {
           name: "Customer ----",
           orders: orderCart,
           totalPrice: totalOrderPrice,
+          payment_date: today,
         });
 
         if (response) {
