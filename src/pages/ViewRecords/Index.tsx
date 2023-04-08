@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import axios from "axios";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
 import Styles from "./_viewRecord.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import { format } from "date-fns";
-
-/* COMPONENTS */
 import UserStyles from "../../components/ui/UserInfoSection/_user.module.scss";
 import Button from "../../components/ui/Button";
 import TableRow from "../../components/ui/Table/tablebody";
 import Table from "../../components/ui/Table/table";
 import { faArrowPointer } from "@fortawesome/free-solid-svg-icons";
+import useDate from "../../hooks/useDate";
 
 type Props = {
   record?: string;
@@ -24,9 +22,17 @@ type ordersProps = {
   totalPrice: string;
   payment_date: string;
   payment_status: string
-}[];
+};
 
 const Index = (props: Props) => {
+
+  /* HOOK TO FETCH TODAY's DATE */
+  const [today] = useDate();
+
+  // Get the userId param from the URL.
+  let { date } = useParams();
+
+
   /* INITIAL VALUE FOR ORDERS */
   const initialValue = [
     {
@@ -34,7 +40,7 @@ const Index = (props: Props) => {
       name: "Joshua Oyewole",
       payment_medium: "Cash",
       totalPrice: "34564",
-      payment_date: "2023-03-30",
+      payment_date: "06-04-2023",
       payment_status: "Successful"
     },
   ];
@@ -50,7 +56,7 @@ const Index = (props: Props) => {
     "Action",
   ]);
 
-  const [orders, setOrder] = useState<ordersProps>(initialValue);
+  const [orders, setOrder] = useState<ordersProps[]>(initialValue);
   //const [loading, setLoading] = useState<Boolean>(true);
   const handleClick = () => {
     alert("Export Button Clicked!");
@@ -58,7 +64,7 @@ const Index = (props: Props) => {
 
   /* FETCH ALL ORDERS */
   const fetchOrders = async () => {
-    const response = await axios.get(`http://localhost:3100/api/order`);
+    const response = await axios.get(`http://localhost:3100/api/records?eod=${today}`);
     setOrder(response?.data);
     //setLoading(false);
   };
@@ -103,16 +109,18 @@ const Index = (props: Props) => {
               {orders.length > 0 ? (
                 <Table tableHeader={tableHeader}>
                   {orders?.map((order, index) => {
+                    const {name,payment_medium, payment_date,totalPrice,
+                    payment_status} = order
                     return (
                       <TableRow key={index}>
                         <td>{index + 1}</td>
-                        <td>{order.name}</td>
-                        <td>{order.payment_medium}</td>
-                        <td>&#8358; {order.totalPrice}</td>
+                        <td>{name}</td>
+                        <td>{payment_medium}</td>
+                        <td>&#8358; {totalPrice}</td>
                         <td>
-                            {order.payment_date}
+                          {payment_date}
                         </td>
-                        <td>{order.payment_status.toUpperCase()}</td>
+                        <td>{payment_status.toUpperCase()}</td>
                         <td>
                           <Link to={`${order._id}`} key={index}>
                             <FontAwesomeIcon icon={faArrowPointer} />
