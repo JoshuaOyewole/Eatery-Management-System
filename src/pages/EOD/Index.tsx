@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Chart from "../../components/ui/Chart/Chart";
@@ -8,33 +8,100 @@ import Styles from "./_eod.module.scss";
 import Box from "../../components/ui/Dashboard/Box";
 import MultiLayoutBox from "../../components/ui/Dashboard/MultiLayoutBox";
 import axios from "axios";
+import useDate from "../../hooks/useDate";
+
+interface AuthTransaction {
+  _id: string;
+  name: string;
+  orders: {
+    quantity: number;
+    meal: string;
+    price: number;
+    totalAmount: number;
+    _id: string;
+  }[];
+  totalPrice: number;
+  payment_date: string;
+  payment_status: string;
+  payment_medium: string;
+}
 
 const EOD = () => {
+  /* HOOK TO FETCH TODAY's DATE */
+  const [today] = useDate();
 
-  const getDate = () => {
-    const date = new Date();
-    let dd = String(date.getDate()).padStart(2, "0");
-    let mm = String(date.getMonth()+1).padStart(2, "0"); //January is 0!
-    let yyyy = date.getFullYear();
-
-    const today = `${yyyy}-${mm}-${dd}`;
-    return today;
-  };
-
-  const today = getDate();
+  /* 
+   {
+      _id: "642ea65add5c550f857ee95e",
+      name: "Customer ----",
+      orders: [
+        {
+          quantity: 2,
+          meal: "Ice Cream",
+          price: 600,
+          totalAmount: 1200,
+          _id: "642ea65add5c550f857ee95f",
+        },
+        {
+          quantity: 4,
+          meal: "Chicken",
+          price: 1600,
+          totalAmount: 6400,
+          _id: "642ea65add5c550f857ee960",
+        },
+      ],
+      totalPrice: 7600,
+      payment_date: "2023-04-06",
+      payment_status: "pending",
+      payment_medium: "Cash",
+    }, */
   const [date, setDate] = useState(today);
+  const [totalSale, setTotalSale] = useState<number>();
+  const [eod, setEod] = useState<AuthTransaction[]>([]);
 
   /* Handle Custom Search EOD Transaction Form  */
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
-  /* FETCH EOD */
-  const fetchEOD = () =>{
-    const res = axios.get('http://localhost:3100/eod')
-  }
+  //FILTER PAYMENTS METHODS
+  /* 
+  1. Get the list of all the payments[ARRAY]
+  2. Loop through the Array and filter it based on criterias
+  3.Then find the length
+  */
+  const cashPayments = eod?.filter((transaction: AuthTransaction) => {
+    return transaction.payment_medium === "Cash";
+  });
+  const ATMPayments = eod?.filter((transaction: AuthTransaction) => {
+    return transaction.payment_medium === "ATM";
+  });
+  const transferPayments = eod?.filter((transaction: AuthTransaction) => {
+    return transaction.payment_medium === "Transfer";
+  });
 
-  fetchEOD();
+  /* FETCH EOD */
+  useEffect(() => {
+    const fetchEOD = async () => {
+      const res = await axios.get(
+        `http://localhost:3100/api/records?eod=${today}`
+      );
+      setEod(res.data);
+    };
+    fetchEOD();
+  }, []);
+
+  /* TOAL AMOUNT SOLD */
+  useEffect(() => {
+    const totalTransactionAmount = eod?.reduce(
+      (total: number, value: AuthTransaction) => {
+        return (total += value.totalPrice);
+      },
+      0
+    );
+    
+    setTotalSale(totalTransactionAmount);
+  }, [eod]);
 
   return (
     <>
@@ -44,11 +111,6 @@ const EOD = () => {
             <h2 className="dashboard__heading">
               EOD (End of Day Transactions History)
             </h2>
-            {/* <p>The buttons below show a few things you can do right away</p> */}
-            {/* 
-                        IMPROVEMENT -- 16th Oct 2022, 8:19PM
-                        The dashboard headings and paragraphs should be recieved as props here since they are reusable.
-                        Instead of passing Children, a prop can replaced it and take the main as a prop and the dashboard heading, paragraphs as props also */}
           </div>
           <div className="dashboard__box-container">
             <div className="content2">
@@ -60,8 +122,8 @@ const EOD = () => {
                       className="dashboard__icon"
                     />
                   }
-                  title="Today Sales for Today"
-                  value={20}
+                  title="Sales for Today"
+                  value={eod?.length}
                   hClass={Styles.heading}
                   pClass={Styles.paragraph}
                 />
@@ -70,9 +132,9 @@ const EOD = () => {
 
             <div className="content2">
               <MultiLayoutBox
-                transfer={19}
-                POS={40}
-                cash={12}
+                transfer={transferPayments?.length}
+                POS={ATMPayments?.length}
+                cash={cashPayments?.length}
                 boxTitle={"Payment Methods"}
               />
             </div>
@@ -86,7 +148,7 @@ const EOD = () => {
                   />
                 }
                 title="Total Amount"
-                value={"1,150,000"}
+                value={totalSale}
                 hClass={Styles.heading}
                 pClass={Styles.paragraph}
               />
