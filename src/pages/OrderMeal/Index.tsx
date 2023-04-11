@@ -12,7 +12,7 @@ type mealProps = {
   _id?: object;
   amount: number;
   price: number;
-}[];
+};
 
 type orderCartProps = {
   meal: string;
@@ -31,14 +31,14 @@ const OrderMeal = () => {
   const [invoiceID, setInvoiceID] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [meal, setMeal] = useState<string>();
-  const [meals, setMeals] = useState<mealProps>([]);
+  const [meals, setMeals] = useState<mealProps[]>([]);
   const [quantity, setQty] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
   let [totalOrderPrice, setTotalOrderPrice] = useState<number>(0);
   const [orderCart, setorderCart] = useState<orderCartProps>([]);
   const [totalAmount, setTotalAmount] = useState<number>(price * quantity);
   const tableHeader = ["SN", "Description", "Price", "Qty", "Total", "Actions"];
-  
+
   const getDate = () => {
     const date = new Date();
     let dd = String(date.getDate()).padStart(2, "0");
@@ -52,7 +52,10 @@ const OrderMeal = () => {
 
   //Fetch Meals from the DB when the App loads
   const fetchMeal = useCallback(async () => {
-    const fetchMeal = await axios.get(`http://localhost:3100/api/meal`);
+    const fetchMeal = await axios.get<mealProps[]>(
+      `http://localhost:3100/api/meal`
+    );
+
     setMeals(fetchMeal?.data);
   }, []);
 

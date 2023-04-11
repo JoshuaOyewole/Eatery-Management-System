@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { Link,useParams } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link,useSearchParams } from "react-router-dom";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
 import Styles from "./_viewRecord.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +9,7 @@ import Button from "../../components/ui/Button";
 import TableRow from "../../components/ui/Table/tablebody";
 import Table from "../../components/ui/Table/table";
 import { faArrowPointer } from "@fortawesome/free-solid-svg-icons";
-import useDate from "../../hooks/useDate";
+import { currentDate } from '../../utils/utils'
 
 type Props = {
   record?: string;
@@ -25,25 +25,12 @@ type ordersProps = {
 };
 
 const Index = (props: Props) => {
-
+  // Get the EOD Date param from the URL.
+  const [date] = useSearchParams();
+  const query = date.get('q');
+  
   /* HOOK TO FETCH TODAY's DATE */
-  const [today] = useDate();
-
-  // Get the userId param from the URL.
-  let { date } = useParams();
-
-
-  /* INITIAL VALUE FOR ORDERS */
-  const initialValue = [
-    {
-      _id: "1",
-      name: "Joshua Oyewole",
-      payment_medium: "Cash",
-      totalPrice: "34564",
-      payment_date: "06-04-2023",
-      payment_status: "Successful"
-    },
-  ];
+  const today = currentDate();
 
   /* TABLE HEADER */
   const [tableHeader] = useState([
@@ -56,15 +43,16 @@ const Index = (props: Props) => {
     "Action",
   ]);
 
-  const [orders, setOrder] = useState<ordersProps[]>(initialValue);
+  const [orders, setOrder] = useState<ordersProps[]>([]);
   //const [loading, setLoading] = useState<Boolean>(true);
   const handleClick = () => {
-    alert("Export Button Clicked!");
+    alert("Print Transaction Button Clicked!");
   };
 
-  /* FETCH ALL ORDERS */
+
+  /* FETCH ORDERS FOR TODAY*/
   const fetchOrders = async () => {
-    const response = await axios.get(`http://localhost:3100/api/records?eod=${today}`);
+    const response = await axios.get(`http://localhost:3100/api/records?q=${query !== null ? query : today}`);
     setOrder(response?.data);
     //setLoading(false);
   };
