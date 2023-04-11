@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Chart from "../../components/ui/Chart/Chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,8 @@ import Styles from "./_eod.module.scss";
 import Box from "../../components/ui/Dashboard/Box";
 import MultiLayoutBox from "../../components/ui/Dashboard/MultiLayoutBox";
 import axios from "axios";
-import useDate from "../../hooks/useDate";
+import { currentDate, getPreviousDate,getTodaySaleAmount } from "../../utils/utils";
+import Button from "../../components/ui/Button";
 
 interface AuthTransaction {
   _id: string;
@@ -27,8 +28,12 @@ interface AuthTransaction {
 }
 
 const EOD = () => {
+  const navigate = useNavigate();
+
   /* HOOK TO FETCH TODAY's DATE */
-  const [today] = useDate();
+  const today = currentDate();
+  const yesterday = getPreviousDate(today, 1);
+  const twoDaysago = getPreviousDate(today, 2);
 
   /* 
    {
@@ -57,11 +62,16 @@ const EOD = () => {
     }, */
   const [date, setDate] = useState(today);
   const [totalSale, setTotalSale] = useState<number>();
+  const [yesterdayTotalSale, setYesterdayTotalSale] = useState<number>();
+  const [twoDaysAgoTotalSale, setTwoDaysAgoTotalSale] = useState<number>();
   const [eod, setEod] = useState<AuthTransaction[]>([]);
+  const [yesterdayEod, setYesterdayEod] = useState<AuthTransaction[]>([]);
+  const [twoDaysAgoEod, setTwoDaysAgoEod] = useState<AuthTransaction[]>([]);
 
   /* Handle Custom Search EOD Transaction Form  */
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    navigate(`/eod/filter?q=${date}`);
   };
 
   //FILTER PAYMENTS METHODS
@@ -80,37 +90,62 @@ const EOD = () => {
     return transaction.payment_medium === "Transfer";
   });
 
-  /* FETCH EOD */
+  //FETCH EOD
+  const fetchEOD = async (
+    date: string,
+    state: React.Dispatch<React.SetStateAction<AuthTransaction[]>>
+  ) => {
+    const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`);
+    state(res.data);
+  };
+
+  /* Fetch Today, Yesterday and Two Days Ago EOD */
   useEffect(() => {
-    const fetchEOD = async () => {
-      const res = await axios.get(
-        `http://localhost:3100/api/records?eod=${today}`
-      );
-      setEod(res.data);
-    };
-    fetchEOD();
+    fetchEOD(today, setEod);
+    fetchEOD(yesterday, setYesterdayEod);
+    fetchEOD(twoDaysago, setTwoDaysAgoEod);
   }, []);
 
-  /* TOAL AMOUNT SOLD */
-  useEffect(() => {
-    const totalTransactionAmount = eod?.reduce(
-      (total: number, value: AuthTransaction) => {
-        return (total += value.totalPrice);
-      },
-      0
-    );
-    
-    setTotalSale(totalTransactionAmount);
-  }, [eod]);
 
+
+  /* TOTAL AMOUNT SOLD */
+  useEffect(() => {
+    let totalTransactionAmount = getTodaySaleAmount(eod);
+    let yesterdayTotalAmount = getTodaySaleAmount(yesterdayEod);
+    let twoDaysAgoTotalAmount = getTodaySaleAmount(twoDaysAgoEod);
+    //UPDATES EACH DAY WITH THEIR TOTAL AMOUNT RESPECTIVELY
+    setTotalSale(totalTransactionAmount);
+    setYesterdayTotalSale(yesterdayTotalAmount);
+    setTwoDaysAgoTotalSale(twoDaysAgoTotalAmount);
+  }, [eod, yesterdayEod, twoDaysAgoEod]);
+  
+
+  const printEODReport = () =>{
+    navigate(`/printEODReport?q=${today}`);
+  }
+  const printEODSummary = () =>{
+    navigate(`/printEODSummary?q=${today}`);
+  }
   return (
     <>
       <DashboardLayout>
         <main className="dashboard__content">
-          <div className="dashboard__content--top">
+          <div className="dashboard__content--eod-top">
             <h2 className="dashboard__heading">
               EOD (End of Day Transactions History)
             </h2>
+            <div>
+              <Button
+                text={"PRINT EOD SUMMARY"}
+                handleClick={printEODSummary}
+                classname={"primary-btn"}
+              />
+              <Button
+                text={"PRINT EOD REPORT"}
+                handleClick={printEODReport}
+                classname={"primary-btn ml-s"}
+              />
+            </div>
           </div>
           <div className="dashboard__box-container">
             <div className="content2">
@@ -160,20 +195,30 @@ const EOD = () => {
                 <div className="top">
                   <h3 className="mb-s tertiary-header">Previous Records</h3>
                   <div className="flex w-100 space-between">
-                    <Box
-                      title="Yesterday Sales"
-                      value={"950,000"}
-                      hClass={Styles.heading}
-                      pClass={Styles.paragraph}
-                      boxStyle={Styles.box__small}
-                    />
-                    <Box
-                      title="2 days ago"
-                      value={"650,000"}
-                      hClass={Styles.heading}
-                      pClass={Styles.paragraph}
-                      boxStyle={Styles.box__small}
-                    />
+                    <Link
+                      to={`/records/orders?q=${yesterday}`}
+                      className="w-48"
+                    >
+                      <Box
+                        title="Yesterday Sales"
+                        value={yesterdayTotalSale}
+                        hClass={Styles.heading}
+                        pClass={Styles.paragraph}
+                        boxStyle={Styles.box__small}
+                      />
+                    </Link>
+                    <Link
+                      to={`/records/orders?q=${twoDaysago}`}
+                      className="w-48"
+                    >
+                      <Box
+                        title="2 days ago"
+                        value={twoDaysAgoTotalSale}
+                        hClass={Styles.heading}
+                        pClass={Styles.paragraph}
+                        boxStyle={Styles.box__small}
+                      />
+                    </Link>
                   </div>
                 </div>
                 <div className="bottom">
