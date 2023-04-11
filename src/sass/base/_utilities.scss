@@ -1,4 +1,5 @@
 @use "../abstract/mixin" as mixin;
+@use "../abstract/variable" as variable;
 
 .fontawesomeIcon{
     display: inline-block;
@@ -29,6 +30,9 @@ ul{
 .mt-s{
     margin-top: 2rem;
 }
+.mt-xs{
+    margin-top: 1rem;
+}
 .mb-s{
     margin-bottom: 2rem;
 }
@@ -41,11 +45,20 @@ ul{
 .align-center{
     align-items: center;
 }
-
+.px-s{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 .content2{
     flex-basis: 33%;
     height: 20rem;
 }
 .w-100{
     width: 100%;
+}
+.w-48{
+    width: 48%;
+}
+.bg-primary{
+    background-color: variable.$primary;
 }
