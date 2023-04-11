@@ -112,3 +112,21 @@
     font-size: 0.5rem !important;
   }
 }
+.row{
+  @include mixin.flex($justify: space-between, $align: center);
+}
+.total-row{
+  @include mixin.flex($justify: space-between, $align: center);
+}
+.header{
+  font-size: 0.65rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+.bal{
+  font-weight: 600;
+}
+.line-break{
+  margin-top: 4px;
+  border:  .2px solid variable.$primary;
+}
