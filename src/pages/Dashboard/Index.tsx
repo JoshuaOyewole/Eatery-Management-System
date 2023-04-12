@@ -27,7 +27,7 @@ const Dashboard = () => {
             <DashboardLayout >
                 {
                     isAdmin 
-                        ? <AdminDashboard currentMonth={currentMonth} name={username} /> 
+                        ? <AdminDashboard currentMonth={currentMonth} name={"Orisfina"} /> 
                         : <StaffDashboard currentMonth={currentMonth} name={username} /> 
                 }
             </DashboardLayout>

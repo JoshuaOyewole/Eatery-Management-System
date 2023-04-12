@@ -66,6 +66,17 @@ ul{
 .w-48{
     width: 48%;
 }
+.profilePixs{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+.profile-pix{
+    @include mixin.flex($align:center)
+}
+.username{
+    margin-left: 1rem;
+}
 .bg-primary{
     background-color: variable.$primary;
 }.line-break{

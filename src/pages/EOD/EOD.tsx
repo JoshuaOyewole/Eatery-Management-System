@@ -61,8 +61,8 @@ const EOD = () => {
     return transaction.payment_medium === "Cash";
   });
 
-  let ATMPayments = successfulTransactions.filter((transaction: AuthTransaction) => {
-    return transaction.payment_medium === "ATM";
+  let POSPayments = successfulTransactions.filter((transaction: AuthTransaction) => {
+    return transaction.payment_medium === "POS";
   });
   let transferPayments = successfulTransactions.filter((transaction: AuthTransaction) => {
     return transaction.payment_medium === "Transfer";
@@ -168,7 +168,7 @@ const EOD = () => {
               <div className="content2">
                 <MultiLayoutBox
                   transfer={transferPayments?.length}
-                  POS={ATMPayments?.length}
+                  POS={POSPayments?.length}
                   cash={cashPayments?.length}
                   boxTitle={"Payment Methods"}
                 />

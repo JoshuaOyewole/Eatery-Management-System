@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link,Navigate,useNavigate,useSearchParams } from "react-router-dom";
+import { Link,useNavigate,useSearchParams } from "react-router-dom";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
 import Styles from "./_viewRecord.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
