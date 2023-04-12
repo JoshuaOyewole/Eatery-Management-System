@@ -1,58 +1,80 @@
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSignOut } from "react-auth-kit";
 import {
   faHouseChimney,
   faCartShopping,
   faUserGear,
   faCreditCard,
   faFilePen,
-  faBook
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
-const logo =require("../../../assets/images/logo.png")
+const logo = require("../../../assets/images/logo.png");
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const signOut = useSignOut();
+
+  const handleLogout = async () => {
+    navigate("/");
+    signOut();
+  };
   return (
-    <div className='sidebar'>
+    <div className="sidebar">
       <Link to="/dashboard" className="sidebar__logoContainer">
-      <img src={logo} alt="logo" className='sidebar__logo' /> 
-      <span className="sidebar__logoTitle">
-        Rukky Cuisine MS
-      </span>
+        <img src={logo} alt="logo" className="sidebar__logo" />
+        <span className="sidebar__logoTitle">EatMan Eatery</span>
       </Link>
-      <ul className='nav-menu'>
+      <ul className="nav-menu">
         <li className="nav-list">
           <Link to="/dashboard" className="nav-link">
-            <FontAwesomeIcon icon={faHouseChimney} className='fontawesomeIcon' />
+            <FontAwesomeIcon
+              icon={faHouseChimney}
+              className="fontawesomeIcon"
+            />
             Dashboard
           </Link>
         </li>
         <li className="nav-list">
-
           <Link to="/order-meal" className="nav-link">
-            <FontAwesomeIcon icon={faCreditCard} className='fontawesomeIcon' />
+            <FontAwesomeIcon icon={faCreditCard} className="fontawesomeIcon" />
             Make an Order
           </Link>
         </li>
         <li className="nav-list">
-
-          <Link to="/records/orders" className="nav-link"><FontAwesomeIcon icon={faBook} className='fontawesomeIcon' /> View Orders</Link>
+          <Link to="/records/orders" className="nav-link">
+            <FontAwesomeIcon icon={faBook} className="fontawesomeIcon" /> View
+            Orders
+          </Link>
         </li>
         <li className="nav-list">
-
-          <Link to="/manage-orders" className="nav-link"> <FontAwesomeIcon icon={faFilePen} className='fontawesomeIcon' /> Manage Store</Link>
+          <Link to="/manage-orders" className="nav-link">
+            {" "}
+            <FontAwesomeIcon
+              icon={faFilePen}
+              className="fontawesomeIcon"
+            />{" "}
+            Manage Store
+          </Link>
         </li>
         <li className="nav-list">
-
-          <Link to="/eod" className="nav-link"><FontAwesomeIcon icon={faCartShopping} className='fontawesomeIcon' /> EOD</Link>
+          <Link to="/eod" className="nav-link">
+            <FontAwesomeIcon
+              icon={faCartShopping}
+              className="fontawesomeIcon"
+            />{" "}
+            EOD
+          </Link>
         </li>
         <li className="nav-list">
-
-          <Link to="/profile" className="nav-link"><FontAwesomeIcon icon={faUserGear} className='fontawesomeIcon' /> Profile</Link>
+          <div className="nav-link">
+            <FontAwesomeIcon icon={faUserGear} className="fontawesomeIcon" />
+            <button onClick={handleLogout} className="text-white"> Logout</button>
+          </div>
         </li>
-        
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
