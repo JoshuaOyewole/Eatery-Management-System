@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link,useSearchParams } from "react-router-dom";
+import { Link,Navigate,useNavigate,useSearchParams } from "react-router-dom";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
 import Styles from "./_viewRecord.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,6 +25,8 @@ type ordersProps = {
 };
 
 const Index = (props: Props) => {
+
+  const navigate = useNavigate();
   // Get the EOD Date param from the URL.
   const [date] = useSearchParams();
   const query = date.get('q');
@@ -45,9 +47,6 @@ const Index = (props: Props) => {
 
   const [orders, setOrder] = useState<ordersProps[]>([]);
   //const [loading, setLoading] = useState<Boolean>(true);
-  const handleClick = () => {
-    alert("Print Transaction Button Clicked!");
-  };
 
 
   /* FETCH ORDERS FOR TODAY*/
@@ -81,8 +80,8 @@ const Index = (props: Props) => {
               </span>
             </h2>
             <Button
-              text={"PRINT TRANSACTIONS"}
-              handleClick={handleClick}
+              text={"GO BACK"}
+              handleClick={()=>navigate(-1)}
               classname={"primary-btn"}
             />
           </div>
