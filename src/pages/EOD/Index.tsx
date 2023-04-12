@@ -14,7 +14,7 @@ import {
   getTodaySaleAmount,
 } from "../../utils/utils";
 import Button from "../../components/ui/Button";
-import { log } from "console";
+
 
 interface AuthTransaction {
   _id: string;
@@ -39,32 +39,6 @@ const EOD = () => {
   const today = currentDate();
   const yesterday = getPreviousDate(today, 1);
   const twoDaysago = getPreviousDate(today, 2);
-
-  /* 
-   {
-      _id: "642ea65add5c550f857ee95e",
-      name: "Customer ----",
-      orders: [
-        {
-          quantity: 2,
-          meal: "Ice Cream",
-          price: 600,
-          totalAmount: 1200,
-          _id: "642ea65add5c550f857ee95f",
-        },
-        {
-          quantity: 4,
-          meal: "Chicken",
-          price: 1600,
-          totalAmount: 6400,
-          _id: "642ea65add5c550f857ee960",
-        },
-      ],
-      totalPrice: 7600,
-      payment_date: "2023-04-06",
-      payment_status: "pending",
-      payment_medium: "Cash",
-    }, */
   const [date, setDate] = useState(today);
   const [totalSale, setTotalSale] = useState<number>();
   const [yesterdayTotalSale, setYesterdayTotalSale] = useState<number>();
@@ -99,9 +73,9 @@ const EOD = () => {
     }
   );
   /* FILTER ATM PAYMENTS TRANSACTIONS FROM EOD */
-  const ATMPayments = successfulTransactions.filter(
+  const POSPaymens = successfulTransactions.filter(
     (transaction: AuthTransaction) => {
-      return transaction.payment_medium === "ATM";
+      return transaction.payment_medium === "POS";
     }
   );
   /* FILTER TRANSFER PAYMENTS TRANSACTIONS FROM EOD */
@@ -192,7 +166,7 @@ const EOD = () => {
             <div className="content2">
               <MultiLayoutBox
                 transfer={transferPayments?.length}
-                POS={ATMPayments?.length}
+                POS={POSPaymens?.length}
                 cash={cashPayments?.length}
                 boxTitle={"Payment Methods"}
               />

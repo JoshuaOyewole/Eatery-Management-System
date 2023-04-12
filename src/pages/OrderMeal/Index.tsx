@@ -22,6 +22,7 @@ type orderCartProps = {
 }[];
 
 const OrderMeal = () => {
+  
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
   const pRef = useRef<HTMLInputElement | null>(null);
@@ -31,6 +32,7 @@ const OrderMeal = () => {
   const [invoiceID, setInvoiceID] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [meal, setMeal] = useState<string>();
+  const [paymentMedium, setPaymentMedium] = useState<string | null>(null);
   const [meals, setMeals] = useState<mealProps[]>([]);
   const [quantity, setQty] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
@@ -123,7 +125,7 @@ const OrderMeal = () => {
     setQty(1); // Reset Quantity Field
     setMeal(undefined); // Reset selectedOption Field
     setPrice(price); // Reset Price Field
-    orderCart.push({ meal, quantity, price, totalAmount });
+    orderCart.push({ meal, quantity, price, totalAmount});
     setorderCart(orderCart); //update OrderCart
   };
 
@@ -160,6 +162,7 @@ const OrderMeal = () => {
           orders: orderCart,
           totalPrice: totalOrderPrice,
           payment_date: today,
+          payment_medium:paymentMedium 
         });
 
         if (response) {
@@ -191,7 +194,11 @@ const OrderMeal = () => {
   const resetModal = () => {
     setIsModalOpen(false);
   };
-
+const changePaymentMethod = (e:React.MouseEvent<HTMLButtonElement>) =>{
+  let value =e.currentTarget.textContent;
+  setPaymentMedium(value)
+  
+}
   return (
     <>
       <DashboardLayout>
@@ -337,9 +344,9 @@ const OrderMeal = () => {
               <div className={Styles.payment_type}>
                 <p>Select Payment Type: </p>
                 <div className={Styles.payment_method}>
-                  <button className={Styles.payment_btn}>Cash</button>
-                  <button className={Styles.payment_btn}>ATM POS</button>
-                  <button className={Styles.payment_btn}>Transfer</button>
+                  <button className={Styles.payment_btn} onClick={changePaymentMethod}>Cash</button>
+                  <button className={Styles.payment_btn} onClick={changePaymentMethod}>POS</button>
+                  <button className={Styles.payment_btn} onClick={changePaymentMethod}>Transfer</button>
                 </div>
               </div>
               <div className="flex mt-m">

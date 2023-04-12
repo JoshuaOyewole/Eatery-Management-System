@@ -1,8 +1,5 @@
-import Logout from "../../components/Logout/index"
+import profilePix from "../../assets/images/logo.png"
 import Sidebar from '../../components/layout/sidebar/Sidebar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -15,12 +12,13 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
       <Sidebar />
       <div className='dashboard-right'>
         <header className='navbar-header'>
-          <ul>
-            <li className="navbar-list__header">
-              
-             <Logout className='uppercase font-bold' component={ <FontAwesomeIcon icon={faRightFromBracket} className='navbar__logoutBtn navbar__logoutIcon' />}/>
-            </li>
-          </ul>
+          <div className="user">
+            <div className="profile-pix">
+              <img src={profilePix} alt="Profile Picture" className="profilePixs" />
+              <p className="username">Orisfina</p>
+            </div>
+           
+          </div>
         </header>
         {children}
 
