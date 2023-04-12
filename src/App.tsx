@@ -14,6 +14,7 @@ import Error from "./pages/404/Index";
 import OrderMeal from "./pages/OrderMeal/Index";
 import OrderDetail from "./pages/ViewRecords/Order";
 import ViewOrderLayout from "./pages/ViewRecords/viewOrderLayout";
+import Profile from "./pages/Profile/Index"
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="orders/search?date=eodDate" element={<ViewRecord />} />
       </Route>
       <Route path="/order-meal" element={<OrderMeal />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/manage-orders" element={<ManageOrders />} />
       <Route path="/printReceipt/:id" element={<Receipt />} />
       <Route path="/printEODSummary" element={<EODSummary />} /> 

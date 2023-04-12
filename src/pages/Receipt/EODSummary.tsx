@@ -29,39 +29,39 @@ function EODSummary() {
   const [approvedAmount, setApprovedAmount] = useState<number>(0);
 
   function printWindow() {
-    //window.print();
-    //navigate(-1);
+    window.print();
+    navigate(-1);
   }
 
+/* FETCH EOD TRANSACTIONS */
   const fetchEOD = async () => {
     const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`);
     setEod(res?.data);
   };
-
-  const approvedTransactions = eod?.filter((currentValue: AuthTransaction) => {
+/* FILTER SUCCESSFUL TRANSACTIONS FROM EOD */
+  const successfulTransactions = eod?.filter((currentValue: AuthTransaction) => {
     return currentValue.payment_status === "Successful";
   });
-
+/* FILTER DECLINED TRANSACTIONS FROM EOD */
   const declinedTransactions = eod?.filter((currentValue: AuthTransaction) => {
     return currentValue.payment_status === "Declined";
   });
 
   useEffect(() => {
+    document.title = `EOD Summary for ${date}`;
     fetchEOD();
     //Delay of 50ms was added so the response from the promise can be gotten and the UI updated with the correct details before printing
-    //const interval = setTimeout(() => printWindow(), 50);
+    const interval = setTimeout(() => printWindow(), 50);
 
-    /* return () => {
+     return () => {
       clearTimeout(interval);
-    }; */ 
-    
+    }; 
   }, []);
 
   useEffect(() => {
-    setApprovedAmount(getTodaySaleAmount(approvedTransactions));
+    setApprovedAmount(getTodaySaleAmount(successfulTransactions));
     setDeclinedAmount(getTodaySaleAmount(declinedTransactions));
-  }, [approvedTransactions,declinedTransactions])
-  
+  }, [successfulTransactions, declinedTransactions]);
 
   return (
     <div className={Styles["invoice-POS"]}>
@@ -79,8 +79,8 @@ function EODSummary() {
 
       <div className={Styles.mid}>
         <div className={`${Styles.info} px-s`}>
-            <h3>EOD REPORT Summary</h3>
-          
+          <h3>EOD REPORT Summary</h3>
+
           <span className={Styles.header}>
             <strong>Date:</strong>
           </span>
@@ -90,7 +90,7 @@ function EODSummary() {
         </div>
         <div className={`${Styles.row} px-s`}>
           <h6 className={Styles.header}> Total Approved Sales</h6>
-          <p className={Styles.data}>{approvedTransactions.length}</p>
+          <p className={Styles.data}>{successfulTransactions.length}</p>
         </div>
         <div className={`${Styles.row} px-s`}>
           <h6 className={Styles.header}>Total Approved Amount</h6>
@@ -104,72 +104,33 @@ function EODSummary() {
           <h6 className={Styles.header}>Total Declined Amount</h6>
           <p className={Styles.data}>{declinedAmount}</p>
         </div>
-       {/*  <div className={Styles["line-break"]}></div>
-        <div className={`${Styles["total-row"]} px-s `}>
-          <h6 className={`${Styles.bal}`}>Balance</h6>
-          <p className={Styles.bal}>{approvedAmount}</p>
-        </div> */}
       </div>
       <h3 className="mt-xs">Details Report</h3>
-      {/* <div className={Styles.bot}>
+      {eod.length !== 0 ? <div className={Styles.bot}>
         <div className={Styles.table}>
-          <table>
-            <>
-              <thead>
-                <tr className={Styles.tabletitle}>
-                  <td className={Styles.item}>
-                    <h2>Item</h2>
-                  </td>
-                  <td className={Styles.Hours}>
-                    <h2>Qty</h2>
-                  </td>
-                  <td className={Styles.Rate}>
-                    <h2>Sub Total</h2>
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                <>
-                  {orderInfo?.orders.map((item, index) => {
-                    return (
-                      <tr className={Styles.service} key={index}>
-                        <td className={Styles.tableitem}>
-                          <p className={Styles.itemtext}> {item.meal}</p>
-                        </td>
-                        <td className={Styles.tableitem}>
-                          <p className={Styles.itemtext}>{item.quantity}</p>
-                        </td>
-                        <td className={Styles.tableitem}>
-                          <p className={Styles.itemtext}>{item.totalAmount}</p>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  <tr className={Styles.tabletitle}>
-                    <td></td>
-                    <td className={Styles.Rate}>
-                      <h2>Total</h2>
-                    </td>
-                    <td className={Styles.payment}>
-                      <h2>{orderInfo?.totalPrice}</h2>
-                    </td>
-                  </tr>
-                </>
-              </tbody>
-            </>
-          </table>
+          <>
+            {eod?.map((order, index) => {
+              return (
+                <div className={`${Styles.service} mt-xs`} key={index}>
+                  <p className={Styles.itemtext}> {order.payment_status}</p>
+
+                  <p className={Styles.itemtext}>NGN {order.totalPrice}</p>
+                  <p className={Styles.itemtext}>{order.payment_date}</p>
+                  <p className={Styles.itemtext}>ID:{order._id}</p>
+                </div>
+              );
+            })}
+            
+            <div className={`${Styles.tabletitle} mt-xs px-s py-xs perfect-center`}>
+              <span className={Styles.Rate}><strong>Total: </strong></span>
+
+              <span className={Styles.payment}><strong>NGN {approvedAmount}</strong></span>
+            </div>
+          </>
         </div>
 
-        <div className={Styles.legalcopy}>
-          <p className={Styles.legal}>
-            <strong>Thank you for your patronage!</strong>
-          </p>
-          <p className={Styles.information}>
-            For Queries kindly contact us on: +2347032054367 or <span className={Styles.break}>email us @
-            queries@orisfinaEatery.com.ng</span> 
-          </p>
-        </div>
-      </div> */}
+      </div>:
+      <h6 className={Styles.header}>No Transaction Found for Today</h6>}
       <p className={`${Styles.information} mt-s`}>
         For Queries kindly contact us on: +2347032054367 or{" "}
         <span className={Styles.break}>

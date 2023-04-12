@@ -47,6 +47,7 @@ function EODReport() {
   });
 
   useEffect(() => {
+    document.title = `EOD Report for ${date}`;
     fetchEODReport();
     //Delay of 50ms was added so the response from the promise can be gotten and the UI updated with the correct details before printing
     const interval = setTimeout(() => printWindow(), 50);
@@ -108,7 +109,7 @@ function EODReport() {
         <div className={Styles["line-break"]}></div>
         <div className={`${Styles["total-row"]} px-s `}>
           <h6 className={`${Styles.bal}`}>Balance</h6>
-          <p className={Styles.bal}>{approvedAmount}</p>
+          <p className={Styles.bal}>NGN {approvedAmount}</p>
         </div>
       </div>
 

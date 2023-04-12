@@ -23,7 +23,8 @@ type OrderProps = {
   name: string;
   payment_medium:string;
   totalPrice: ReactNode;
-  payment_date:string
+  payment_date:string,
+  payment_status:string
 };
 
 const Index = (props: Props) => {
@@ -40,13 +41,13 @@ const Index = (props: Props) => {
   };
 
   useEffect(() => {
+    document.title = `Transaction Details`;
       fetchReceiptInfo();
   }, []);
 
   const printReceipt =() =>{
     navigate(`/printReceipt/${orderId}`)
   }
-
 
   
   return (
@@ -84,6 +85,10 @@ const Index = (props: Props) => {
                    {orderInfo?.payment_date}
                       {/* 12<sup>th</sup>, March 2023 */}
                     </p>
+                  </div>
+                  <div className={Styles.customerDetails}>
+                    <h4>Payment Status: </h4>
+                    <p>{orderInfo?.payment_status}</p>
                   </div>
                 </div>
                 <div className={Styles.table}>

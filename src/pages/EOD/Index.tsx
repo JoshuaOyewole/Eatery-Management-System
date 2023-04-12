@@ -8,8 +8,13 @@ import Styles from "./_eod.module.scss";
 import Box from "../../components/ui/Dashboard/Box";
 import MultiLayoutBox from "../../components/ui/Dashboard/MultiLayoutBox";
 import axios from "axios";
-import { currentDate, getPreviousDate,getTodaySaleAmount } from "../../utils/utils";
+import {
+  currentDate,
+  getPreviousDate,
+  getTodaySaleAmount,
+} from "../../utils/utils";
 import Button from "../../components/ui/Button";
+import { log } from "console";
 
 interface AuthTransaction {
   _id: string;
@@ -80,15 +85,31 @@ const EOD = () => {
   2. Loop through the Array and filter it based on criterias
   3.Then find the length
   */
-  const cashPayments = eod?.filter((transaction: AuthTransaction) => {
-    return transaction.payment_medium === "Cash";
-  });
-  const ATMPayments = eod?.filter((transaction: AuthTransaction) => {
-    return transaction.payment_medium === "ATM";
-  });
-  const transferPayments = eod?.filter((transaction: AuthTransaction) => {
-    return transaction.payment_medium === "Transfer";
-  });
+
+  /* FILTER SUCCESSFUL TRANSACTIONS FROM EOD */
+  const successfulTransactions = eod?.filter(
+    (currentValue: AuthTransaction) => {
+      return currentValue.payment_status === "Successful";
+    }
+  );
+  /* FILTER CASH PAYMENTS TRANSACTIONS FROM EOD */
+  const cashPayments = successfulTransactions.filter(
+    (transaction: AuthTransaction) => {
+      return transaction.payment_medium === "Cash";
+    }
+  );
+  /* FILTER ATM PAYMENTS TRANSACTIONS FROM EOD */
+  const ATMPayments = successfulTransactions.filter(
+    (transaction: AuthTransaction) => {
+      return transaction.payment_medium === "ATM";
+    }
+  );
+  /* FILTER TRANSFER PAYMENTS TRANSACTIONS FROM EOD */
+  const transferPayments = successfulTransactions.filter(
+    (transaction: AuthTransaction) => {
+      return transaction.payment_medium === "Transfer";
+    }
+  );
 
   //FETCH EOD
   const fetchEOD = async (
@@ -101,31 +122,34 @@ const EOD = () => {
 
   /* Fetch Today, Yesterday and Two Days Ago EOD */
   useEffect(() => {
+    document.title = `EOD Report for ${date}`;
     fetchEOD(today, setEod);
     fetchEOD(yesterday, setYesterdayEod);
     fetchEOD(twoDaysago, setTwoDaysAgoEod);
   }, []);
-
-
 
   /* TOTAL AMOUNT SOLD */
   useEffect(() => {
     let totalTransactionAmount = getTodaySaleAmount(eod);
     let yesterdayTotalAmount = getTodaySaleAmount(yesterdayEod);
     let twoDaysAgoTotalAmount = getTodaySaleAmount(twoDaysAgoEod);
+
     //UPDATES EACH DAY WITH THEIR TOTAL AMOUNT RESPECTIVELY
     setTotalSale(totalTransactionAmount);
     setYesterdayTotalSale(yesterdayTotalAmount);
     setTwoDaysAgoTotalSale(twoDaysAgoTotalAmount);
   }, [eod, yesterdayEod, twoDaysAgoEod]);
-  
 
-  const printEODReport = () =>{
-    navigate(`/printEODReport?q=${today}`);
-  }
-  const printEODSummary = () =>{
-    navigate(`/printEODSummary?q=${today}`);
-  }
+  const printEODReport = () => {
+    eod?.length !== 0
+      ? navigate(`/printEODReport?q=${today}`)
+      : alert("No Transaction Found");
+  };
+  const printEODSummary = () => {
+    eod?.length !== 0
+      ? navigate(`/printEODSummary?q=${today}`)
+      : alert("No Transaction Found");
+  };
   return (
     <>
       <DashboardLayout>
@@ -157,7 +181,7 @@ const EOD = () => {
                       className="dashboard__icon"
                     />
                   }
-                  title="Sales for Today"
+                  title="Transactions for Today"
                   value={eod?.length}
                   hClass={Styles.heading}
                   pClass={Styles.paragraph}
