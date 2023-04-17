@@ -4,7 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import './sass/main.scss'
 import App from './App';
 import {AuthProvider} from "react-auth-kit";
-
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,7 +18,10 @@ root.render(
   cookieDomain={window.location.hostname}
   cookieSecure={false}>
     <BrowserRouter>
-      <App />
+    <Provider store={store}>
+    <App />
+    </Provider>
+    
     </BrowserRouter>
   </AuthProvider>
 

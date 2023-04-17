@@ -20,6 +20,7 @@ import { RequireAuth } from "react-auth-kit";
 function App() {
   return (
     <Routes>
+
       <Route path="/" element={<Login />} />
       <Route path="/admin/register" element={<Register />} />
       <Route
@@ -120,7 +121,7 @@ function App() {
           </RequireAuth>
         }
       />
-      <Route path="*" element={<Error />} />
+       <Route path="*" element={<Error />} />
     </Routes>
   );
 }
