@@ -48,13 +48,13 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-list">
-          <Link to="/manage-orders" className="nav-link">
+          <Link to="/manage-store" className="nav-link">
             {" "}
             <FontAwesomeIcon
               icon={faFilePen}
               className="fontawesomeIcon"
             />{" "}
-            Manage Store
+            Manage Store (Admin)
           </Link>
         </li>
         <li className="nav-list">
