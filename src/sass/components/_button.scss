@@ -36,4 +36,8 @@
         background-color: variable.$primaryShade4;
         transition: all ease 1s;
     }
+
+    &__small{
+        padding: .6rem 1rem !important;
+    }
 }

@@ -39,8 +39,26 @@ ul{
 .flex{
     display: flex;
 }
+.justify-start{
+    justify-content: flex-start !important;
+}
 .space-between{
     justify-content: space-between;  
+}
+.col{
+    flex-direction: column;
+}
+.w-80{
+    width: 80% !important;
+}
+.basis-32{
+    flex-basis: 32%;
+}
+.basis-47{
+    flex-basis: 47%;
+}
+.underline{
+    text-decoration: underline;
 }
 .align-center{
     align-items: center;
@@ -61,10 +79,10 @@ ul{
     color: #f4f4f4;
 }
 .w-100{
-    width: 100%;
+    width: 100% !important;
 }
 .w-48{
-    width: 48%;
+    width: 48% !important;
 }
 .profilePixs{
     height: 40px;

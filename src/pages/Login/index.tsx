@@ -47,7 +47,7 @@ const Index = () => {
         alert("Error occured");
       }
     } catch (error: any) {
-      const errMsg = error.response.data.message;
+      const errMsg = error.response.data.message ? error.response.data.message :error.response.data;
 
       toast.error(`${errMsg}`, {
         position: "top-right",

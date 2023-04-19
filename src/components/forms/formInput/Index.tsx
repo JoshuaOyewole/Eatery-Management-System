@@ -1,19 +1,20 @@
-/* const InputStyle = require('./_formInput.module.scss') */
+
 
 type InputProps = {
     type: string,
     placeholder?: string,
     name?: string,
+    boxClass?:string,
     className?: string,
     labelName?: string,
     label?: React.ReactHTMLElement<HTMLElement>
     [rest: string]: any;
 }
 
-const FormInput = ({ type, name, placeholder, labelName, ...rest }: InputProps) => {
+const FormInput = ({ type, name, placeholder,boxClass, labelName, ...rest }: InputProps) => {
     
     return (
-        <div className='form-control'>
+        <div className={`form-control ${boxClass}`}>
             {
             `${labelName}`
             &&

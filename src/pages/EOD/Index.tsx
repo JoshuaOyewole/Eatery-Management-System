@@ -15,7 +15,6 @@ import {
 } from "../../utils/utils";
 import Button from "../../components/ui/Button";
 
-
 interface AuthTransaction {
   _id: string;
   name: string;
@@ -124,6 +123,37 @@ const EOD = () => {
       ? navigate(`/printEODSummary?q=${today}`)
       : alert("No Transaction Found");
   };
+
+  const orderSummary = async () => {
+    const res = await axios.get(
+      `http://localhost:3100/api/records?q=2023-04-18`
+    );
+    let transactions: AuthTransaction[] = res.data;
+
+    //Get all the meals bought individually with the price
+    let filterSalesData: { meal: string; amount: number }[] = [];
+
+    transactions.forEach((transact, index) => {
+      const lastcard = transact.orders.map((order, index, array) => {
+        return filterSalesData.push({
+          meal: order.meal,
+          amount: order.totalAmount,
+        });
+      });
+      return lastcard;
+    });
+
+    //Filter the list to get unique names of Meals ordered
+    const prevDays = await axios.get(
+      `http://localhost:3100/api/records/last7days`
+    );
+    
+    let prevDayss: AuthTransaction[] = prevDays.data;
+    console.log(prevDayss);
+    
+  };
+
+  orderSummary();
   return (
     <>
       <DashboardLayout>
