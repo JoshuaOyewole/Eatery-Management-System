@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import axios from "axios";
 import Styles from "../ViewRecords/_viewRecord.module.scss";
 import Button from "../../components/ui/Button";
 import Table from "../../components/ui/Table/table";
-import Update from "./Updatexxx";
+import Update from "./Update";
 import Modal from "./Modal";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";

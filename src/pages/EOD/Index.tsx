@@ -93,13 +93,16 @@ const EOD = () => {
     state(res.data);
   };
 
+  useEffect(() => {
+    document.title = `EOD Report for ${date}`; 
+  }, [])
+  
   /* Fetch Today, Yesterday and Two Days Ago EOD */
   useEffect(() => {
-    document.title = `EOD Report for ${date}`;
     fetchEOD(today, setEod);
     fetchEOD(yesterday, setYesterdayEod);
     fetchEOD(twoDaysago, setTwoDaysAgoEod);
-  }, []);
+  }, [today,yesterday,twoDaysago]);
 
   /* TOTAL AMOUNT SOLD */
   useEffect(() => {

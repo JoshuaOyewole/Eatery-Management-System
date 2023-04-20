@@ -47,7 +47,7 @@ const EOD = () => {
       setEod(res.data);
     };
     fetchEOD();
-  }, []);
+  }, [query]);
 
   /* FILTER SUCCESSFUL TRANSACTIONS */
   let successfulTransactions = eod?.filter((transaction: AuthTransaction)=>{
@@ -78,7 +78,7 @@ const EOD = () => {
     );
 
     setTotalSale(totalTransactionAmount);
-  }, [eod]);
+  }, [successfulTransactions]);
 
   const printEODReport = () => {
     eod?.length !== 0

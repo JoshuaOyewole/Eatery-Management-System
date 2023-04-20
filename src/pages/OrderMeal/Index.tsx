@@ -28,7 +28,7 @@ const OrderMeal = () => {
   const pRef = useRef<HTMLInputElement | null>(null);
   const selectMealRef = useRef<HTMLSelectElement | null>(null);
 
-  const [ResponseMessage, setResponseMessage] = useState<string | null>(null);
+  //const [ResponseMessage, setResponseMessage] = useState<string | null>(null);
   const [invoiceID, setInvoiceID] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [meal, setMeal] = useState<string>();
@@ -167,7 +167,7 @@ const OrderMeal = () => {
 
         if (response) {
           /* UPDATE RESPONSE MESSAGE */
-          setResponseMessage(response.data.message);
+          //setResponseMessage(response.data.message);
           /* UPDATE INVOICE ID */
           setInvoiceID(response.data.id);
           /* OPEN MODAL DISPLAY ORDER SUCCESS INFORMATION*/
