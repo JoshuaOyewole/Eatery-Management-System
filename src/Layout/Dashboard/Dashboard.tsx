@@ -1,23 +1,26 @@
-import profilePix from "../../assets/images/logo.png"
-import Sidebar from '../../components/layout/sidebar/Sidebar';
+import profilePix from "../../assets/images/logo.png";
+import Sidebar from "../../components/layout/sidebar/Sidebar";
 
 interface DashboardLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const DashboardLayout = (props: DashboardLayoutProps) => {
-  const { children } = props
+  const { children } = props;
   return (
-    <div className='dashboard__container'>
+    <div className="dashboard__container">
       <Sidebar />
-      <div className='dashboard-right'>
-        <header className='navbar-header'>
+      <div className="dashboard-right">
+        <header className="navbar-header">
           <div className="user">
             <div className="profile-pix">
-              <img src={profilePix} alt="Profile Picture" className="profilePixs" />
+              <img
+                src={profilePix}
+                alt="Profile Pixs"
+                className="profilePixs"
+              />
               <p className="username">Orisfina</p>
             </div>
-           
           </div>
         </header>
         {children}
@@ -28,7 +31,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
         Instead of passing Children, a prop can replaced it and take the main as a prop and the dashboard heading, paragraphs as props also */}
       </div>
     </div>
-  )
+  );
 };
 
 export default DashboardLayout;

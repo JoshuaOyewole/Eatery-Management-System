@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Chart from "../../components/ui/Chart/Chart";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
 import Styles from "./_eod.module.scss";
 import Box from "../../components/ui/Dashboard/Box";
@@ -95,7 +95,7 @@ const EOD = () => {
 
   useEffect(() => {
     document.title = `EOD Report for ${date}`; 
-  }, [])
+  }, [date])
   
   /* Fetch Today, Yesterday and Two Days Ago EOD */
   useEffect(() => {
