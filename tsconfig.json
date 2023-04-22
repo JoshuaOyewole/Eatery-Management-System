@@ -16,6 +16,14 @@
       "noEmit": true,
       "jsx": "react-jsx"
   },
+<<<<<<< HEAD
+  "include": [
+    "src"
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+=======
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
+>>>>>>> revamp
