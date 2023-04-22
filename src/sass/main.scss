@@ -1,0 +1,19 @@
+@use "abstract/mixin";
+@use "abstract/variable";
+
+@use "base/typography";
+@use "base/utilities";
+@use "base/global";
+
+@use "./components/form/formInput";
+@use "./components/button";
+
+@use "./components/layout/sidebar";
+@use "./components/layout/layouts";
+@use "./components/layout/navbarHeader";
+@use "./components/layout/modal";
+
+@use "pages/login";
+@use "pages/dashboard";
+@use "pages/orderMeal";
+@use "pages/receipt"

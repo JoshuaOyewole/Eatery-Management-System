@@ -1,0 +1,132 @@
+@use "../../sass/abstract/mixin" as mixin;
+@use "../../sass/abstract/variable" as variable;
+
+.invoice-POS {
+  box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+  padding: 2mm;
+  margin: 0 auto;
+  width: 44mm;
+  background: variable.$white;
+
+  ::selection {
+    background: #f31544;
+    color: variable.$white;
+  }
+  ::moz-selection {
+    background: #f31544;
+    color: variable.$white;
+  }
+
+  h1 {
+    font-size: 1.5em;
+    color: #222;
+  }
+  h2 {
+    font-size: 0.9em;
+  }
+  h3 {
+    font-size: 0.6em;
+    font-weight: 700;
+    line-height: 2em;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+  p {
+    font-size: 0.5em;
+    color: #666;
+    line-height: 1.2em;
+  }
+
+  .top {
+    @include mixin.flex($justify: center, $align: center);
+    flex-direction: column;
+    min-height: 10rem;
+  }
+  .mid {
+    min-height: 3rem;
+  }
+  .bot {
+    min-height: 5rem;
+  }
+
+  .top .logo {
+    height: 5rem;
+    width: 5rem;
+    background: url("../../assets/images/logo.png") no-repeat;
+    background-size: 5rem 5rem;
+  }
+  .clientlogo {
+    float: left;
+    height: 5rem;
+    width: 5rem;
+    background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
+    background-size: 5rem 5rem;
+    border-radius: 5rem;
+  }
+  .info {
+    display: block;
+    margin-left: 0;
+  }
+  .title {
+    float: right;
+  }
+  .title p {
+    text-align: right;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tabletitle {
+    //padding: 5px;
+    font-size: 0.5em;
+    background: #eee;
+  }
+  .service {
+    border-bottom: 1px solid #eee;
+  }
+  .item {
+    width: 24mm;
+  }
+  .itemtext {
+    font-size: 0.5em;
+  }
+
+  .legalcopy {
+    margin-top: 5mm;
+  }
+  .break {
+    display: block;
+  }
+  .legal {
+    text-align: center;
+  }
+  .address {
+    font-size: 0.7rem !important;
+    text-align: center !important;
+  }
+  .information {
+    text-align: center;
+    font-size: 0.5rem !important;
+  }
+}
+.row{
+  @include mixin.flex($justify: space-between, $align: center);
+}
+.total-row{
+  @include mixin.flex($justify: space-between, $align: center);
+}
+.header{
+  font-size: 0.65rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+.bal{
+  font-weight: 600;
+}
+.line-break{
+  margin-top: 4px;
+  border:  .2px solid variable.$primary;
+}

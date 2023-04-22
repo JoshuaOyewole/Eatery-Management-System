@@ -1,0 +1,57 @@
+@use "../abstract/mixin" as mixin;
+@use "../abstract/variable" as variable;
+
+.login-container {
+
+    @include mixin.flex($align:center, $justify:center);
+    margin: 0 auto;
+    height: 100vh;
+}
+
+.login {
+    @include mixin.flex($align:center, $justify:center);
+    flex-direction: column;
+    background: variable.$white;
+    color: #333;
+    border-radius: 1rem;
+    width: 50%;
+    height: 100vh;
+}
+
+.loginLeft {
+    @include mixin.flex($justify:center, $align:center);
+    flex-direction: column;
+    background-image: url('../../../src/assets/images/loginBg.jpg');
+    background-size: cover;
+    background-position: top center;
+    height: 100vh;
+    width: 50%;
+    position: relative;
+}
+
+.login-form {
+    width: 70%;
+}
+
+.logo {
+    width: 85px;
+}
+
+.title{
+    font-size: 4rem;
+    color: variable.$white;
+    z-index: 3;
+}
+.bg-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: variable.$primary;
+    opacity: .8;
+}
+.info{
+    z-index: 3;
+    color: variable.$white;
+}

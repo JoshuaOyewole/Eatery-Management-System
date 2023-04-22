@@ -1,0 +1,186 @@
+@use "../../abstract/mixin" as mixin;
+@use "../../abstract/variable" as variable;
+
+.dashboard {
+  &__content {
+    width: 90%;
+    margin: 0 auto;
+
+    &--top {
+      margin: 1rem 0 2rem 0;
+      display: flex;
+    }
+    &--eod-top {
+      margin: 1rem 0 2rem 0;
+      @include mixin.flex($justify: space-between, $align:center);
+    }
+    &--bottom {
+      margin: 3rem 2rem 2rem 2rem;
+
+      & .wrapper {
+        @include mixin.flex($justify: space-between);
+        margin-top: 2rem;
+      }
+      & .left {
+        @include mixin.flex($justify: space-between);
+        row-gap: 3rem;
+        flex-wrap: wrap;
+        background-color: variable.$white;
+        border-radius: 5px;
+        flex-basis: 50%;
+        padding: 2rem;
+
+        & .top,
+        .bottom {
+          flex-basis: 100%;
+        }
+      }
+      & .right {
+        background-color: variable.$white;
+        border-radius: 5px;
+        flex-basis: 45%;
+        padding: 3rem 2rem;
+      }
+    }
+  }
+
+  &__container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  &__flex {
+    @include mixin.flex($align: center, $justify: space-between);
+    flex-basis: 75%;
+    width: 100%;
+  }
+
+  &__right {
+    flex-basis: 35%;
+    height: 100%;
+  }
+
+  &_box {
+    height: 100%;
+    @include mixin.flex($justify: center, $align: center);
+    row-gap: 0.8rem;
+    flex-direction: column;
+    background-color: #f6f6f7;
+  }
+
+  &-right {
+    background-color: #f4f4f4;
+    flex-basis: 80%;
+    overflow: scroll;
+  }
+
+  &__box {
+    @include mixin.flex($align: center, $justify: center);
+    text-align: center;
+    flex-direction: column;
+    background-color: variable.$white;
+    color: #314659;
+    max-width: 100%;
+    flex-basis: 30%;
+    height: 20rem;
+    margin: 0rem 2rem;
+    padding: 2rem 3rem;
+    box-shadow: 20px 2px 10px rgba(15, 94, 66, 0.05);
+    border-radius: 5px;
+    font-size: 1.3rem;
+    position: relative;
+
+    &--v2 {
+      padding: 2rem 1rem;
+      @include mixin.flex($align: center, $justify: space-between);
+    }
+    &:hover {
+      background: -webkit-linear-gradient(
+        -45deg,
+        #ffffff 0,
+        #ffffff 58%,
+        #f5f5f5 68%,
+        #ddd 100%
+      ) !important;
+      animation: dashboardcard 600ms ease-in;
+    }
+
+    &-container {
+      @include mixin.flex($justify: space-between);
+      row-gap: 4rem;
+      flex-wrap: wrap;
+    }
+  }
+
+  &__icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: -1.5rem;
+    background: #16954b;
+    color: variable.$white;
+    width: 4rem;
+    height: 4rem;
+    top: 3rem;
+    border-radius: 0.5rem;
+  }
+
+  &__heading {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #314659;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 60%;
+    height: 100%;
+    row-gap: 0.5rem;
+  }
+
+  &__search-form {
+    &--input {
+      padding: 1rem 2rem;
+      border-top-left-radius: 0.5rem;
+      border-bottom-left-radius: 0.5rem;
+      border: none;
+      box-shadow: 1px 1px 2px #333;
+      font-size: 1.6rem;
+      margin-top: 1rem;
+    }
+    &--submitBtn {
+      background-color: variable.$primary;
+      color: variable.$white;
+      font-size: 1.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      border-radius: 0.2rem;
+      border: none;
+      min-width: 6rem;
+      padding: 1.2rem 2rem;
+      margin-left: 2rem;
+
+      &:hover {
+        background-color: variable.$primaryShade3;
+      }
+    }
+  }
+
+  &__transaction-result {
+    font-size: 2.5rem;
+  }
+}
+
+@keyframes dashboardcard {
+  0% {
+    opacity: 0.8;
+    margin-top: 15px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 1px;
+  }
+}

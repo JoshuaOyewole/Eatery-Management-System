@@ -1,0 +1,107 @@
+@use "../abstract/mixin" as mixin;
+@use "../abstract/variable" as variable;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  //This defines what 1rem is
+  font-size: 62.5%;
+/*
+  @include mixin.media("XLdesktop") {
+    font-size: 75%; //12px
+  } 
+
+  @include mixin.media("desktop") {
+    font-size: 70%; //9.5px;
+  }
+
+  @include mixin.media("tab") {
+    font-size: 59.37%; //9px;
+  }
+
+  @include mixin.media("phone") {
+    font-size:50%;  //8px;
+  }
+  @include mixin.media("sm-phone") {
+    font-size: 43.75%; //7px;
+  }
+*/
+ 
+} 
+
+body {
+  margin: 0 auto;
+  padding: 0;
+  font-weight: 400;
+  font-size: 1.6rem;
+  background: #f8f8f8;
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+#file-upload-button {
+  display: none;
+}
+
+img {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Custom Scroll Bar */
+::-webkit-scrollbar {
+  width: 5px;
+  max-height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: variable.$primary;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+//prevent select
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

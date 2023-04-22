@@ -1,0 +1,43 @@
+@use "../abstract/variable" as variable;
+
+.btn {
+    padding: 1rem 2rem;
+    min-width: 8rem;
+    text-transform: uppercase;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-weight: 600;
+}
+
+.danger-btn {
+    background-color: variable.$danger;
+    color: variable.$white;
+    &:hover{
+        background-color: lighten($color: variable.$danger, $amount: 8);
+    }
+}
+
+.blue-btn {
+    background-color: variable.$blue;
+    color: variable.$white;
+    &:hover{
+        background-color: lighten($color: variable.$blue, $amount: 8);
+        transition: all ease 2s;
+    }
+}
+
+.primary-btn {
+    background-color: variable.$primaryShade3;
+    padding: 1rem;
+    color: #f4f4f4;
+    border: none;
+
+    &:hover {
+        background-color: variable.$primaryShade4;
+        transition: all ease 1s;
+    }
+
+    &__small{
+        padding: .6rem 1rem !important;
+    }
+}

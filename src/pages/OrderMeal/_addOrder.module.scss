@@ -1,0 +1,64 @@
+@use "../../sass/abstract/variable" as variable;
+@use "../../sass/abstract/mixin" as mixin;
+
+/* TODO
+FEATURE TO REMOVE INDIVIDUAL ORDER ITEM
+ */
+
+.dashboard {
+  &__heading {
+    font-size: 2.5rem;
+    color: variable.$primaryShade1;
+    text-transform: uppercase;
+    text-decoration: underline;
+    margin-bottom: 1rem;
+  }
+  &__content {
+    @include mixin.flex($align: center);
+    flex-direction: column;
+    padding: 2rem 0rem;
+    height: 100%;
+
+    &--top {
+      text-align: center;
+    }
+  }
+}
+
+.payment {
+  &_type {
+    @include mixin.flex($align: center, $justify: center);
+    width: 80%;
+    border-radius: 0.5rem;
+    padding: 1rem 1rem;
+    margin-top: 2rem;
+
+    & button {
+      padding: 1rem;
+      width: 30%;
+      border: none;
+      outline: none;
+    }
+
+    & option {
+      padding: 1rem;
+    }
+  }
+  &_method{
+    margin-left: 2rem;
+    flex-basis: 40%;
+    @include mixin.flex($align:center, $justify:space-between);
+
+    &>.payment_btn{
+        background-color: rgb(227, 227, 227);
+        font-size: 1.6rem;
+        text-transform: uppercase;
+        
+        &:focus{
+            background-color: variable.$primary;
+            color: variable.$white;
+            font-weight: 600;
+        }
+    }
+  }
+}

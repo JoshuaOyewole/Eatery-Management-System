@@ -1,0 +1,50 @@
+@mixin flex($justify: flex-start, $align: flex-start) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+  }
+  
+
+  /*
+  MEDIA QUERY MANAGER
+  <=375px- sm-phone 
+  <=425px - phone
+  <=900px - tab
+  <=1200px - desktop
+  <=1440 - LGdesktop
+  <=2560  - XLDesktop (4k screen)
+
+  where 1em === 16px
+
+   */
+
+   @mixin media($breakpoint) {
+
+    @if($breakpoint == "XLdesktop"){
+      @media (min-width:160em) {@content};//2560px
+    }
+
+    @if($breakpoint == "LGdesktop"){
+      @media (max-width:90em) {@content};//1440px
+    }
+
+    @if($breakpoint == "desktop"){
+      @media (max-width:80em) {@content};//1280px
+    }
+
+    @if($breakpoint == "tab"){
+      @media (max-width:56.25em) {@content};//900px
+    }
+
+    @if($breakpoint == "phone"){
+      @media (max-width:26.625em) {@content};//425px
+    }
+
+    @if($breakpoint == "sm-phone"){
+      @media (max-width:23.43em) {@content};//375px
+    }
+    @if($breakpoint == "xs-phone"){
+      @media (max-width:20em) {@content};//320px
+    }
+
+   }

@@ -1,0 +1,108 @@
+@use "../../abstract/variable" as variable;
+@use "../../abstract/mixin" as mixin;
+
+.modal {
+    position: relative;
+    width: 25vw;
+    height: 50vh;
+    background-color: variable.$white;
+    border-radius: 1rem;
+    margin-top: 10rem;
+    color: variable.$Grey;
+    @include mixin.flex($align: center, $justify: center);
+    padding: 1rem 4rem;
+
+    &__successIcon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        top: 0rem;
+        border-radius: 50%;
+        background-color: variable.$primary;
+        height: 10rem;
+        width: 10rem;
+        @include mixin.flex($justify:center, $align:center);
+
+       &--icon{
+        display: block;
+        color: white;
+        font-size: 6rem;
+       } 
+    }
+
+    &Container {
+        @include mixin.flex($justify: center);
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        background-color: rgba($color: variable.$primary, $alpha: 0.6);
+        color: variable.$white;
+    }
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        height: 40%;
+
+        &__order-status {
+            margin-bottom: 1rem;
+        }
+        &__order-confirmation{
+            text-align: center;
+        }
+        &__orderID {
+            font-weight: 600;
+            display: block;
+            padding-bottom: .5rem;
+        }
+
+    }
+
+    &__btnContainer {
+        @include mixin.flex($justify: space-evenly, $align: stretch);
+        width: 100%;
+
+        &__btn {
+            flex-basis: 45%;
+            font-weight: 600;
+            margin-top: 3rem;
+            padding: 1rem 2rem;
+            min-width: 8rem;
+            background-color: variable.$primary;
+            color: variable.$white;
+            text-transform: uppercase;
+            border-radius: .5rem;
+
+            
+
+            &:hover {
+                background-color: rgb(3, 111, 136);
+            }
+        }
+    }
+}
+
+.closeBtn {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: variable.$white;
+}
+
+.content {
+    @include mixin.flex($justify: center, $align: center);
+    flex-direction: column;
+}
