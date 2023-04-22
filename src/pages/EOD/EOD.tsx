@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
-import Chart from "../../components/ui/Chart/Chart";
+//import Chart from "../../components/ui/Chart/Chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
 import Styles from "./_eod.module.scss";
@@ -193,7 +193,7 @@ const EOD = () => {
               <div className="wrapper">
                 <div className="right">
                   <h3 className="dashboard__heading">Order Summary</h3>
-                  <Chart
+              {/*     <Chart
                     options={{
                       labels: [
                         "Rice & Stew",
@@ -222,7 +222,7 @@ const EOD = () => {
                     series={[40, 58, 88, 188, 40, 58, 88, 188]}
                     type="pie"
                     width={480}
-                  />
+                  /> */}
                 </div>
               </div>
             </section>

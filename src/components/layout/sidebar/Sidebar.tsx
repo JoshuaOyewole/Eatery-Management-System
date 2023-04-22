@@ -9,7 +9,7 @@ import {
   faFilePen,
   faBook,
 } from "@fortawesome/free-solid-svg-icons";
-const logo = require("../../../assets/images/logo.png");
+import logo from "../../../assets/images/logo.png";
 
 const Sidebar = () => {
   const navigate = useNavigate();

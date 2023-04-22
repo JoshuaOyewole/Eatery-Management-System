@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Input from '../../components/forms/formInput/Index'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-
-const logo = require('../../assets/images/logo.png')
+import logo from '../../assets/images/logo.png'
 
 const Register = () => {
     const navigate = useNavigate();

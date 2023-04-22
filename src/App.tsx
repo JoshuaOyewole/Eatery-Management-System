@@ -1,4 +1,4 @@
-import Login from "./pages/Login";
+import Login from "./pages/Login/index";
 import Dashboard from "./pages/Dashboard/Index";
 import EOD from "./pages/EOD/Index";
 import EODDate from "./pages/EOD/EOD";
@@ -28,7 +28,6 @@ import DeleteStaff from "./pages/ManageStore/DeleteStaff";
 function App() {
   return (
     <Routes>
-
       <Route path="/" element={<Login />} />
       <Route path="/admin/register" element={<Register />} />
       <Route
@@ -106,77 +105,77 @@ function App() {
         }
       />
       <Route
-          path="/manage-store/add-meal"
-          element={
-            <RequireAuth loginPath="/">
-              <AddMeal />
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/add-meal"
+        element={
+          <RequireAuth loginPath="/">
+            <AddMeal />
+          </RequireAuth>
+        }
+      />
       <Route
-          path="/manage-store/update-meal"
-          element={
-            <RequireAuth loginPath="/">
-              <UpdateMeal />
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/update-meal"
+        element={
+          <RequireAuth loginPath="/">
+            <UpdateMeal />
+          </RequireAuth>
+        }
+      />
       <Route
-          path="/manage-store/update-meal/:id"
-          element={
-            <RequireAuth loginPath="/">
-              <Update />
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/update-meal/:id"
+        element={
+          <RequireAuth loginPath="/">
+            <Update />
+          </RequireAuth>
+        }
+      />
       <Route
-          path="/manage-store/delete-meal"
-          element={
-            <RequireAuth loginPath="/">
-              <DeleteMeal />
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/delete-meal"
+        element={
+          <RequireAuth loginPath="/">
+            <DeleteMeal />
+          </RequireAuth>
+        }
+      />
       <Route
-          path="/manage-store/view-meals"
-          element={
-            <RequireAuth loginPath="/">
-              <ViewMeals />
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/view-meals"
+        element={
+          <RequireAuth loginPath="/">
+            <ViewMeals />
+          </RequireAuth>
+        }
+      />
       <Route
-          path="/manage-store/add-staff"
-          element={
-            <RequireAuth loginPath="/">
-              <AddStaff />
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/add-staff"
+        element={
+          <RequireAuth loginPath="/">
+            <AddStaff />
+          </RequireAuth>
+        }
+      />
       <Route
-          path="/manage-store/delete-staff"
-          element={
-            <RequireAuth loginPath="/">
-              <DeleteStaff />
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/delete-staff"
+        element={
+          <RequireAuth loginPath="/">
+            <DeleteStaff />
+          </RequireAuth>
+        }
+      />
       <Route
-          path="/manage-store/view-staffs"
-          element={
-            <RequireAuth loginPath="/">
-              <ViewStaffs/>
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/view-staffs"
+        element={
+          <RequireAuth loginPath="/">
+            <ViewStaffs />
+          </RequireAuth>
+        }
+      />
       <Route
-          path="/manage-store/update-staff"
-          element={
-            <RequireAuth loginPath="/">
-              <UpdateMeal />
-            </RequireAuth>
-          }
-        />
+        path="/manage-store/update-staff"
+        element={
+          <RequireAuth loginPath="/">
+            <UpdateMeal />
+          </RequireAuth>
+        }
+      />
       <Route
         path="/printReceipt/:id"
         element={
@@ -201,7 +200,7 @@ function App() {
           </RequireAuth>
         }
       />
-       <Route path="*" element={<Error />} />
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 }

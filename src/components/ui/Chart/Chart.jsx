@@ -1,7 +1,6 @@
 import Chart from "react-apexcharts";
 
-
-const Index = (props) => {
+export const Charts = (props) => {
     const {options, series, type, width = 600} = props;
     
     return (
@@ -19,5 +18,3 @@ const Index = (props) => {
         </div>
     )
 }
-
-export default Index

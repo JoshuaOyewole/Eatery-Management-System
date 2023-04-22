@@ -1,5 +1,5 @@
 import Styles from "../../../pages/Dashboard/_dashboard.module.scss"
-import Chart from "../Chart/Chart"
+//import Chart from "../Chart/Chart"
 
 type Props = {
     currentMonth:String,
@@ -43,7 +43,7 @@ const StaffDashboard = (props: Props) => {
                                 <div className={Styles["dashboard__sales-overview--top"]}>
                                     <h4 className={Styles["dashboard__sales-overview--title"]}>Last 7 days</h4>
                                 </div>
-                                <Chart
+                               {/*  <Chart
                                     options={{
                                         chart: {
                                             id: "basic-bar"
@@ -58,7 +58,7 @@ const StaffDashboard = (props: Props) => {
                                             data: [30000, 50000, 49000, 60000, 39000, 70000, 91000]
                                         }
                                     ]}
-                                />
+                                /> */}
                             </div>
                         </div>
                         <div className={Styles["dashboard__box-content--right"]}>
@@ -99,7 +99,7 @@ const StaffDashboard = (props: Props) => {
                                     <h4 className={Styles["dashboard__sales-overview--title"]}>Order Summary</h4>
                                 </div>
                                 <div className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                    <Chart options={{
+                                    {/* <Chart options={{
                                         labels: ['Rice & Stew', 'Ice Cream', 'Fried Rice', 'Yohgurt'],
                                         responsive: [{
                                             breakpoint: 480,
@@ -112,7 +112,7 @@ const StaffDashboard = (props: Props) => {
                                                 }
                                             }
                                         }]
-                                    }} series={[40, 58, 88, 188]} type="pie" width={380} />
+                                    }} series={[40, 58, 88, 188]} type="pie" width={380} /> */}
                                 </div>
                             </div>
 
