@@ -1,5 +1,5 @@
 import Styles from "../../../pages/Dashboard/_dashboard.module.scss"
-//import Chart from "react-apexcharts";
+import Chart from "react-apexcharts";
 
 type Props = {
     currentMonth:String,
@@ -25,7 +25,7 @@ const AdminDashboard = (props: Props) => {
                                         <div className={Styles["dashboard__sales-overview--record-type"]}>Daily</div>
                                     </div>
                                     <p className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                        <strong className={Styles.orderValue}>82</strong> Orders | 320,000
+                                        <strong className={Styles.orderValue}>82</strong> Orders | &#8358; 320,000
                                     </p>
                                 </div>
 
@@ -36,7 +36,7 @@ const AdminDashboard = (props: Props) => {
                                         <div className={Styles["dashboard__sales-overview--record-type"]}>Monthly</div>
                                     </div>
                                     <p className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                        <strong className={Styles.orderValue}>382</strong> Orders | 5,320,000
+                                        <strong className={Styles.orderValue}>382</strong> Orders | &#8358; 5,320,000
                                     </p>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@ const AdminDashboard = (props: Props) => {
                                 <div className={Styles["dashboard__sales-overview--top"]}>
                                     <h4 className={Styles["dashboard__sales-overview--title"]}>Last 7 days</h4>
                                 </div>
-                                {/* <Chart
+                                <Chart
                                     options={{
                                         chart: {
                                             id: "basic-bar"
@@ -59,7 +59,7 @@ const AdminDashboard = (props: Props) => {
                                             data: [30000, 50000, 49000, 60000, 39000, 70000, 91000]
                                         }
                                     ]}
-                                />  */}
+                                />  
                             </div>
                         </div>
                         <div className={Styles["dashboard__box-content--right"]}>
@@ -100,7 +100,7 @@ const AdminDashboard = (props: Props) => {
                                     <h4 className={Styles["dashboard__sales-overview--title"]}>Order Summary</h4>
                                 </div>
                                 <div className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                 {/*    <Chart options={{
+                                 <Chart options={{
                                         labels: ['Rice & Stew', 'Ice Cream', 'Fried Rice', 'Yohgurt'],
                                         responsive: [{
                                             breakpoint: 480,
@@ -113,7 +113,7 @@ const AdminDashboard = (props: Props) => {
                                                 }
                                             }
                                         }]
-                                    }} series={[40, 58, 88, 188]} type="pie" width={380} /> */}
+                                    }} series={[40, 58, 88, 188]} type="pie" width={380} />
                                 </div>
                             </div>
 
