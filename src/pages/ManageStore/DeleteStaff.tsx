@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,21 +8,9 @@ import Table from "../../components/ui/Table/table";
 import { toast, ToastContainer } from "react-toastify";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
+import { staffProps } from "../../../types";
 
-type staffProps = {
-  _id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  phone: string;
-  gender: string;
-  homeAddress: string;
-  state: string;
-  lga: string;
-  dob: Date;
-  passport: string;
-};
+
 
 function DeleteStaff() {
   const navigate = useNavigate();
@@ -53,8 +41,7 @@ function DeleteStaff() {
       const response= await axios.delete(
         `http://localhost:3100/api/staff/${_id}`
       );
-      console.log(response?.data);
-      
+
       toast.success(response?.data, {
         position: "top-right",
         autoClose: 3000,

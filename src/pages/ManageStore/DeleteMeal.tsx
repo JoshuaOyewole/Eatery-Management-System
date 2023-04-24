@@ -93,7 +93,7 @@ function DeleteMeal() {
                         </td>
                         <td>
                           <Button
-                            text={"Update Meal"}
+                            text={"Delete Meal"}
                             handleClick={() => handleDeleteMeal(_id)}
                             classname={"danger-btn primary-btn__small"}
                           />
