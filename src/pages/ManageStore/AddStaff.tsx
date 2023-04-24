@@ -25,7 +25,7 @@ const initialState = {
   email: "",
   password: "",
   phone: "",
-  gender: "",
+  gender: "Male",
   homeAddress: "",
   dob: "",
   state: "",

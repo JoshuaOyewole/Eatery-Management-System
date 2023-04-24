@@ -51,6 +51,7 @@ function DeleteStaff() {
         draggable: true,
         progress: undefined,
       });
+      fetchStaff();
     } catch (error) {
       toast.error(`${error}`, {
         position: "top-right",

@@ -45,6 +45,7 @@ function DeleteMeal() {
         draggable: true,
         progress: undefined,
       });  
+      fetchMeals();//Update Meals
     } catch (error) {
       toast.error(`${error}`, {
         position: "top-right",
