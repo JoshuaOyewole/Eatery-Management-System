@@ -2,18 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Styles from "./_receipt.module.scss";
 import axios from "axios";
+import { OrderProps } from "../../../types";
 
-type OrderProps = {
-  orders: {
-    meal: string;
-    price: React.ReactNode;
-    quantity: React.ReactNode;
-    totalAmount: React.ReactNode;
-    _id: string;
-  }[];
-  name: string;
-  totalPrice: React.ReactNode;
-};
 
 /* 
 TASK FOR TOMORROW

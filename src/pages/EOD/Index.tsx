@@ -9,27 +9,17 @@ import Box from "../../components/ui/Dashboard/Box";
 import MultiLayoutBox from "../../components/ui/Dashboard/MultiLayoutBox";
 import axios from "axios";
 import {
+  cashPayment,
   currentDate,
   getPreviousDate,
   getTodaySaleAmount,
-} from "../../utils/utils";
+  POSPayment,
+  printEODReport,
+  printEODSummary,
+  TransferPayment,
+} from "../../utils/function";
 import Button from "../../components/ui/Button";
-
-interface AuthTransaction {
-  _id: string;
-  name: string;
-  orders: {
-    quantity: number;
-    meal: string;
-    price: number;
-    totalAmount: number;
-    _id: string;
-  }[];
-  totalPrice: number;
-  payment_date: string;
-  payment_status: string;
-  payment_medium: string;
-}
+import { AuthTransaction } from "../../../types";
 
 const EOD = () => {
   const navigate = useNavigate();
@@ -52,12 +42,6 @@ const EOD = () => {
     navigate(`/eod/filter?q=${date}`);
   };
 
-  //FILTER PAYMENTS METHODS
-  /* 
-  1. Get the list of all the payments[ARRAY]
-  2. Loop through the Array and filter it based on criterias
-  3.Then find the length
-  */
 
   /* FILTER SUCCESSFUL TRANSACTIONS FROM EOD */
   const successfulTransactions = eod?.filter(
@@ -66,43 +50,32 @@ const EOD = () => {
     }
   );
   /* FILTER CASH PAYMENTS TRANSACTIONS FROM EOD */
-  const cashPayments = successfulTransactions.filter(
-    (transaction: AuthTransaction) => {
-      return transaction.payment_medium === "Cash";
-    }
-  );
+  const cashPayments = cashPayment(successfulTransactions)
   /* FILTER ATM PAYMENTS TRANSACTIONS FROM EOD */
-  const POSPaymens = successfulTransactions.filter(
-    (transaction: AuthTransaction) => {
-      return transaction.payment_medium === "POS";
-    }
-  );
+  const POSPaymens = POSPayment(successfulTransactions)
   /* FILTER TRANSFER PAYMENTS TRANSACTIONS FROM EOD */
-  const transferPayments = successfulTransactions.filter(
-    (transaction: AuthTransaction) => {
-      return transaction.payment_medium === "Transfer";
-    }
-  );
+  const transferPayments = TransferPayment(successfulTransactions);
 
-  //FETCH EOD
-  const fetchEOD = async (
-    date: string,
-    state: React.Dispatch<React.SetStateAction<AuthTransaction[]>>
-  ) => {
-    const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`);
-    state(res.data);
-  };
+
 
   useEffect(() => {
-    document.title = `EOD Report for ${date}`; 
+    document.title = `EOD Report for ${date}`;
   }, [date])
-  
+
   /* Fetch Today, Yesterday and Two Days Ago EOD */
   useEffect(() => {
+    //FETCH EOD
+    const fetchEOD = async (
+      date: string,
+      state: React.Dispatch<React.SetStateAction<AuthTransaction[]>>
+    ) => {
+      const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`);
+      state(res.data);
+    };
     fetchEOD(today, setEod);
     fetchEOD(yesterday, setYesterdayEod);
     fetchEOD(twoDaysago, setTwoDaysAgoEod);
-  }, [today,yesterday,twoDaysago]);
+  }, [today, yesterday, twoDaysago]);
 
   /* TOTAL AMOUNT SOLD */
   useEffect(() => {
@@ -116,16 +89,16 @@ const EOD = () => {
     setTwoDaysAgoTotalSale(twoDaysAgoTotalAmount);
   }, [eod, yesterdayEod, twoDaysAgoEod]);
 
-  const printEODReport = () => {
+  /* const printEODReport = () => {
     eod?.length !== 0
       ? navigate(`/printEODReport?q=${today}`)
       : alert("No Transaction Found");
-  };
-  const printEODSummary = () => {
+  }; */
+  /* const printEODSummary = () => {
     eod?.length !== 0
       ? navigate(`/printEODSummary?q=${today}`)
       : alert("No Transaction Found");
-  };
+  }; */
 
   const orderSummary = async () => {
     const res = await axios.get(
@@ -150,10 +123,10 @@ const EOD = () => {
     const prevDays = await axios.get(
       `http://localhost:3100/api/records/last7days`
     );
-    
+
     let prevDayss: AuthTransaction[] = prevDays.data;
     console.log(prevDayss);
-    
+
   };
 
   orderSummary();
@@ -168,12 +141,12 @@ const EOD = () => {
             <div>
               <Button
                 text={"PRINT EOD SUMMARY"}
-                handleClick={printEODSummary}
+                handleClick={()=>printEODSummary(eod,today)}
                 classname={"primary-btn"}
               />
               <Button
                 text={"PRINT EOD REPORT"}
-                handleClick={printEODReport}
+                handleClick={()=>printEODReport(eod,today)}
                 classname={"primary-btn ml-s"}
               />
             </div>
@@ -279,7 +252,7 @@ const EOD = () => {
               </div>
               <div className="right">
                 <h3 className="dashboard__heading">Order Summary</h3>
-              {/*   <Chart
+                {/*   <Chart
                   options={{
                     labels: [
                       "Rice & Stew",

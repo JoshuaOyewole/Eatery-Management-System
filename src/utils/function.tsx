@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { AuthTransaction } from '../../types'
+
+const navigate = useNavigate();
 
 export const currentDate = () => {
     const date = new Date();
@@ -75,4 +78,32 @@ export const TransferPayment = (successfulTransactions: AuthTransaction[]) => {
     return successfulTransactions.filter((transaction: AuthTransaction) => {
         return transaction.payment_medium === "Transfer";
     });
+}
+
+//Print EOD Report
+export const printEODReport = (eod: AuthTransaction[], today: string) => {
+    return eod?.length !== 0
+        ? navigate(`/printEODReport?q=${today}`)
+        : alert("No Transaction Found");
+};
+
+//Print EOD Summary
+export const printEODSummary = (eod: AuthTransaction[], today: string) => {
+    return eod?.length !== 0
+        ? navigate(`/printEODSummary?q=${today}`)
+        : alert("No Transaction Found");
+}
+
+//Approved Transactions
+export const approvedTrans = (eod: AuthTransaction[]) => {
+    return eod?.filter((currentValue: AuthTransaction) => {
+        return currentValue.payment_status === "Successful";
+    });
+}
+
+//Declined transactions
+export const declinedTrans = (eod:AuthTransaction[]) =>{
+    return eod?.filter((currentValue: AuthTransaction) => {
+        return currentValue.payment_status === "Declined";
+      });
 }

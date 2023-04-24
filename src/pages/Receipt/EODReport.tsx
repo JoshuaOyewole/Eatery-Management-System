@@ -2,23 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Styles from "./_receipt.module.scss";
 import axios from "axios";
-import { getTodaySaleAmount } from "../../utils/utils";
+import { approvedTrans, declinedTrans, getTodaySaleAmount } from "../../utils/function";
+import { AuthTransaction } from "../../../types";
 
-interface AuthTransaction {
-  _id: string;
-  name: string;
-  orders: {
-    quantity: number;
-    meal: string;
-    price: number;
-    totalAmount: number;
-    _id: string;
-  }[];
-  totalPrice: number;
-  payment_date: string;
-  payment_status: string;
-  payment_medium: string;
-}
 
 function EODReport() {
   const [eod, setEodInfo] = useState<AuthTransaction[]>([]);
@@ -38,13 +24,8 @@ function EODReport() {
     setEodInfo(res?.data);
   };
 
-  const approvedTransactions = eod?.filter((currentValue: AuthTransaction) => {
-    return currentValue.payment_status === "Successful";
-  });
-
-  const declinedTransactions = eod?.filter((currentValue: AuthTransaction) => {
-    return currentValue.payment_status === "Declined";
-  });
+  const approvedTransactions = approvedTrans(eod);
+  const declinedTransactions = declinedTrans(eod);
 
   useEffect(() => {
     document.title = `EOD Report for ${date}`;
@@ -55,7 +36,6 @@ function EODReport() {
     return () => {
       clearTimeout(interval);
     }; 
-    
   }, []);
 
   useEffect(() => {
@@ -69,7 +49,7 @@ function EODReport() {
       <div className={Styles.top}>
         <div className={Styles.logo}></div>
         <div className={Styles.info}>
-          <h2 className={Styles.legal}>Orisfina Eatery</h2>
+          <h2 className={Styles.legal}>Rukky Cuisine</h2>
           {/* <p className={Styles.address}>
             Motto : Customer's Satisfactory is our priority{" "}
           </p> */}

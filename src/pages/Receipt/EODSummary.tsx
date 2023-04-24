@@ -2,23 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Styles from "./_receipt.module.scss";
 import axios from "axios";
-import { getTodaySaleAmount } from "../../utils/utils";
+import { declinedTrans, getTodaySaleAmount } from "../../utils/function";
+import { AuthTransaction } from "../../../types";
 
-interface AuthTransaction {
-  _id: string;
-  name: string;
-  orders: {
-    quantity: number;
-    meal: string;
-    price: number;
-    totalAmount: number;
-    _id: string;
-  }[];
-  totalPrice: number;
-  payment_date: string;
-  payment_status: string;
-  payment_medium: string;
-}
 
 function EODSummary() {
   const [eod, setEod] = useState<AuthTransaction[]>([]);
@@ -33,29 +19,29 @@ function EODSummary() {
     navigate(-1);
   }
 
-/* FETCH EOD TRANSACTIONS */
-  const fetchEOD = async () => {
-    const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`);
-    setEod(res?.data);
-  };
-/* FILTER SUCCESSFUL TRANSACTIONS FROM EOD */
+
+  /* FILTER SUCCESSFUL TRANSACTIONS FROM EOD */
   const successfulTransactions = eod?.filter((currentValue: AuthTransaction) => {
     return currentValue.payment_status === "Successful";
   });
-/* FILTER DECLINED TRANSACTIONS FROM EOD */
-  const declinedTransactions = eod?.filter((currentValue: AuthTransaction) => {
-    return currentValue.payment_status === "Declined";
-  });
+  /* FILTER DECLINED TRANSACTIONS FROM EOD */
+  const declinedTransactions = declinedTrans(eod)
 
   useEffect(() => {
+    /* FETCH EOD TRANSACTIONS */
+    const fetchEOD = async () => {
+      const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`);
+      setEod(res?.data);
+    };
+    //Chage Document Title
     document.title = `EOD Summary for ${date}`;
     fetchEOD();
     //Delay of 50ms was added so the response from the promise can be gotten and the UI updated with the correct details before printing
     const interval = setTimeout(() => printWindow(), 50);
 
-     return () => {
+    return () => {
       clearTimeout(interval);
-    }; 
+    };
   }, []);
 
   useEffect(() => {
@@ -120,7 +106,7 @@ function EODSummary() {
                 </div>
               );
             })}
-            
+
             <div className={`${Styles.tabletitle} mt-xs px-s py-xs perfect-center`}>
               <span className={Styles.Rate}><strong>Total: </strong></span>
 
@@ -129,8 +115,8 @@ function EODSummary() {
           </>
         </div>
 
-      </div>:
-      <h6 className={Styles.header}>No Transaction Found for Today</h6>}
+      </div> :
+        <h6 className={Styles.header}>No Transaction Found for Today</h6>}
       <p className={`${Styles.information} mt-s`}>
         For Queries kindly contact us on: +2347032054367 or{" "}
         <span className={Styles.break}>

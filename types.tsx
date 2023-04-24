@@ -27,3 +27,27 @@ export type mealProps = {
     payment_status: string;
     payment_medium: string;
   }
+
+  export type OrderProps = {
+    orders: {
+      meal: string;
+      price: React.ReactNode;
+      quantity: React.ReactNode;
+      totalAmount: React.ReactNode;
+      _id: string;
+    }[];
+    name: string;
+    payment_medium?:string;
+    totalPrice: React.ReactNode;
+    payment_date?:string,
+    payment_status?:string
+  };
+
+  export type ordersProps = {
+    _id: string;
+    name: string;
+    payment_medium: string;
+    totalPrice: string;
+    payment_date: string;
+    payment_status: string
+  };
