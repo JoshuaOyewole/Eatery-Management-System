@@ -6,20 +6,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
+import {mealProps, orderCartProps} from '../../../types'
 
-type mealProps = {
-  name: string;
-  _id?: object;
-  amount: number;
-  price: number;
-};
-
-type orderCartProps = {
-  meal: string;
-  quantity: number;
-  price: number;
-  totalAmount: number;
-}[];
 
 const OrderMeal = () => {
   
@@ -37,7 +25,7 @@ const OrderMeal = () => {
   const [quantity, setQty] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
   let [totalOrderPrice, setTotalOrderPrice] = useState<number>(0);
-  const [orderCart, setorderCart] = useState<orderCartProps>([]);
+  const [orderCart, setorderCart] = useState<orderCartProps[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(price * quantity);
   const tableHeader = ["SN", "Description", "Price", "Qty", "Total", "Actions"];
 

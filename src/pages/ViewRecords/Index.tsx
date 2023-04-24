@@ -9,20 +9,14 @@ import Button from "../../components/ui/Button";
 import TableRow from "../../components/ui/Table/tablebody";
 import Table from "../../components/ui/Table/table";
 import { faArrowPointer } from "@fortawesome/free-solid-svg-icons";
-import { currentDate } from '../../utils/utils'
+import { currentDate } from '../../utils/function'
+import { ordersProps } from "../../../types";
 
 type Props = {
   record?: string;
 };
 
-type ordersProps = {
-  _id: string;
-  name: string;
-  payment_medium: string;
-  totalPrice: string;
-  payment_date: string;
-  payment_status: string
-};
+
 
 const Index = (props: Props) => {
 

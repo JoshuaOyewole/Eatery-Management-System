@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Styles from "./_viewRecord.module.scss";
@@ -6,28 +6,10 @@ import Receipt from "../Receipt/_receipt.module.scss";
 import UserStyles from "../../components/ui/UserInfoSection/_user.module.scss";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { OrderProps } from "../../../types";
 //import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 
-type Props = {
-  record?: string;
-};
-
-type OrderProps = {
-  orders: {
-    meal: string;
-    price: ReactNode;
-    quantity: ReactNode;
-    totalAmount: ReactNode;
-    _id: string;
-  }[];
-  name: string;
-  payment_medium:string;
-  totalPrice: ReactNode;
-  payment_date:string,
-  payment_status:string
-};
-
-const Index = (props: Props) => {
+const Index = () => {
   const { orderId } = useParams();
   const [orderInfo, setOrderInfo] = useState<OrderProps | null>(null);
   const navigate = useNavigate();
@@ -37,7 +19,6 @@ const Index = (props: Props) => {
       `http://localhost:3100/api/order/${orderId}`
     );
     setOrderInfo(response?.data);
-    
   };
 
   useEffect(() => {
