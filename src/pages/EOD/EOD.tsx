@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import {useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 //import Chart from "../../components/ui/Chart/Chart";
@@ -10,22 +10,8 @@ import MultiLayoutBox from "../../components/ui/Dashboard/MultiLayoutBox";
 import axios from "axios";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/ui/Button";
-
-interface AuthTransaction {
-  _id: string;
-  name: string;
-  orders: {
-    quantity: number;
-    meal: string;
-    price: number;
-    totalAmount: number;
-    _id: string;
-  }[];
-  totalPrice: number;
-  payment_date: string;
-  payment_status: string;
-  payment_medium: string;
-}
+import { AuthTransaction } from "../../../types";
+import { cashPayment, getTodaySaleAmount, POSPayment, TransferPayment } from "../../utils/function";
 
 const EOD = () => {
   // Get the EOD Date param from the URL.
@@ -54,29 +40,18 @@ const EOD = () => {
     return transaction.payment_status === "Successful";
   });
 
-  /* 
-  Loop through the SUCCESSFUL Transactions and filter transactions based on payment medium to get Transaction done using 1. Cash 2. ATM 3. Transfer 
-  */
-  let cashPayments = successfulTransactions.filter((transaction: AuthTransaction) => {
-    return transaction.payment_medium === "Cash";
-  });
+//Total Payments made by Cash
+  let cashPayments = cashPayment(successfulTransactions);
 
-  let POSPayments = successfulTransactions.filter((transaction: AuthTransaction) => {
-    return transaction.payment_medium === "POS";
-  });
-  let transferPayments = successfulTransactions.filter((transaction: AuthTransaction) => {
-    return transaction.payment_medium === "Transfer";
-  });
+  //Total Payments made by POS
+  let POSPayments = POSPayment(successfulTransactions);
 
-  /* TOAL AMOUNT SOLD */
+  //Total Payments made by Transfer
+  let transferPayments = TransferPayment(successfulTransactions);
+
+  /* TOTAL AMOUNT SOLD */
   useEffect(() => {
-    const totalTransactionAmount = successfulTransactions.reduce(
-      (total: number, value: AuthTransaction) => {
-        return total += value.totalPrice;
-      },
-      0
-    );
-
+    const totalTransactionAmount = getTodaySaleAmount(successfulTransactions)
     setTotalSale(totalTransactionAmount);
   }, [successfulTransactions]);
 
