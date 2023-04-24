@@ -21,7 +21,7 @@
 .loginLeft {
     @include mixin.flex($justify:center, $align:center);
     flex-direction: column;
-    background-image: url('../../assets/images/loginBg.jpg');
+    background-image: url('../assets/images/loginBg.jpg');
     background-size: cover;
     background-position: top center;
     height: 100vh;
