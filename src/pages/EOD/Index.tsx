@@ -125,7 +125,7 @@ const EOD = () => {
     );
 
     let prevDayss: AuthTransaction[] = prevDays.data;
-    console.log(prevDayss);
+    //console.log(prevDayss);
 
   };
 
@@ -141,12 +141,12 @@ const EOD = () => {
             <div>
               <Button
                 text={"PRINT EOD SUMMARY"}
-                handleClick={()=>printEODSummary(eod,today)}
+                handleClick={()=>printEODSummary(eod,today, navigate)}
                 classname={"primary-btn"}
               />
               <Button
                 text={"PRINT EOD REPORT"}
-                handleClick={()=>printEODReport(eod,today)}
+                handleClick={()=>printEODReport(eod,today, navigate)}
                 classname={"primary-btn ml-s"}
               />
             </div>
