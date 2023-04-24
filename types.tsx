@@ -52,3 +52,18 @@ export type mealProps = {
     payment_date: string;
     payment_status: string
   };
+
+  export type staffProps = {
+    _id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    phone: string;
+    gender: string;
+    homeAddress: string;
+    state: string;
+    lga: string;
+    dob: Date;
+    passport: string;
+  };

@@ -1,7 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction } from 'react-router-dom';
 import { AuthTransaction } from '../../types'
-
-
 
 export const currentDate = () => {
     const date = new Date();
@@ -81,16 +79,14 @@ export const TransferPayment = (successfulTransactions: AuthTransaction[]) => {
 }
 
 //Print EOD Report
-export const printEODReport = (eod: AuthTransaction[], today: string) => {
-    const navigate = useNavigate();
+export const printEODReport = (eod: AuthTransaction[], today: string, navigate:NavigateFunction) => {
     return eod?.length !== 0
         ? navigate(`/printEODReport?q=${today}`)
         : alert("No Transaction Found");
 };
 
 //Print EOD Summary
-export const printEODSummary = (eod: AuthTransaction[], today: string) => {
-    const navigate = useNavigate();
+export const printEODSummary = (eod: AuthTransaction[], today: string, navigate:NavigateFunction) => {
     return eod?.length !== 0
         ? navigate(`/printEODSummary?q=${today}`)
         : alert("No Transaction Found");
