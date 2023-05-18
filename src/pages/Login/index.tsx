@@ -4,7 +4,7 @@ import Input from "../../components/forms/formInput/Index";
 import axios from "axios";
 /* import { RootState } from "../../redux/store"; */
 import { ToastContainer, toast } from "react-toastify";
-import { useSignIn } from "react-auth-kit";
+//import { useSignIn } from "react-auth-kit";
 import logo from "../../assets/images/logo.png";
 
 type LoginProps = {
@@ -13,7 +13,6 @@ type LoginProps = {
 };
 
 const Index = () => {
-  const signIn = useSignIn();
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState<LoginProps>({
     email: "",
@@ -34,20 +33,21 @@ const Index = () => {
         email: credentials.email,
         password: credentials.password,
       });
-      
+
       if (response.data.success === true) {
-        signIn({
-            token: response.data.token,
-            expiresIn:3600,
-            tokenType:"Bearer",
-            authState:{email:credentials.email}
-        })
+        /* signIn({
+          token: response.data.token,
+          expiresIn: 3600,
+          tokenType: "Bearer",
+          authState: { email: credentials.email }
+        }) */
+        localStorage.setItem("token", response.data.token);
         navigate("/dashboard");
       } else {
         alert("Error occured");
       }
     } catch (error: any) {
-      const errMsg = error.response.data.message ? error.response.data.message :error.response.data;
+      const errMsg = error.response.data.message ? error.response.data.message : error.response.data;
 
       toast.error(`${errMsg}`, {
         position: "top-right",

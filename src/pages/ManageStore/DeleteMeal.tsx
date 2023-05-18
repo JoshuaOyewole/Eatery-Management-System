@@ -11,7 +11,7 @@ import TableStyles from "../../components/ui/Table/_table.module.scss";
 
 type mealProps = {
   _id: string;
-  name: string;
+  title: string;
   price: Number;
 };
 
@@ -23,7 +23,10 @@ function DeleteMeal() {
 
   /* FETCH MEALS*/
   const fetchMeals = async () => {
-    const response = await axios.get(`http://localhost:3100/api/meal`);
+    const response = await axios.get(`http://localhost:3100/api/meal`,
+    {
+      headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+    });
     setMeal(response?.data);
     //setLoading(false);
   };
@@ -34,7 +37,10 @@ function DeleteMeal() {
   const handleDeleteMeal = async (_id: string) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3100/api/meal/${_id}`
+        `http://localhost:3100/api/meal/${_id}`,
+        {
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+        }
       );
       toast.success(`${response.data.message}`, {
         position: "top-right",
@@ -84,11 +90,11 @@ function DeleteMeal() {
               {meals.length > 0 ? (
                 <Table tableHeader={tableHeader}>
                   {meals?.map((meal, index) => {
-                    const { _id, name, price } = meal;
+                    const { _id, title, price } = meal;
                     return (
                       <TableRow key={index}>
                         <td>{index + 1}</td>
-                        <td>{name}</td>
+                        <td>{title}</td>
                         <td>
                           <>&#8358; {price}</>
                         </td>

@@ -6,11 +6,11 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
-import {mealProps, orderCartProps} from '../../../types'
+import { mealProps, orderCartProps } from '../../../types'
 
 
 const OrderMeal = () => {
-  
+
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
   const pRef = useRef<HTMLInputElement | null>(null);
@@ -43,7 +43,10 @@ const OrderMeal = () => {
   //Fetch Meals from the DB when the App loads
   const fetchMeal = useCallback(async () => {
     const fetchMeal = await axios.get<mealProps[]>(
-      `http://localhost:3100/api/meal`
+      `http://localhost:3100/api/meal`,
+      {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+      }
     );
 
     setMeals(fetchMeal?.data);
@@ -73,7 +76,7 @@ const OrderMeal = () => {
   useEffect(() => {
     if (meal !== undefined) {
       //Get the MEAL selected inorder to get the Price
-      const selectedmeal = meals.filter((mealList) => mealList.name === meal);
+      const selectedmeal = meals.filter((mealList) => mealList.title === meal);
 
       //Get the PRICE from the MEAL selected
       setPrice(selectedmeal[0].price);
@@ -113,7 +116,7 @@ const OrderMeal = () => {
     setQty(1); // Reset Quantity Field
     setMeal(undefined); // Reset selectedOption Field
     setPrice(price); // Reset Price Field
-    orderCart.push({ meal, quantity, price, totalAmount});
+    orderCart.push({ meal, quantity, price, totalAmount });
     setorderCart(orderCart); //update OrderCart
   };
 
@@ -150,8 +153,11 @@ const OrderMeal = () => {
           orders: orderCart,
           totalPrice: totalOrderPrice,
           payment_date: today,
-          payment_medium:paymentMedium 
-        });
+          payment_medium: paymentMedium
+        },
+          {
+            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+          });
 
         if (response) {
           /* UPDATE RESPONSE MESSAGE */
@@ -182,11 +188,11 @@ const OrderMeal = () => {
   const resetModal = () => {
     setIsModalOpen(false);
   };
-const changePaymentMethod = (e:React.MouseEvent<HTMLButtonElement>) =>{
-  let value =e.currentTarget.textContent;
-  setPaymentMedium(value)
-  
-}
+  const changePaymentMethod = (e: React.MouseEvent<HTMLButtonElement>) => {
+    let value = e.currentTarget.textContent;
+    setPaymentMedium(value)
+
+  }
   return (
     <>
       <DashboardLayout>
@@ -214,8 +220,8 @@ const changePaymentMethod = (e:React.MouseEvent<HTMLButtonElement>) =>{
                 </>
                 {meals.map((meal, index) => {
                   return (
-                    <option value={meal.name} key={index}>
-                      {meal.name}
+                    <option value={meal.title} key={index}>
+                      {meal.title}
                     </option>
                   );
                 })}
@@ -262,7 +268,7 @@ const changePaymentMethod = (e:React.MouseEvent<HTMLButtonElement>) =>{
                 name="totalAmount"
                 value={totalAmount}
                 className="selectPrice"
-                /* onChange={updateTotalAmount}  */
+              /* onChange={updateTotalAmount}  */
               />
             </div>
             <button

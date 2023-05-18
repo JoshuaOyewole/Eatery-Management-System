@@ -38,7 +38,10 @@ function ViewStaffs() {
 
   /* FETCH staffs*/
   const fetchStaffs = async () => {
-    const response = await axios.get(`http://localhost:3100/api/staff`);
+    const response =  await axios.get('http://localhost:3100/api/staff',
+    {
+      headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+    });
     setStaffs(response?.data);
     //setLoading(false);
   };
@@ -88,7 +91,7 @@ function ViewStaffs() {
                   })}
                 </Table>
               ) : (
-                <h2>No Meal Found!</h2>
+                <h2>No Staff Found!</h2>
               )}
             </section>
           </div>

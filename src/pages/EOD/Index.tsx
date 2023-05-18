@@ -69,7 +69,10 @@ const EOD = () => {
       date: string,
       state: React.Dispatch<React.SetStateAction<AuthTransaction[]>>
     ) => {
-      const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`);
+      const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`,
+      {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+      });
       state(res.data);
     };
     fetchEOD(today, setEod);
@@ -102,7 +105,10 @@ const EOD = () => {
 
   const orderSummary = async () => {
     const res = await axios.get(
-      `http://localhost:3100/api/records?q=2023-04-18`
+      `http://localhost:3100/api/records?q=2023-04-18`,
+      {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+      }
     );
     let transactions: AuthTransaction[] = res.data;
 
@@ -121,7 +127,10 @@ const EOD = () => {
 
     //Filter the list to get unique names of Meals ordered
     const prevDays = await axios.get(
-      `http://localhost:3100/api/records/last7days`
+      `http://localhost:3100/api/records/last7days`,
+      {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+      }
     );
 
     let prevDayss: AuthTransaction[] = prevDays.data;

@@ -7,11 +7,13 @@ import Button from "../../components/ui/Button";
 import { useNavigate, useParams } from "react-router-dom";
 
 type MealProps = {
-  name: string;
-  price: string;
+  title?: string,
+  price?: number,
+  category?: string,
+  description?:string
 };
 
-const initialState = { name: "", price: " " };
+const initialState = {};
 
 function UpdateMeal() {
   const navigate = useNavigate();
@@ -28,18 +30,22 @@ function UpdateMeal() {
     });
   };
 
-  const fetchMeal = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3100/api/meal/${id}`);
-      setMeal(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
 
   useEffect(() => {
+    const fetchMeal = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3100/api/meal/${id}`,
+        {
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+        });
+        setMeal(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchMeal();
-  });
+  },[id]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,7 +53,7 @@ function UpdateMeal() {
       const response = await axios.patch(
         `http://localhost:3100/api/meal/${id}`,
         {
-          name: payload.name,
+          title: payload.title,
           price: payload.price,
         }
       );
@@ -106,9 +112,9 @@ function UpdateMeal() {
           <form className="login-form" onSubmit={handleSubmit}>
             <Input
               type="text"
-              name="name"
-              value={payload.name}
-              placeholder={meal.name}
+              name="title"
+              value={payload.title}
+              placeholder={meal.title}
               labelName="Meal Name"
               onChange={handleChange}
               required
@@ -118,8 +124,17 @@ function UpdateMeal() {
               name="price"
               value={payload.price}
               onChange={handleChange}
-              placeholder={(meal.price)}
+              placeholder={meal.price?.toString()}
               labelName="Meal price"
+              required
+            />
+            <Input
+              type="text"
+              name="description"
+              value={payload.description}
+              onChange={handleChange}
+              placeholder={meal.description}
+              labelName="Description"
               required
             />
             <Input type="submit" value="Update" className="btn primary-btn" />

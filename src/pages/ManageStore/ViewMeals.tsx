@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,7 +10,7 @@ import TableStyles from "../../components/ui/Table/_table.module.scss";
 
 type mealProps = {
   _id: string;
-  name: string;
+  title: string;
   price: Number;
 };
 
@@ -26,7 +26,14 @@ function ViewMeals() {
 
   /* FETCH MEALS*/
   const fetchMeals = async () => {
-    const response = await axios.get(`http://localhost:3100/api/meal`);
+    //Get Token from localStorage
+    let token = localStorage.getItem('token');
+
+    const response = await axios.get(`http://localhost:3100/api/meal`,
+      {
+        headers: { "Authorization": `Bearer ${token}` } 
+      });
+    //Update the meals object
     setMeal(response?.data);
     //setLoading(false);
   };
@@ -60,11 +67,11 @@ function ViewMeals() {
               {meals.length > 0 ? (
                 <Table tableHeader={tableHeader}>
                   {meals?.map((meal, index) => {
-                    const { name, price } = meal;
+                    const { title, price } = meal;
                     return (
                       <TableRow key={index}>
                         <td>{index + 1}</td>
-                        <td>{name}</td>
+                        <td>{title}</td>
                         <td>
                           <>&#8358; {price}</>
                         </td>

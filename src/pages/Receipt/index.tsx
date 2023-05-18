@@ -16,7 +16,10 @@ function Index() {
   const [orderInfo, setOrderInfo] = useState<OrderProps | null>(null);
 
   const fetchReceiptInfo = async () => {
-    const response = await axios.get(`http://localhost:3100/api/order/${id}`);
+    const response = await axios.get(`http://localhost:3100/api/order/${id}`,
+    {
+      headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+    });
     setOrderInfo(response?.data);
   };
 

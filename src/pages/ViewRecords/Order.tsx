@@ -16,7 +16,10 @@ const Index = () => {
 
   const fetchReceiptInfo = async () => {
     const response = await axios.get(
-      `http://localhost:3100/api/order/${orderId}`
+      `http://localhost:3100/api/order/${orderId}`,
+      {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+      }
     );
     setOrderInfo(response?.data);
   };

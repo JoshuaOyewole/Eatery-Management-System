@@ -32,7 +32,16 @@
 .login-form {
     width: 70%;
 }
+.add-meal-form {
+    @include mixin.flex($justify:space-between, $align:center);
 
+    &__left{
+        flex-basis: 65%;
+    }
+    &__right{
+        flex-basis: 28%;
+    }
+}
 .logo {
     width: 85px;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
-import {useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
 import Styles from "../ViewRecords/_viewRecord.module.scss";
 import Button from "../../components/ui/Button";
 import Table from "../../components/ui/Table/table";
@@ -12,7 +12,7 @@ import TableStyles from "../../components/ui/Table/_table.module.scss";
 
 type mealProps = {
   _id: string;
-  name: string;
+  title: string;
   price: Number;
 };
 
@@ -24,13 +24,17 @@ function UpdateMeal() {
   /* TABLE HEADER */
   const [tableHeader] = useState(["sn", "Name of Meal", "Price", "Action"]);
 
-  /* FETCH MEALS*/
-  const fetchMeals = async () => {
-    const response = await axios.get(`http://localhost:3100/api/meal`);
-    setMeal(response?.data);
-    //setLoading(false);
-  };
   useEffect(() => {
+    /* FETCH MEALS*/
+    const fetchMeals = async () => {
+      const response = await axios.get(`http://localhost:3100/api/meal`,
+      {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+      });
+      let data = response?.data
+      setMeal(data);
+      //setLoading(false);
+    };
     fetchMeals();
   }, []);
 
@@ -64,11 +68,11 @@ function UpdateMeal() {
               {meals.length > 0 ? (
                 <Table tableHeader={tableHeader}>
                   {meals?.map((meal, index) => {
-                    const { _id, name, price } = meal;
+                    const { _id, title, price } = meal;
                     return (
                       <TableRow key={index}>
                         <td>{index + 1}</td>
-                        <td>{name}</td>
+                        <td>{title}</td>
                         <td>
                           <>&#8358; {price}</>
                         </td>

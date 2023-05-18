@@ -43,13 +43,16 @@ function AddStaff() {
     });
   };
 
- 
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post(
         `http://localhost:3100/register`,
-        staff
+        staff,
+        {
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+        }
       );
 
       if (response.data.success === true) {

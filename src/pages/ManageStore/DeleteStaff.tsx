@@ -28,7 +28,10 @@ function DeleteStaff() {
 
   /* FETCH Staff*/
   const fetchStaff = async () => {
-    const response = await axios.get(`http://localhost:3100/api/staff`);
+    const response = await axios.get(`http://localhost:3100/api/staff`,
+    {
+      headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+    });
     setStaff(response?.data);
     //setLoading(false);
   };
@@ -39,7 +42,10 @@ function DeleteStaff() {
   const handleDeleteStaff = async (_id: string) => {
     try {
       const response= await axios.delete(
-        `http://localhost:3100/api/staff/${_id}`
+        `http://localhost:3100/api/staff/${_id}`,
+        {
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+        }
       );
 
       toast.success(response?.data, {

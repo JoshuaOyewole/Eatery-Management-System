@@ -1,24 +1,25 @@
 import { useNavigate } from "react-router-dom";
 //import axios from 'axios';
-import {useSignOut} from "react-auth-kit";
+//import {useSignOut} from "react-auth-kit";
 
 /* type LogoutProps = {
     onClick: React.MouseEventHandler<HTMLButtonElement>
 } */
 
 type LogoutBtnprops = {
-    className: string,
+    className?: string,
     component?: React.ReactElement
 }
 
 const Index = (props: LogoutBtnprops) => {
     const { className, component } = props;
     const navigate = useNavigate();
-    const signOut  = useSignOut();
+    //const signOut  = useSignOut();
 
-    const handleLogout = async () => {
+    const handleLogout =  () => {
+        localStorage.removeItem('token');
         navigate('/');
-        signOut();
+      //  signOut();
        /*  
        //CUSTOM FUNCTION FOR LOGOUT
        try {

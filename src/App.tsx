@@ -15,7 +15,7 @@ import OrderMeal from "./pages/OrderMeal/Index";
 import OrderDetail from "./pages/ViewRecords/Order";
 import ViewOrderLayout from "./pages/ViewRecords/viewOrderLayout";
 import Profile from "./pages/Profile/Index";
-import { RequireAuth } from "react-auth-kit";
+//import { RequireAuth } from "react-auth-kit";
 import AddMeal from "./pages/ManageStore/AddMeal";
 import UpdateMeal from "./pages/ManageStore/UpdateMeal";
 import DeleteMeal from "./pages/ManageStore/DeleteMeal";
@@ -33,171 +33,124 @@ function App() {
       <Route
         path="/dashboard"
         element={
-          <RequireAuth loginPath="/">
-            <Dashboard />
-          </RequireAuth>
+          <Dashboard />
         }
       />
       <Route path="/eod" element={<EOD />} />
       <Route
-        path="/eod/filter"
-        element={
-          <RequireAuth loginPath="/">
-            <EODDate />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/records"
-        element={
-          <RequireAuth loginPath="/">
-            <ViewOrderLayout />
-          </RequireAuth>
-        }
-      >
+        path="/eod/filter" element={<EODDate />} />
+      <Route path="/records" element={<ViewOrderLayout />}>
         <Route
           path="orders/:orderId"
           element={
-            <RequireAuth loginPath="/">
-              <OrderDetail />
-            </RequireAuth>
+            <OrderDetail />
           }
         />
         <Route
           path="orders"
           element={
-            <RequireAuth loginPath="/">
-              <ViewRecord />
-            </RequireAuth>
+            <ViewRecord />
           }
         />
         <Route
           path="orders/search?date=eodDate"
           element={
-            <RequireAuth loginPath="/">
-              <ViewRecord />
-            </RequireAuth>
+            <ViewRecord />
           }
         />
       </Route>
       <Route
         path="/order-meal"
         element={
-          <RequireAuth loginPath="/">
-            <OrderMeal />
-          </RequireAuth>
+          <OrderMeal />
         }
       />
       <Route
         path="/profile"
         element={
-          <RequireAuth loginPath="/">
-            <Profile />
-          </RequireAuth>
+          <Profile />
         }
       />
       <Route
         path="/manage-store"
         element={
-          <RequireAuth loginPath="/">
-            <ManageStore />
-          </RequireAuth>
+          <ManageStore />
         }
       />
       <Route
         path="/manage-store/add-meal"
         element={
-          <RequireAuth loginPath="/">
-            <AddMeal />
-          </RequireAuth>
+          <AddMeal />
         }
       />
       <Route
         path="/manage-store/update-meal"
         element={
-          <RequireAuth loginPath="/">
-            <UpdateMeal />
-          </RequireAuth>
+          <UpdateMeal />
         }
       />
       <Route
         path="/manage-store/update-meal/:id"
         element={
-          <RequireAuth loginPath="/">
-            <Update />
-          </RequireAuth>
+          <Update />
         }
       />
       <Route
         path="/manage-store/delete-meal"
         element={
-          <RequireAuth loginPath="/">
-            <DeleteMeal />
-          </RequireAuth>
+          <DeleteMeal />
         }
       />
       <Route
         path="/manage-store/view-meals"
         element={
-          <RequireAuth loginPath="/">
-            <ViewMeals />
-          </RequireAuth>
+          <ViewMeals />
         }
       />
       <Route
         path="/manage-store/add-staff"
         element={
-          <RequireAuth loginPath="/">
-            <AddStaff />
-          </RequireAuth>
+          <AddStaff />
         }
       />
       <Route
         path="/manage-store/delete-staff"
         element={
-          <RequireAuth loginPath="/">
-            <DeleteStaff />
-          </RequireAuth>
+          <DeleteStaff />
         }
       />
       <Route
         path="/manage-store/view-staffs"
         element={
-          <RequireAuth loginPath="/">
-            <ViewStaffs />
-          </RequireAuth>
+          <ViewStaffs />
         }
       />
       <Route
         path="/manage-store/update-staff"
         element={
-          <RequireAuth loginPath="/">
-            <UpdateMeal />
-          </RequireAuth>
+          <UpdateMeal />
+
         }
       />
       <Route
         path="/printReceipt/:id"
         element={
-          <RequireAuth loginPath="/">
-            <Receipt />
-          </RequireAuth>
+          <Receipt />
+
         }
       />
       <Route
         path="/printEODSummary"
         element={
-          <RequireAuth loginPath="/">
-            <EODSummary />
-          </RequireAuth>
+          <EODSummary />
+
         }
       />
       <Route
         path="/printEODReport"
         element={
-          <RequireAuth loginPath="/">
-            <EODReport />
-          </RequireAuth>
+          <EODReport />
+
         }
       />
       <Route path="*" element={<Error />} />
