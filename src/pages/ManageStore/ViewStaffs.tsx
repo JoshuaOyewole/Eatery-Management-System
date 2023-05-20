@@ -42,6 +42,7 @@ function ViewStaffs() {
     {
       headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
     });
+    console.log(response)
     setStaffs(response?.data);
     //setLoading(false);
   };

@@ -193,6 +193,7 @@ const OrderMeal = () => {
     setPaymentMedium(value)
 
   }
+
   return (
     <>
       <DashboardLayout>
@@ -207,6 +208,7 @@ const OrderMeal = () => {
               <label htmlFor="selectMeals" className="mealLabel">
                 Select a Meal *
               </label>
+           
               <select
                 ref={selectMealRef}
                 onChange={selectChange}
@@ -225,7 +227,7 @@ const OrderMeal = () => {
                     </option>
                   );
                 })}
-              </select>
+              </select> 
             </div>
             <div className="formContainer">
               <label htmlFor="price" className="mealLabel">

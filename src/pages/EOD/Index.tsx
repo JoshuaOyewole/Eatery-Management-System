@@ -139,6 +139,8 @@ const EOD = () => {
   };
 
   orderSummary();
+
+  
   return (
     <>
       <DashboardLayout>
@@ -196,7 +198,8 @@ const EOD = () => {
                   />
                 }
                 title="Total Amount"
-                value={totalSale}
+                value={new Intl.NumberFormat().format(Number(totalSale))}
+             
                 hClass={Styles.heading}
                 pClass={Styles.paragraph}
               />
@@ -214,7 +217,7 @@ const EOD = () => {
                     >
                       <Box
                         title="Yesterday Sales"
-                        value={yesterdayTotalSale}
+                        value={new Intl.NumberFormat().format(Number(yesterdayTotalSale))}
                         hClass={Styles.heading}
                         pClass={Styles.paragraph}
                         boxStyle={Styles.box__small}
@@ -226,7 +229,7 @@ const EOD = () => {
                     >
                       <Box
                         title="2 days ago"
-                        value={twoDaysAgoTotalSale}
+                        value={new Intl.NumberFormat().format(Number(twoDaysAgoTotalSale))}
                         hClass={Styles.heading}
                         pClass={Styles.paragraph}
                         boxStyle={Styles.box__small}

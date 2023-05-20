@@ -19,11 +19,12 @@ function UpdateMeal() {
   const navigate = useNavigate();
   const { id } = useParams(); //Meal ID
   /* CURRENT VALUE WHICH WILL BE USED FOR THE INPUT PLACEHOLDER */
-  const [meal, setMeal] = useState<MealProps>(initialState);
+  const [meal, setMeal] = useState<MealProps>({} as MealProps);
   /* NEW VALUE'S WHICH WILL BE SENT VIA THE API ENDPOINT */
-  const [payload, setPayload] = useState<MealProps>(initialState);
+  const [payload, setPayload] = useState<MealProps>({title:'', price: 500, description:" "});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     setPayload({
       ...payload,
       [e.currentTarget.name]: e.currentTarget.value,
@@ -39,6 +40,7 @@ function UpdateMeal() {
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
         });
+        
         setMeal(response.data);
       } catch (error) {
         console.log(error);
@@ -55,6 +57,10 @@ function UpdateMeal() {
         {
           title: payload.title,
           price: payload.price,
+          description: payload.description,
+        },
+        {
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
         }
       );
 
