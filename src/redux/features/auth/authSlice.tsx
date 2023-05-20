@@ -1,30 +1,19 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
-//Staff props
-type Staff = {
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string,
-    phone: string,
-    gender: string,
-    homeAddress: string,
-    dob: string,
-    state: string,
-    lga: string,
-    passport: string,
-}
+import {loginCredentialsProps} from "../../../utils/types"
 //initial State props
 type InitialState = {
     loading: boolean,
-    data: {},
+    user: {},
     error: string,
     token?: string
 }
+
+
 //initialState
 const initialState: InitialState = {
     loading: false,
-    data: {},
+    user: {},
     token: '', // for storing the JWT,
     error: ''
 }
@@ -32,9 +21,9 @@ const initialState: InitialState = {
 
 //Generates Pending, fulfilled and rejected action types
 
-export const login = createAsyncThunk('staff/login', async () => {
+export const login = createAsyncThunk('staff/login', async (data:loginCredentialsProps) => {
     return axios.post(
-        `http://localhost:3100/login`, {email: "admin@gmail.com",password: "admin"}
+        `http://localhost:3100/login`, data
     ).then(response => response.data)
 })
 
@@ -49,14 +38,15 @@ const authSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             {
                 state.loading = false,
-                    state.data = action.payload,
+                state.token = action.payload.message
+                    state.user = action.payload.details,
                     state.error = ''
             }
         })
         builder.addCase(login.rejected, (state, action) => {
             {
                 state.loading = false,
-                    state.data = [],
+                    state.user = [],
                     state.error = action.error.message || 'Unable to Login'
             }
         })

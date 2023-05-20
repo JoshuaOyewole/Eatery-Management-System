@@ -20,18 +20,19 @@ const Index = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
   const auth = useAppSelector(state => state.auth)
-  const staff = useAppSelector(state => state.auth.data)
+  const staff = useAppSelector(state => state.auth.user)
 
   const [credentials, setCredentials] = useState<LoginProps>({
     email: "",
     password: "",
   });
 
+  let data = { email: "admin@gmail.com", password: "admin" }
   useEffect(() => {
-    dispatch(login());
+    dispatch(login(data));
   }, [])
 
-  console.log(staff)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({
       ...credentials,
@@ -95,7 +96,8 @@ const Index = () => {
        });
      }
    }; */
-
+console.log(auth.user)
+console.log(auth)
   return (
     !auth.loading ?
       (<div className="login-container">
@@ -145,8 +147,8 @@ const Index = () => {
           pauseOnHover
         />
       </div>) :
-      <h2>Loading...</h2> 
-      
+      <h2>Loading...</h2>
+
   );
 };
 
