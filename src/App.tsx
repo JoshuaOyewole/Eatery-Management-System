@@ -25,132 +25,202 @@ import ViewStaffs from "./pages/ManageStore/ViewStaffs";
 import Update from "./pages/ManageStore/Update"
 import DeleteStaff from "./pages/ManageStore/DeleteStaff";
 
+import ProtectedRoute from "./utils/ProtectedRoute";
+
+export const Home = () => {
+  return (
+    <div>Home</div>
+  )
+}
+
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/admin/register" element={<Register />} />
       <Route
-        path="/dashboard"
+        path="/"
         element={
-          <Dashboard />
+          <ProtectedRoute >
+            <Dashboard />
+          </ProtectedRoute>
         }
       />
-      <Route path="/eod" element={<EOD />} />
+      <Route path="/eod" element={
+        <ProtectedRoute >
+          <EOD />
+        </ProtectedRoute>} />
       <Route
-        path="/eod/filter" element={<EODDate />} />
-      <Route path="/records" element={<ViewOrderLayout />}>
+        path="/eod/filter"
+        element={
+          <ProtectedRoute >
+            <EODDate />
+          </ProtectedRoute>
+
+        } />
+      <Route path="/records"
+        element={
+          <ProtectedRoute >
+            <ViewOrderLayout />
+          </ProtectedRoute>}>
         <Route
           path="orders/:orderId"
           element={
-            <OrderDetail />
+            <ProtectedRoute >
+              <OrderDetail />
+            </ProtectedRoute>
+
           }
         />
         <Route
           path="orders"
           element={
-            <ViewRecord />
+            <ProtectedRoute >
+              <ViewRecord />
+            </ProtectedRoute>
+
           }
         />
         <Route
           path="orders/search?date=eodDate"
           element={
-            <ViewRecord />
+            <ProtectedRoute >
+              <ViewRecord />
+            </ProtectedRoute>
+
           }
         />
       </Route>
       <Route
         path="/order-meal"
         element={
-          <OrderMeal />
+          <ProtectedRoute >
+            <OrderMeal />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/profile"
         element={
-          <Profile />
+          <ProtectedRoute >
+            <Profile />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/manage-store"
         element={
-          <ManageStore />
+          <ProtectedRoute >
+            <ManageStore />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/manage-store/add-meal"
         element={
-          <AddMeal />
+          <ProtectedRoute >
+            <AddMeal />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/manage-store/update-meal"
         element={
-          <UpdateMeal />
+          <ProtectedRoute >
+            <UpdateMeal />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/manage-store/update-meal/:id"
         element={
-          <Update />
+          <ProtectedRoute >
+            <Update />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/manage-store/delete-meal"
         element={
-          <DeleteMeal />
+          <ProtectedRoute >
+            <DeleteMeal />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/manage-store/view-meals"
         element={
-          <ViewMeals />
+          <ProtectedRoute >
+            <ViewMeals />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/manage-store/add-staff"
         element={
-          <AddStaff />
+          <ProtectedRoute >
+            <AddStaff />
+          </ProtectedRoute>
+
         }
       />
       <Route
         path="/manage-store/delete-staff"
         element={
-          <DeleteStaff />
+          <ProtectedRoute >
+
+            <DeleteStaff />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/manage-store/view-staffs"
         element={
-          <ViewStaffs />
+          <ProtectedRoute >
+            <ViewStaffs />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/manage-store/update-staff"
         element={
-          <UpdateMeal />
+          <ProtectedRoute >
+            <UpdateMeal />
+          </ProtectedRoute>
 
         }
       />
       <Route
         path="/printReceipt/:id"
         element={
-          <Receipt />
+          <ProtectedRoute >
+            <Receipt />
+          </ProtectedRoute>
 
         }
       />
       <Route
         path="/printEODSummary"
         element={
-          <EODSummary />
-
+          <ProtectedRoute >
+            <EODSummary />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/printEODReport"
         element={
-          <EODReport />
-
+          <ProtectedRoute >
+            <EODReport />
+          </ProtectedRoute>
         }
       />
       <Route path="*" element={<Error />} />
