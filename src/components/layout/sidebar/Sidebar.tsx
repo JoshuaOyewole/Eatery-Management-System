@@ -22,13 +22,13 @@ const Sidebar = () => {
   };
   return (
     <div className="sidebar">
-      <Link to="/dashboard" className="sidebar__logoContainer">
+      <Link to="/" className="sidebar__logoContainer">
         <img src={logo} alt="logo" className="sidebar__logo" />
         <span className="sidebar__logoTitle">EatMan Eatery</span>
       </Link>
       <ul className="nav-menu">
         <li className="nav-list">
-          <Link to="/dashboard" className="nav-link">
+          <Link to="/" className="nav-link">
             <FontAwesomeIcon
               icon={faHouseChimney}
               className="fontawesomeIcon"
