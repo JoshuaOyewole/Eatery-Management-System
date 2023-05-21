@@ -36,7 +36,7 @@ function UpdateMeal() {
   useEffect(() => {
     const fetchMeal = async () => {
       try {
-        const response = await axios.get(`http://localhost:3100/api/meal/${id}`,
+        const response = await axios.get(`https://eatman-api.onrender.com/api/meal/${id}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
         });
@@ -53,7 +53,7 @@ function UpdateMeal() {
     e.preventDefault();
     try {
       const response = await axios.patch(
-        `http://localhost:3100/api/meal/${id}`,
+        `https://eatman-api.onrender.com/api/meal/${id}`,
         {
           title: payload.title,
           price: payload.price,

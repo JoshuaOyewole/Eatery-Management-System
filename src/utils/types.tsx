@@ -17,3 +17,25 @@ export type loginCredentialsProps = {
     email:string,
     password:string
 }
+
+//initial State props
+export type InitialState = {
+    loading: boolean,
+    user: {},
+    error: string,
+    token?: string,
+    isLoggedIn:boolean
+}
+
+export type loginResType ={
+	success: boolean,
+	status: number,
+	message: string,
+	details: {
+		_id: string,
+		rank: string,
+		firstname: string,
+		lastname: string
+	},
+	token: string
+}

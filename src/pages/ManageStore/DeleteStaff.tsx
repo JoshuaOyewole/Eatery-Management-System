@@ -28,7 +28,7 @@ function DeleteStaff() {
 
   /* FETCH Staff*/
   const fetchStaff = async () => {
-    const response = await axios.get(`http://localhost:3100/api/staff`,
+    const response = await axios.get(`https://eatman-api.onrender.com/api/staff`,
     {
       headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
     });
@@ -42,7 +42,7 @@ function DeleteStaff() {
   const handleDeleteStaff = async (_id: string) => {
     try {
       const response= await axios.delete(
-        `http://localhost:3100/api/staff/${_id}`,
+        `https://eatman-api.onrender.com/api/staff/${_id}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
         }

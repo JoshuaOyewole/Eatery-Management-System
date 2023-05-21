@@ -27,7 +27,7 @@ const EOD = () => {
    useEffect(() => {
     const fetchEOD = async () => {
       const res = await axios.get(
-        `http://localhost:3100/api/records?q=${query}`,
+        `https://eatman-api.onrender.com/api/records?q=${query}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
         }

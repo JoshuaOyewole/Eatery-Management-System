@@ -30,7 +30,7 @@ function EODSummary() {
   useEffect(() => {
     /* FETCH EOD TRANSACTIONS */
     const fetchEOD = async () => {
-      const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`,
+      const res = await axios.get(`https://eatman-api.onrender.com/api/records/?q=${date}`,
       {
         headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
       });

@@ -48,7 +48,7 @@ function AddStaff() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3100/register`,
+        `https://eatman-api.onrender.com/register`,
         staff,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }

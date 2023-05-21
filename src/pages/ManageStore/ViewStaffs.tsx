@@ -38,7 +38,7 @@ function ViewStaffs() {
 
   /* FETCH staffs*/
   const fetchStaffs = async () => {
-    const response =  await axios.get('http://localhost:3100/api/staff',
+    const response =  await axios.get('https://eatman-api.onrender.com/api/staff',
     {
       headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
     });

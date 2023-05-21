@@ -16,7 +16,7 @@ const Index = () => {
 
   const fetchReceiptInfo = async () => {
     const response = await axios.get(
-      `http://localhost:3100/api/order/${orderId}`,
+      `https://eatman-api.onrender.com/api/order/${orderId}`,
       {
         headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
       }

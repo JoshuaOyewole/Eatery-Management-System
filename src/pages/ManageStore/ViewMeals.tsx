@@ -7,6 +7,7 @@ import Button from "../../components/ui/Button";
 import Table from "../../components/ui/Table/table";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
+import Spinner from "../../components/ui/Spinner/Spinner"
 
 type mealProps = {
   _id: string;
@@ -23,13 +24,14 @@ function ViewMeals() {
     "Name of Meal",
     "Price",
   ]);
+let x = true;
 
   /* FETCH MEALS*/
   const fetchMeals = async () => {
     //Get Token from localStorage
     let token = localStorage.getItem('token');
 
-    const response = await axios.get(`http://localhost:3100/api/meal`,
+    const response = await axios.get(`https://eatman-api.onrender.com/api/meal`,
       {
         headers: { "Authorization": `Bearer ${token}` } 
       });
@@ -64,7 +66,8 @@ function ViewMeals() {
             <section
               className={`${TableStyles.table_container} ${TableStyles.tableContainer} `}
             >
-              {meals.length > 0 ? (
+              {meals.length > 0 ?
+               (
                 <Table tableHeader={tableHeader}>
                   {meals?.map((meal, index) => {
                     const { title, price } = meal;
@@ -79,9 +82,7 @@ function ViewMeals() {
                     );
                   })}
                 </Table>
-              ) : (
-                <h2>No Meal Found!</h2>
-              )}
+              ) : <Spinner />}
             </section>
           </div>
         </main>

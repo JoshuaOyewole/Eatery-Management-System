@@ -51,7 +51,7 @@ function AddMeal() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:3100/api/meal`, {
+      const response = await axios.post(`https://eatman-api.onrender.com/api/meal`, {
         title: meal.title,
         price: meal.price,
         description: meal.description,
@@ -103,7 +103,7 @@ function AddMeal() {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const response = await axios.get(`http://localhost:3100/api/foodCategories`,
+        const response = await axios.get(`https://eatman-api.onrender.com/api/foodCategories`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
         });

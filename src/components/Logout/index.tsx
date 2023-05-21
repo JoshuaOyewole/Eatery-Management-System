@@ -1,10 +1,5 @@
 import { useNavigate } from "react-router-dom";
-//import axios from 'axios';
-//import {useSignOut} from "react-auth-kit";
 
-/* type LogoutProps = {
-    onClick: React.MouseEventHandler<HTMLButtonElement>
-} */
 
 type LogoutBtnprops = {
     className?: string,
@@ -14,16 +9,16 @@ type LogoutBtnprops = {
 const Index = (props: LogoutBtnprops) => {
     const { className, component } = props;
     const navigate = useNavigate();
-    //const signOut  = useSignOut();
+
 
     const handleLogout =  () => {
         localStorage.removeItem('token');
-        navigate('/');
+        navigate('/login');
       //  signOut();
        /*  
        //CUSTOM FUNCTION FOR LOGOUT
        try {
-            const response = await axios.get(`http://localhost:3100/logout`);
+            const response = await axios.get(`https://eatman-api.onrender.com/logout`);
             
             if (response.data.success === true) navigate('/')
         } catch (error: any) {

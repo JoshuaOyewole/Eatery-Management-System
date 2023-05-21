@@ -27,7 +27,7 @@ function UpdateMeal() {
   useEffect(() => {
     /* FETCH MEALS*/
     const fetchMeals = async () => {
-      const response = await axios.get(`http://localhost:3100/api/meal`,
+      const response = await axios.get(`https://eatman-api.onrender.com/api/meal`,
       {
         headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
       });

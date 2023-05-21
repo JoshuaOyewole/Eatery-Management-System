@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Styles from "./_receipt.module.scss";
 import axios from "axios";
 import { approvedTrans, declinedTrans, getTodaySaleAmount } from "../../utils/function";
-import { AuthTransaction } from "../../../types";
+import { AuthTransaction,API } from "../../../types";
 
 
 function EODReport() {
@@ -20,7 +20,7 @@ function EODReport() {
   }
 
   const fetchEODReport = async () => {
-    const res = await axios.get(`http://localhost:3100/api/records/?q=${date}`,
+    const res = await axios.get(`${API}/api/records/?q=${date}`,
     {
       headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
     });

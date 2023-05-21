@@ -31,7 +31,7 @@ const initialState: InitialState = {
 
 export const fetchStaffs = createAsyncThunk('staff/fetchStaffs', async () => {
     return axios.get(
-        `http://localhost:3100/api/staff`,
+        `https://eatman-api.onrender.com/api/staff`,
     ).then(response => response.data)
 })
 

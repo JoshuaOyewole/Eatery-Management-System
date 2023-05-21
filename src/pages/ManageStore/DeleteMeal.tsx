@@ -23,7 +23,7 @@ function DeleteMeal() {
 
   /* FETCH MEALS*/
   const fetchMeals = async () => {
-    const response = await axios.get(`http://localhost:3100/api/meal`,
+    const response = await axios.get(`https://eatman-api.onrender.com/api/meal`,
     {
       headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
     });
@@ -37,7 +37,7 @@ function DeleteMeal() {
   const handleDeleteMeal = async (_id: string) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3100/api/meal/${_id}`,
+        `https://eatman-api.onrender.com/api/meal/${_id}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
         }

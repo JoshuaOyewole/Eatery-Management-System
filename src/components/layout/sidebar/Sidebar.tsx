@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logout from "../../Logout/index"
-//import { useSignOut } from "react-auth-kit";
+
 import {
   faHouseChimney,
   faCartShopping,
@@ -13,13 +13,7 @@ import {
 import logo from "../../../assets/images/logo.png";
 
 const Sidebar = () => {
-  const navigate = useNavigate();
-  //const signOut = useSignOut();
 
-  const handleLogout = async () => {
-    navigate("/");
-    //signOut();
-  };
   return (
     <div className="sidebar">
       <Link to="/" className="sidebar__logoContainer">
@@ -71,7 +65,6 @@ const Sidebar = () => {
           <div className="nav-link">
             <FontAwesomeIcon icon={faUserGear} className="fontawesomeIcon" />
             <Logout className="text-white"/>
-            {/* <button onClick={handleLogout} className="text-white"> Logout</button> */}
           </div>
         </li>
       </ul>

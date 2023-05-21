@@ -45,7 +45,7 @@ const Index = (props: Props) => {
 
   /* FETCH ORDERS FOR TODAY*/
   const fetchOrders = async () => {
-    const response = await axios.get(`http://localhost:3100/api/records?q=${query !== null ? query : today}`,
+    const response = await axios.get(`https://eatman-api.onrender.com/api/records?q=${query !== null ? query : today}`,
     {
       headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
     });

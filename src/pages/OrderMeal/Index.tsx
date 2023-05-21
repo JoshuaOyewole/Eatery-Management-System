@@ -43,7 +43,7 @@ const OrderMeal = () => {
   //Fetch Meals from the DB when the App loads
   const fetchMeal = useCallback(async () => {
     const fetchMeal = await axios.get<mealProps[]>(
-      `http://localhost:3100/api/meal`,
+      `https://eatman-api.onrender.com/api/meal`,
       {
         headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
       }
@@ -148,7 +148,7 @@ const OrderMeal = () => {
     } else if (window.confirm("Are you sure you want to Proceed?")) {
       /* IF NOT EMPTY THEN SEND THE ORDER TO THE ENDPOINT */
       try {
-        const response = await axios.post(`http://localhost:3100/api/order`, {
+        const response = await axios.post(`https://eatman-api.onrender.com/api/order`, {
           name: "Customer ----",
           orders: orderCart,
           totalPrice: totalOrderPrice,
