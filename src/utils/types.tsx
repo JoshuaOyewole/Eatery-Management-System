@@ -26,6 +26,15 @@ export type InitialState = {
     token?: string,
     isLoggedIn:boolean
 }
+//initial State props
+export type mealInitialState = {
+    loading: boolean,
+    meal: [],
+    error: string,
+    success:boolean
+}
+
+
 
 export type loginResType ={
 	success: boolean,
@@ -39,3 +48,24 @@ export type loginResType ={
 	},
 	token: string
 }
+
+export type staffProps = {
+    _id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    phone: string;
+    gender: string;
+    homeAddress: string;
+    state: string;
+    lga: string;
+    dob: Date;
+    passport:string,
+  };
+
+  export type mealProps = {
+    _id: string;
+    title: string;
+    price: Number;
+  };
