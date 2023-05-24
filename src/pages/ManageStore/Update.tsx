@@ -21,7 +21,7 @@ function UpdateMeal() {
   /* CURRENT VALUE WHICH WILL BE USED FOR THE INPUT PLACEHOLDER */
   const [meal, setMeal] = useState<MealProps>({} as MealProps);
   /* NEW VALUE'S WHICH WILL BE SENT VIA THE API ENDPOINT */
-  const [payload, setPayload] = useState<MealProps>({title:'', price: 500, description:" "});
+  const [payload, setPayload] = useState<MealProps>({title:" ", price: 500, description:" "});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 

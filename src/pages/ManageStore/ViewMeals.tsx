@@ -8,12 +8,9 @@ import Table from "../../components/ui/Table/table";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
 import Spinner from "../../components/ui/Spinner/Spinner"
+import { mealProps } from "../../utils/types";
 
-type mealProps = {
-  _id: string;
-  title: string;
-  price: Number;
-};
+
 
 function ViewMeals() {
   const navigate = useNavigate();
@@ -24,7 +21,6 @@ function ViewMeals() {
     "Name of Meal",
     "Price",
   ]);
-let x = true;
 
   /* FETCH MEALS*/
   const fetchMeals = async () => {

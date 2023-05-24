@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
 import Styles from "../ViewRecords/_viewRecord.module.scss";
 import Button from "../../components/ui/Button";
 import Table from "../../components/ui/Table/table";
@@ -9,6 +8,8 @@ import Update from "./Update";
 import Modal from "./Modal";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
+import { getMeals } from "../../redux/features/meal/mealSlice";
+import { useAppDispatch } from "../../redux/hooks/hooks";
 
 type mealProps = {
   _id: string;
@@ -18,6 +19,7 @@ type mealProps = {
 
 function UpdateMeal() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [meals, setMeal] = useState<mealProps[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -25,14 +27,11 @@ function UpdateMeal() {
   const [tableHeader] = useState(["sn", "Name of Meal", "Price", "Action"]);
 
   useEffect(() => {
-    /* FETCH MEALS*/
+    //FETCH MEALS
     const fetchMeals = async () => {
-      const response = await axios.get(`https://eatman-api.onrender.com/api/meal`,
-      {
-        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
-      });
-      let data = response?.data
-      setMeal(data);
+    let x = await dispatch(getMeals());
+    console.log(x.payload)
+      //setMeal(data);
       //setLoading(false);
     };
     fetchMeals();
