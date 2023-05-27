@@ -29,7 +29,7 @@ export type InitialState = {
 //initial State props
 export type mealInitialState = {
     loading: boolean,
-    meal: [],
+    meals: [],
     error: string,
     success:boolean
 }
