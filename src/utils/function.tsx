@@ -1,5 +1,5 @@
 import { NavigateFunction } from 'react-router-dom';
-import { AuthTransaction } from '../../types'
+import { AuthTransaction } from '../utils/types'
 
 export const currentDate = () => {
     const date = new Date();

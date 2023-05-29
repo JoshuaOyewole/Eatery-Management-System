@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../redux/hooks/hooks';
+import { useAppSelector } from '../redux/hooks/hooks';
 import { Navigate } from 'react-router-dom'
 
 interface Props {
@@ -7,16 +7,9 @@ interface Props {
 }
 
 const ProtectedRoute = ({ children }: Props) => {
-    let isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+    let users = useAppSelector((state) => state.auth.details)
 
-    console.log(isLoggedIn)
-    useEffect(() => {
-        console.log('isLogedIn state has changed oooo');
-        console.log('Current value is' + isLoggedIn)
-    }, [isLoggedIn])
-
-    console.log(isLoggedIn)
-    return isLoggedIn
+    return users
         ? <div>{children}</div>
         : <Navigate to="/login" replace={true} />
 

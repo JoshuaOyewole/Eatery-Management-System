@@ -18,6 +18,7 @@ ul{
     list-style-type: none;
 
 }
+
 .block{
     display: block;
 }
@@ -105,5 +106,5 @@ ul{
     border:  .2px solid variable.$primary;
   }
   .perfect-center{
-    @include mixin.flex($justify:space-between, $align:center)
+    @include mixin.flex($justify:center, $align:center)
   }

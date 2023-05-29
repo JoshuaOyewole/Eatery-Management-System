@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { mealInitialState } from "../../../utils/types"
+import { mealInitialState, mealProps } from "../../../utils/types"
 
 //initialState
 const initialState: mealInitialState = {
     loading: false,
-    meal: [],
+    meals: [],
     error: '',
     success: false
 }
@@ -14,12 +14,8 @@ const initialState: mealInitialState = {
 //Generates Pending, fulfilled and rejected action types
 //ALL MEALS
 export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
-    try {
-        const res = await axios.get(`https://eatman-api.onrender.com/api/meald`);
-        return res.data;
-    } catch (error: any) {
-        return error.message
-    }
+    const res = await axios.get(`https://eatman-api.onrender.com/api/meals`).then(response => response.data);
+    return res;
 })
 
 //UPDATE MEAL
@@ -51,24 +47,26 @@ const mealSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getMeals.pending, (state) => {
-            { state.loading = true }
+            state.loading = true
         })
-        builder.addCase(getMeals.fulfilled, (state, action) => {
-            {
-                state.loading = false,
-                    state.meal = action.payload,
-                    state.error = '',
-                    state.success = true
-            }
+        builder.addCase(getMeals.fulfilled, (state, action:PayloadAction<Array<mealProps>>) => {
+            state.loading = false,
+                state.meals = action.payload,
+                state.error = '',
+                state.success = true
         })
         builder.addCase(getMeals.rejected, (state, action) => {
-            {
-                state.loading = false,
-                    state.meal = [],
-                    state.error = action.error.message || 'Unable to Fetch Data'
-            }
+            state.loading = false,
+                state.meals = [],
+                state.error = action.error.message || 'Unable to Fetch Data'
         })
     }
 })
+
+/* export const selectAllMeals = (state) => state.meals
+export const getMealsStatus = (state) => state.meals.status
+export const getMealsError = (state) => state.meals.error
+
+export const {} = mealSlice.actions */
 
 export default mealSlice.reducer;

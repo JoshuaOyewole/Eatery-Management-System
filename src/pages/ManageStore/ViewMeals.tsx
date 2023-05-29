@@ -15,6 +15,9 @@ import { mealProps } from "../../utils/types";
 function ViewMeals() {
   const navigate = useNavigate();
   const [meals, setMeal] = useState<mealProps[]>([]);
+  //const count = useSelector((state: RootState) => state.counter.value);
+
+
   /* TABLE HEADER */
   const [tableHeader] = useState([
     "sn",
