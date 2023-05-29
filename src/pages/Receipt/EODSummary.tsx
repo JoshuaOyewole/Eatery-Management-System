@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Styles from "./_receipt.module.scss";
 import axios from "axios";
 import { declinedTrans, getTodaySaleAmount } from "../../utils/function";
-import { AuthTransaction } from "../../../types";
+import { AuthTransaction } from "../../utils/types";
 
 
 function EODSummary() {
