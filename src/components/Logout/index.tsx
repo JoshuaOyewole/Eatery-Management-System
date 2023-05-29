@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-
+import { reset } from "../../redux/features/auth/authSlice";
+import { useAppDispatch } from "../../redux/hooks/hooks";
 
 type LogoutBtnprops = {
     className?: string,
@@ -9,22 +10,14 @@ type LogoutBtnprops = {
 const Index = (props: LogoutBtnprops) => {
     const { className, component } = props;
     const navigate = useNavigate();
+    let dispatch = useAppDispatch()
 
 
-    const handleLogout =  () => {
-        localStorage.removeItem('token');
+    const handleLogout = () => {
+        dispatch(reset())
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
         navigate('/login');
-      //  signOut();
-       /*  
-       //CUSTOM FUNCTION FOR LOGOUT
-       try {
-            const response = await axios.get(`https://eatman-api.onrender.com/logout`);
-            
-            if (response.data.success === true) navigate('/')
-        } catch (error: any) {
-            console.log(error);
-        } */
-
     }
 
     return (
