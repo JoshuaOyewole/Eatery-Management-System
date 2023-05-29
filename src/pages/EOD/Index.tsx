@@ -19,7 +19,7 @@ import {
   TransferPayment,
 } from "../../utils/function";
 import Button from "../../components/ui/Button";
-import { AuthTransaction } from "../../../types";
+import { AuthTransaction } from "../../utils/types";
 
 const EOD = () => {
   const navigate = useNavigate();

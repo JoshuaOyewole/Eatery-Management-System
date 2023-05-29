@@ -10,7 +10,7 @@ import MultiLayoutBox from "../../components/ui/Dashboard/MultiLayoutBox";
 import axios from "axios";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/ui/Button";
-import { AuthTransaction } from "../../../types";
+import { AuthTransaction } from "../../utils/types";
 import { cashPayment, getTodaySaleAmount, POSPayment, TransferPayment } from "../../utils/function";
 
 const EOD = () => {
