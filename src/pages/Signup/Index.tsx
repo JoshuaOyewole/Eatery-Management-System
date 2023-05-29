@@ -4,7 +4,6 @@ import Input from '../../components/forms/formInput/Index'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import logo from '../../assets/images/logo.png'
-import { API } from '../../../types';
 
 
 const Register = () => {
@@ -15,7 +14,7 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${API}/register`, {
+            const response = await axios.post(`https://eatman-api.onrender.com/register`, {
                 email, password
             });
             if (response.data.success === true) {
