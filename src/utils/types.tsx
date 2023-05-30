@@ -32,7 +32,7 @@ export type InitialState =
 export type mealInitialState = {
     loading: boolean,
     meals: Array<mealProps>,
-    error: string,
+    error: string | undefined,
     success: boolean
 }
 
@@ -101,4 +101,19 @@ export type loginErrResponse = {
     message: string,
     code: number,
     stack: string
+}
+
+
+export type orderCartProps = {
+    meal:string,
+    quantity:number,
+    price:number,
+    totalAmount: number
+}
+
+export type transactionInitialState = {
+    loading: boolean,
+    orders: Array<Object>,
+    error: string | undefined,
+    success: boolean
 }
