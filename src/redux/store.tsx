@@ -1,37 +1,39 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import authReducer from "./features/auth/authSlice";
 import staffReducer from "./features/staffs/staffSlice";
-import userReducer from "./features/users/userSlice";
+//import userReducer from "./features/users/userSlice";
 import mealReducer from "./features/meal/mealSlice";
+import addOrderReducer from "./features/addOrder/addOrderSlice";
 
 
 const persistConfig = {
-    key: 'root',
-    version: 1,
-    storage,
-  }
-  
-  const rootReducer = combineReducers({
-    user: userReducer,
-    staff: staffReducer,
-    auth: authReducer,
-    meal: mealReducer
+  key: 'root',
+  version: 1,
+  storage,
+}
+
+//    user: userReducer,
+const rootReducer = combineReducers({
+  staff: staffReducer,
+  auth: authReducer,
+  meal: mealReducer,
+  addOrder: addOrderReducer,
 })
-  const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
-    reducer:persistedReducer,
-    middleware: (getDefaultMiddleware) =>
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
