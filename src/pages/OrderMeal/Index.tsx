@@ -2,26 +2,39 @@ import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Styles from "./_addOrder.module.scss";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Modal from "../../components/ui/Modal/Modal";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
-import { mealProps, orderCartProps } from '../../../types'
+import { orderCartProps } from '../../utils/types'
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { getMeals } from "../../redux/features/meal/mealSlice";
+import { currentDate } from "../../utils/function";
+import { addOrder, resetOrder } from "../../redux/features/addOrder/addOrderSlice";
 
 
 const OrderMeal = () => {
+  const dispatch = useAppDispatch();
+
+
+  const isSucess = useAppSelector(state => state.meal.success)
+  const isOrderSucess = useAppSelector(state => state.addOrder.success)
+
+  //Fetch Meals state from Redux Store when the App loads
+  const meals = useAppSelector(state => state.meal.meals)
+
+
 
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
   const pRef = useRef<HTMLInputElement | null>(null);
   const selectMealRef = useRef<HTMLSelectElement | null>(null);
 
-  //const [ResponseMessage, setResponseMessage] = useState<string | null>(null);
+  const [ResponseMessage, setResponseMessage] = useState<string | undefined>(undefined);
   const [invoiceID, setInvoiceID] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [meal, setMeal] = useState<string>();
   const [paymentMedium, setPaymentMedium] = useState<string | null>(null);
-  const [meals, setMeals] = useState<mealProps[]>([]);
+
   const [quantity, setQty] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
   let [totalOrderPrice, setTotalOrderPrice] = useState<number>(0);
@@ -29,45 +42,40 @@ const OrderMeal = () => {
   const [totalAmount, setTotalAmount] = useState<number>(price * quantity);
   const tableHeader = ["SN", "Description", "Price", "Qty", "Total", "Actions"];
 
-  const getDate = () => {
-    const date = new Date();
-    let dd = String(date.getDate()).padStart(2, "0");
-    let mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
-    let yyyy = date.getFullYear();
+  //Get current Date
+  const today = currentDate();
 
-    const today = `${yyyy}-${mm}-${dd}`;
-    return today;
-  };
-  const today = getDate();
 
-  //Fetch Meals from the DB when the App loads
-  const fetchMeal = useCallback(async () => {
-    const fetchMeal = await axios.get<mealProps[]>(
-      `https://eatman-api.onrender.com/api/meal`,
-      {
-        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-      }
-    );
 
-    setMeals(fetchMeal?.data);
-  }, []);
+  /*   const fetchMeal = useCallback(async () => {
+      const fetchMeal = await axios.get<mealProps[]>(
+        `https://eatman-api.onrender.com/api/meal`,
+        {
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+        }
+      );
+  
+      setMeals(fetchMeal?.data);
+    }, []); */
 
+
+  //Refetch Meals if isSuccess state changes 
   useEffect(() => {
-    fetchMeal();
-  }, [fetchMeal]);
+    dispatch(getMeals())
+  }, [dispatch, isSucess]);
 
-  // Focus the select input when the app launches
+  // Focus the Meal select input when the page finish loading
   useEffect(() => {
     selectMealRef.current?.focus();
   }, []);
 
-  //Change the select option choosen by the user
+  //Change the Meal option selected by a user
   const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const option = event.target.value;
     setMeal(option);
   };
 
-  //Change Price of the meal ordering
+  //Change Price to that of the Meal Selected
   const changePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
     const price = event.target.value;
     setPrice(parseInt(price));
@@ -99,6 +107,8 @@ const OrderMeal = () => {
     setorderCart(orderCart.filter((item, index) => index !== itemIndex));
   };
 
+
+  //SUBMIT MEAL
   const handleAddOrder = () => {
     if (meal === undefined) {
       selectMealRef.current?.focus();
@@ -147,29 +157,27 @@ const OrderMeal = () => {
       });
     } else if (window.confirm("Are you sure you want to Proceed?")) {
       /* IF NOT EMPTY THEN SEND THE ORDER TO THE ENDPOINT */
+      const data = {
+        name: "Customer ----",
+        orders: orderCart,
+        totalPrice: totalOrderPrice,
+        payment_date: today,
+        payment_medium: paymentMedium
+      }
       try {
-        const response = await axios.post(`https://eatman-api.onrender.com/api/order`, {
-          name: "Customer ----",
-          orders: orderCart,
-          totalPrice: totalOrderPrice,
-          payment_date: today,
-          payment_medium: paymentMedium
-        },
-          {
-            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-          });
-
-        if (response) {
+        let response = await dispatch(addOrder(data))
+        if (response.payload) {
           /* UPDATE RESPONSE MESSAGE */
-          //setResponseMessage(response.data.message);
+          setResponseMessage(response.payload.message);
           /* UPDATE INVOICE ID */
-          setInvoiceID(response.data.id);
+          setInvoiceID(response.payload.id);
           /* OPEN MODAL DISPLAY ORDER SUCCESS INFORMATION*/
           setIsModalOpen(true);
           /* SET THE ORDERCART TO EMPTY */
           setorderCart([]);
           /* UPDATE THE TOTAL ORDER PRICE TO 0 */
           setTotalOrderPrice(0);
+
         }
       } catch (error) {
         toast.success(`${error}`, {
@@ -180,7 +188,7 @@ const OrderMeal = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        });
+        })
       }
     }
   };
@@ -193,6 +201,13 @@ const OrderMeal = () => {
     setPaymentMedium(value)
 
   }
+
+  useEffect(() => {
+    if (isOrderSucess == true) {
+      //Reset the State
+      dispatch(resetOrder())
+    }
+  }, [isOrderSucess])
 
   return (
     <>
@@ -208,7 +223,7 @@ const OrderMeal = () => {
               <label htmlFor="selectMeals" className="mealLabel">
                 Select a Meal *
               </label>
-           
+
               <select
                 ref={selectMealRef}
                 onChange={selectChange}
@@ -227,7 +242,7 @@ const OrderMeal = () => {
                     </option>
                   );
                 })}
-              </select> 
+              </select>
             </div>
             <div className="formContainer">
               <label htmlFor="price" className="mealLabel">
@@ -373,7 +388,7 @@ const OrderMeal = () => {
       />
 
       {/* MODAL FOR SUCCESSFUL TRANSACTION OR FAILURE */}
-      {isModalOpen && <Modal orderID={invoiceID} resetModal={resetModal} />}
+      {isModalOpen && <Modal message={ResponseMessage} orderID={invoiceID} resetModal={resetModal} />}
     </>
   );
 };
