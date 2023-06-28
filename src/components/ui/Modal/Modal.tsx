@@ -6,6 +6,7 @@ import {faCheck} from "@fortawesome/free-solid-svg-icons"
 type ModalProps = {
   orderID: string,
   resetModal:()=>void;
+  message?: string
 }
 
 const Modal = (props: ModalProps) => {

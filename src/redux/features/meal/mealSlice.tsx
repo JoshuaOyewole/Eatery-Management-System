@@ -14,7 +14,7 @@ const initialState: mealInitialState = {
 //Generates Pending, fulfilled and rejected action types
 //ALL MEALS
 export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
-    const res = await axios.get(`https://eatman-api.onrender.com/api/meals`).then(response => response.data);
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/meal`).then(response => response.data);
     return res;
 })
 
@@ -22,7 +22,7 @@ export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
 export const updateMeals = createAsyncThunk('meal/updateMeals', async (id) => {
     try {
         const res = await axios.patch(
-            `https://eatman-api.onrender.com/api/meal/${id}`,
+            `${process.env.REACT_APP_API_URL}/meal/${id}`,
             { data: { title: String, price: Number, description: String } },
             {
                 headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
