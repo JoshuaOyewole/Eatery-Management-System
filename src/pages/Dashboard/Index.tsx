@@ -3,12 +3,14 @@ import AdminDashboard from "../../components/ui/Dashboard/AdminDashboard";
 import StaffDashboard from "../../components/ui/Dashboard/StaffDashboard";
 import DashboardLayout from '../../Layout/Dashboard/Dashboard';
 import { GetCurrentMonth } from "../../utils/function";
+import { useAppSelector } from "../../redux/hooks/hooks";
 
 
 const Dashboard = () => {
     const [currentMonth, setCurrentMonth] = useState<string>('')
-    const [isAdmin] = useState<Boolean>(true);//Should be gotten from REQUEST after LOGIN
-    const [username] = useState<String>('Joshua');
+    const rank = useAppSelector(state=> state.auth.details?.rank);
+    const f_name = useAppSelector(state=> state.auth.details?.firstname);
+    const l_name = useAppSelector(state=> state.auth.details?.lastname);
 
 
     useEffect(() => {
@@ -23,9 +25,9 @@ const Dashboard = () => {
         <>
             <DashboardLayout >
                 {
-                    isAdmin
-                        ? <AdminDashboard currentMonth={currentMonth} name={"Orisfina"} />
-                        : <StaffDashboard currentMonth={currentMonth} name={username} />
+                    rank === "staff"
+                        ? <AdminDashboard currentMonth={currentMonth} name={`${f_name} ${l_name}`} />
+                        : <StaffDashboard currentMonth={currentMonth} name={`${f_name} ${l_name}`} />
                 }
             </DashboardLayout>
 
