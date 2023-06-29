@@ -21,7 +21,6 @@ const OrderMeal = () => {
 
   //Fetch Meals state from Redux Store when the App loads
   const meals = useAppSelector(state => state.meal.meals)
-console.log(meals);
 
 
 
@@ -62,11 +61,10 @@ console.log(meals);
 
   //Refetch Meals if isSuccess state changes 
   useEffect(() => {
-    dispatch(getMeals())
-  }, []);
-/*   useEffect(() => {
-    dispatch(getMeals())
-  }, [dispatch, isSucess]); */
+    dispatch(getMeals());
+    console.log('fetched Meals here.....');
+    
+  }, [dispatch, isSucess]);
 
   // Focus the Meal select input when the page finish loading
   useEffect(() => {
@@ -197,15 +195,21 @@ console.log(meals);
     }
   };
 
+
+  //Reset Modal Open and Close State
   const resetModal = () => {
     setIsModalOpen(false);
   };
+
+  //Payment Methods
   const changePaymentMethod = (e: React.MouseEvent<HTMLButtonElement>) => {
     let value = e.currentTarget.textContent;
     setPaymentMedium(value)
 
   }
 
+
+  //Reset Order Object after a successful Ordering
   useEffect(() => {
     if (isOrderSucess == true) {
       //Reset the State
@@ -239,13 +243,13 @@ console.log(meals);
                     Choose one
                   </option>
                 </>
-               {/*  {meals.map((meal, index) => {
+                {meals.map((meal, index) => {
                   return (
                     <option value={meal.title} key={index}>
                       {meal.title}
                     </option>
                   );
-                })} */}
+                })}
               </select>
             </div>
             <div className="formContainer">
