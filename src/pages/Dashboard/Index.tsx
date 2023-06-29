@@ -26,8 +26,9 @@ const Dashboard = () => {
             <DashboardLayout >
                 {
                     rank === "staff"
-                        ? <AdminDashboard currentMonth={currentMonth} name={`${f_name} ${l_name}`} />
-                        : <StaffDashboard currentMonth={currentMonth} name={`${f_name} ${l_name}`} />
+                        ? <StaffDashboard currentMonth={currentMonth} name={`${f_name} ${l_name}`} />
+                        : <AdminDashboard currentMonth={currentMonth} name={`${f_name} ${l_name}`} />
+                    
                 }
             </DashboardLayout>
 

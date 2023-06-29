@@ -1,5 +1,6 @@
 import profilePix from "../../assets/images/logo.png";
 import Sidebar from "../../components/layout/sidebar/Sidebar";
+import { useAppSelector } from "../../redux/hooks/hooks";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -7,6 +8,11 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = (props: DashboardLayoutProps) => {
   const { children } = props;
+
+  const f_name = useAppSelector(state=> state.auth.details?.firstname);
+  const l_name = useAppSelector(state=> state.auth.details?.lastname);
+
+
   return (
     <div className="dashboard__container">
       <Sidebar />
@@ -19,7 +25,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
                 alt="Profile Pixs"
                 className="profilePixs"
               />
-              <p className="username">Orisfina</p>
+              <p className="username">{f_name}. {l_name?.slice(0,1)}</p>
             </div>
           </div>
         </header>

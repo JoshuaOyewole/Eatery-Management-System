@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { mealInitialState, mealProps } from "../../../utils/types"
+import mealService from "./mealService";
 
 //initialState
 const initialState: mealInitialState = {
@@ -13,9 +14,21 @@ const initialState: mealInitialState = {
 
 //Generates Pending, fulfilled and rejected action types
 //ALL MEALS
-export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
+export const getMeals1 = createAsyncThunk('meal/fetchMeals', async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/meal`).then(response => response.data);
+    console.log(res);
+    
     return res;
+})
+
+export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
+    try {
+        return await mealService.getMeals();
+    } catch (error: any) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+
+        return message;
+    }
 })
 
 //UPDATE MEAL
@@ -34,12 +47,6 @@ export const updateMeals = createAsyncThunk('meal/updateMeals', async (id) => {
     }
 })
 
-//SIGNUP
-/* export const register = createAsyncThunk('staff/register', async (data: loginCredentialsProps) => {
-    return axios.post(
-        `https://eatman-api.onrender.com/register`, data
-    ).then(response => response.data)
-}) */
 
 const mealSlice = createSlice({
     name: 'meal',
@@ -50,7 +57,7 @@ const mealSlice = createSlice({
             state.loading = true
         })
         builder.addCase(getMeals.fulfilled, (state, action:PayloadAction<Array<mealProps>>) => {
-            state.loading = false,
+                state.loading = false,
                 state.meals = action.payload,
                 state.error = '',
                 state.success = true

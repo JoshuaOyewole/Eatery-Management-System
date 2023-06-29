@@ -21,6 +21,7 @@ const OrderMeal = () => {
 
   //Fetch Meals state from Redux Store when the App loads
   const meals = useAppSelector(state => state.meal.meals)
+console.log(meals);
 
 
 
@@ -62,7 +63,10 @@ const OrderMeal = () => {
   //Refetch Meals if isSuccess state changes 
   useEffect(() => {
     dispatch(getMeals())
-  }, [dispatch, isSucess]);
+  }, []);
+/*   useEffect(() => {
+    dispatch(getMeals())
+  }, [dispatch, isSucess]); */
 
   // Focus the Meal select input when the page finish loading
   useEffect(() => {
@@ -235,13 +239,13 @@ const OrderMeal = () => {
                     Choose one
                   </option>
                 </>
-                {meals.map((meal, index) => {
+               {/*  {meals.map((meal, index) => {
                   return (
                     <option value={meal.title} key={index}>
                       {meal.title}
                     </option>
                   );
-                })}
+                })} */}
               </select>
             </div>
             <div className="formContainer">
