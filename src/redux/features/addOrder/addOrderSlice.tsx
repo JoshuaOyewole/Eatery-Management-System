@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from 'axios';
+import addOrderService from "./addOrderService";
+//const env = import.meta.env;
 import { addOrderInitialState, purchaseResState, mealOrder } from "../../../utils/types";
 
 
 //initialState
 const initialState: addOrderInitialState = {
     loading: false,
-    order: { id: undefined, message: undefined },
+    order: {},
     error: undefined,
     success: false
 }
@@ -15,10 +16,7 @@ const initialState: addOrderInitialState = {
 //ADD AN ORDER
 export const addOrder = createAsyncThunk('meal/addOrder', async (data: mealOrder, thunkAPI) => {
     try {
-        const res = await axios.post(`https://eatman-api.onrender.com/api/order`, data, {
-            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-        })
-        return res.data
+        return await addOrderService.addOrder(data);
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 
@@ -55,6 +53,6 @@ const orderSlice = createSlice({
     }
 })
 
-export const {resetOrder} = orderSlice.actions;
+export const { resetOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;

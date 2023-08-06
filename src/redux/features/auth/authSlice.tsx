@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import authService from "../../../pages/Login/authService";
+import authService from "../../../pages/Auth/authService";
 import { loginCredentialsProps, loginResType } from "../../../utils/types"
+import { getToken } from "../../../utils/utils";
 
 
 
-//Get user from localStorage 
-
-const user_token = JSON.stringify(localStorage.getItem('token'));
+//Get user token from localStorage 
+const user_token = getToken();
 
 //initialState
 const initialState: loginResType = {

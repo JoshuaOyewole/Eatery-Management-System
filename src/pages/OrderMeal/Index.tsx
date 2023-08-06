@@ -1,6 +1,6 @@
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Styles from "./_addOrder.module.scss";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "../../components/ui/Modal/Modal";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,18 +11,14 @@ import { getMeals } from "../../redux/features/meal/mealSlice";
 import { currentDate } from "../../utils/function";
 import { addOrder, resetOrder } from "../../redux/features/addOrder/addOrderSlice";
 
-
 const OrderMeal = () => {
   const dispatch = useAppDispatch();
-
 
   const isSucess = useAppSelector(state => state.meal.success)
   const isOrderSucess = useAppSelector(state => state.addOrder.success)
 
   //Fetch Meals state from Redux Store when the App loads
-  const meals = useAppSelector(state => state.meal.meals)
-
-
+  const meals = useAppSelector(state => state.meal.meals);
 
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
@@ -45,25 +41,9 @@ const OrderMeal = () => {
   //Get current Date
   const today = currentDate();
 
-
-
-  /*   const fetchMeal = useCallback(async () => {
-      const fetchMeal = await axios.get<mealProps[]>(
-        `https://eatman-api.onrender.com/api/meal`,
-        {
-          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-        }
-      );
-  
-      setMeals(fetchMeal?.data);
-    }, []); */
-
-
   //Refetch Meals if isSuccess state changes 
   useEffect(() => {
     dispatch(getMeals());
-    console.log('fetched Meals here.....');
-    
   }, [dispatch, isSucess]);
 
   // Focus the Meal select input when the page finish loading
@@ -73,8 +53,7 @@ const OrderMeal = () => {
 
   //Change the Meal option selected by a user
   const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const option = event.target.value;
-    setMeal(option);
+    setMeal(event.target.value)
   };
 
   //Change Price to that of the Meal Selected
@@ -111,7 +90,8 @@ const OrderMeal = () => {
 
 
   //SUBMIT MEAL
-  const handleAddOrder = () => {
+  const handleAddOrder = (e: React.FormEvent) => {
+    e.preventDefault();
     if (meal === undefined) {
       selectMealRef.current?.focus();
       return toast.error("Kindly select an option from the list of Meals", {
@@ -172,6 +152,8 @@ const OrderMeal = () => {
           /* UPDATE RESPONSE MESSAGE */
           setResponseMessage(response.payload.message);
           /* UPDATE INVOICE ID */
+          console.log(`Invoice ID is ${response.payload.message}`);
+          
           setInvoiceID(response.payload.id);
           /* OPEN MODAL DISPLAY ORDER SUCCESS INFORMATION*/
           setIsModalOpen(true);
@@ -217,6 +199,7 @@ const OrderMeal = () => {
     }
   }, [isOrderSucess])
 
+
   return (
     <>
       <DashboardLayout>
@@ -225,8 +208,7 @@ const OrderMeal = () => {
             <h2 className={Styles.dashboard__heading}>Make an Order</h2>
             <p>The buttons below show a few things you can do right away</p>
           </div>
-
-          <div className="meal__container">
+          <form onSubmit={handleAddOrder} className="meal__container">
             <div className="formContainer">
               <label htmlFor="selectMeals" className="mealLabel">
                 Select a Meal *
@@ -297,12 +279,14 @@ const OrderMeal = () => {
               />
             </div>
             <button
-              onClick={handleAddOrder}
+              type="submit"
               className="btn primary-btn add-order"
             >
               Add Order
             </button>
-          </div>
+          </form>
+
+
           <div className="selectedMeal__container">
             {orderCart.length !== 0 && (
               <table className="selectedMeal__table">

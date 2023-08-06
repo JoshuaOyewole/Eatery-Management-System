@@ -13,6 +13,21 @@ export type StaffProps = {
     passport: string,
 }
 
+export type addOrderInitialState = {
+    loading: boolean,
+    order: {},
+    error: string | undefined,
+    success: boolean
+}
+export type purchaseResState = {
+    loading: boolean,
+    order: Order,
+    error: undefined | "",
+    success: boolean
+}
+export type mealOrder = {
+
+}
 export type loginCredentialsProps = {
     email: string,
     password: string
@@ -48,7 +63,7 @@ export type loginResType = {
     message: string | undefined,
     details: userLoginResData | null,
     token: string | null,
-    loading:boolean,
+    loading: boolean,
 }
 
 export type staffProps = {
@@ -82,7 +97,7 @@ export type Order = {
     meal: string,
     price: number,
     totalAmount: number,
-    _id: string
+    _id?: string,
 }
 
 
@@ -105,9 +120,9 @@ export type loginErrResponse = {
 
 
 export type orderCartProps = {
-    meal:string,
-    quantity:number,
-    price:number,
+    meal: string,
+    quantity: number,
+    price: number,
     totalAmount: number
 }
 

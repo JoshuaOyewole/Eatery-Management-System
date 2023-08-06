@@ -1,16 +1,18 @@
 import axios from "axios";
 import { loginResType } from "../../utils/types";
+const env = import.meta.env;
+
 
 /* REGISTER USER */
 const register = async (userData: any) => {
-    const response = await axios.post('https://eatman-api.onrender.com/register', userData);
+    const response = await axios.post(`${env.VITE_API_URL}/register`, userData);
     return response.data
 }
 
 
 /* LOGIN USER */
 const login = async (userData: any) => {
-    const response = await axios.post<loginResType>('https://eatman-api.onrender.com/login', userData);
+    const response = await axios.post<loginResType>(`${env.VITE_API_URL}/login`, userData);
 
     if (response.data) {
         localStorage.setItem('token', JSON.stringify(response.data.token))

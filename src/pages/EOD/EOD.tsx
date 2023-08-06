@@ -1,4 +1,4 @@
-import {useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Chart from "react-apexcharts";
@@ -8,28 +8,31 @@ import Styles from "./_eod.module.scss";
 import Box from "../../components/ui/Dashboard/Box";
 import MultiLayoutBox from "../../components/ui/Dashboard/MultiLayoutBox";
 import axios from "axios";
+const env = import.meta.env;
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/ui/Button";
 import { AuthTransaction } from "../../utils/types";
 import { cashPayment, getTodaySaleAmount, POSPayment, TransferPayment } from "../../utils/function";
+import { getToken } from "../../utils/utils";
 
 const EOD = () => {
   // Get the EOD Date param from the URL.
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
+  const token = getToken();
 
   const navigate = useNavigate();
 
   const [totalSale, setTotalSale] = useState<number>();
   const [eod, setEod] = useState<AuthTransaction[]>([]);
 
-   /* FETCH EOD BASED ON THE DATE PASSED */
-   useEffect(() => {
+  /* FETCH EOD BASED ON THE DATE PASSED */
+  useEffect(() => {
     const fetchEOD = async () => {
       const res = await axios.get(
-        `https://eatman-api.onrender.com/api/records?q=${query}`,
+        `${env.VITE_API_URL}/api/records?q=${query}`,
         {
-          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+          headers: { "Authorization": `Bearer ${token}` }
         }
       );
       //Update the EOD with res variable
@@ -39,11 +42,11 @@ const EOD = () => {
   }, [query]);
 
   /* FILTER SUCCESSFUL TRANSACTIONS */
-  let successfulTransactions = eod?.filter((transaction: AuthTransaction)=>{
+  let successfulTransactions = eod?.filter((transaction: AuthTransaction) => {
     return transaction.payment_status === "Successful";
   });
 
-//Total Payments made by Cash
+  //Total Payments made by Cash
   let cashPayments = cashPayment(successfulTransactions);
 
   //Total Payments made by POS
@@ -171,7 +174,7 @@ const EOD = () => {
               <div className="wrapper">
                 <div className="right">
                   <h3 className="dashboard__heading">Order Summary</h3>
-               <Chart
+                  <Chart
                     options={{
                       labels: [
                         "Rice & Stew",
@@ -200,7 +203,7 @@ const EOD = () => {
                     series={[40, 58, 88, 188, 40, 58, 88, 188]}
                     type="pie"
                     width={480}
-                  /> 
+                  />
                 </div>
               </div>
             </section>

@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
+const env = import.meta.env;
 import { mealInitialState, mealProps } from "../../../utils/types"
 import mealService from "./mealService";
+
 
 //initialState
 const initialState: mealInitialState = {
@@ -14,19 +16,15 @@ const initialState: mealInitialState = {
 
 //Generates Pending, fulfilled and rejected action types
 //ALL MEALS
-export const getMeals1 = createAsyncThunk('meal/fetchMeals', async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/meal`).then(response => response.data);
-    console.log(res);
-    
-    return res;
-})
-
 export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
     try {
         return await mealService.getMeals();
+         
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 
+    console.log(`An Error Occured! ${message}`);
+    
         return message;
     }
 })
@@ -35,7 +33,7 @@ export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
 export const updateMeals = createAsyncThunk('meal/updateMeals', async (id) => {
     try {
         const res = await axios.patch(
-            `${process.env.REACT_APP_API_URL}/meal/${id}`,
+            `https://eatman-api.onrender.com/meal/${id}`,
             { data: { title: String, price: Number, description: String } },
             {
                 headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
@@ -57,6 +55,7 @@ const mealSlice = createSlice({
             state.loading = true
         })
         builder.addCase(getMeals.fulfilled, (state, action:PayloadAction<Array<mealProps>>) => {
+            
                 state.loading = false,
                 state.meals = action.payload,
                 state.error = '',

@@ -1,20 +1,10 @@
-import React, { useEffect } from 'react';
-import { useAppSelector } from '../redux/hooks/hooks';
-import { Navigate } from 'react-router-dom'
+import { Outlet, Navigate } from "react-router-dom";
+import { getToken } from "./utils";
 
-interface Props {
-    children: React.ReactNode,
+
+const ProtectedRoute = () => {
+
+  const token = getToken();
+  return (!!token ? <Outlet /> : <Navigate to={"/login"} />);
 }
-
-const ProtectedRoute = ({ children }: Props) => {
-    let users = useAppSelector((state) => state.auth.details)
-
-    return users
-        ? <div>{children}</div>
-        : <Navigate to="/login" replace={true} />
-
-}
-
-export default ProtectedRoute
-
-
+export default ProtectedRoute;

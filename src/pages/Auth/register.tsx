@@ -1,39 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Input from '../../components/forms/formInput/Index'
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import logo from '../../assets/images/logo.png'
+import { useAppDispatch } from '../../redux/hooks/hooks';
+import {  register } from "../../redux/features/auth/authSlice";
+import { loginCredentialsProps } from '../../utils/types';
 
 
 const Register = () => {
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [credentials, setCredentials] = useState<loginCredentialsProps>({
+        email: "",
+        password: "",
+    });
+    const dispatch = useAppDispatch();
+
+
+    //handle email and Password change Event
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCredentials({
+            ...credentials,
+            [e.currentTarget.name]: e.currentTarget.value,
+        });
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const response = await axios.post(`https://eatman-api.onrender.com/register`, {
-                email, password
-            });
-            if (response.data.success === true) {
-                navigate('/login')
-            }
-        } catch (error: any) {
-            const errMsg = error.response.data.message;
-
-            toast.error(`${errMsg}`, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                }); 
-          
-        }
+        dispatch(register(credentials));
     }
 
 
@@ -53,19 +47,19 @@ const Register = () => {
                     <Input
                         type='text'
                         name='email'
-                        value={email}
+                        value={credentials.email}
                         placeholder='Enter your email'
                         labelName='Enter your email'
-                        onChange={(e: React.ChangeEvent<HTMLFormElement>) => setEmail(e.target.value)}
+                        onChange={handleChange}
                         required
                     />
                     <Input
                         type='password'
                         name='password'
-                        value={password}
+                        value={credentials.password}
                         placeholder='Enter your password'
                         labelName='Enter your password'
-                        onChange={(e: React.ChangeEvent<HTMLFormElement>) => setPassword(e.target.value)}
+                        onChange={handleChange}
                         required
                     />
                     <Input
@@ -73,20 +67,9 @@ const Register = () => {
                         value='Register'
                         className='btn primary-btn'
                     />
-                    
+
                 </form>
             </div>
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
         </div>
     )
 }
