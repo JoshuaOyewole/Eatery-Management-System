@@ -37,7 +37,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-list">
-          <Link to="/records/orders" className="nav-link">
+          <Link to="/orders" className="nav-link">
             <FontAwesomeIcon icon={faBook} className="fontawesomeIcon" /> View
             Orders
           </Link>

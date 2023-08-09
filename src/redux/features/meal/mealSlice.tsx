@@ -3,6 +3,7 @@ import axios from 'axios';
 const env = import.meta.env;
 import { mealInitialState, mealProps } from "../../../utils/types"
 import mealService from "./mealService";
+import { PURGE } from "redux-persist";
 
 
 //initialState
@@ -19,12 +20,12 @@ const initialState: mealInitialState = {
 export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
     try {
         return await mealService.getMeals();
-         
+
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 
-    console.log(`An Error Occured! ${message}`);
-    
+        console.log(`An Error Occured! ${message}`);
+
         return message;
     }
 })
@@ -54,9 +55,9 @@ const mealSlice = createSlice({
         builder.addCase(getMeals.pending, (state) => {
             state.loading = true
         })
-        builder.addCase(getMeals.fulfilled, (state, action:PayloadAction<Array<mealProps>>) => {
-            
-                state.loading = false,
+        builder.addCase(getMeals.fulfilled, (state, action: PayloadAction<Array<mealProps>>) => {
+
+            state.loading = false,
                 state.meals = action.payload,
                 state.error = '',
                 state.success = true

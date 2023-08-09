@@ -1,4 +1,6 @@
+
 import Styles from "./_spinner.module.scss"
+
 
 export default function Spinner() {
   return (
@@ -9,3 +11,4 @@ export default function Spinner() {
     </div>
   )
 }
+

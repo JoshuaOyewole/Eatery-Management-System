@@ -20,6 +20,8 @@ const OrderMeal = () => {
   //Fetch Meals state from Redux Store when the App loads
   const meals = useAppSelector(state => state.meal.meals);
 
+  console.log(`Meals are ==> ${meals}`);
+  
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
   const pRef = useRef<HTMLInputElement | null>(null);
@@ -152,8 +154,7 @@ const OrderMeal = () => {
           /* UPDATE RESPONSE MESSAGE */
           setResponseMessage(response.payload.message);
           /* UPDATE INVOICE ID */
-          console.log(`Invoice ID is ${response.payload.message}`);
-          
+        
           setInvoiceID(response.payload.id);
           /* OPEN MODAL DISPLAY ORDER SUCCESS INFORMATION*/
           setIsModalOpen(true);

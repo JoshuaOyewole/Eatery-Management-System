@@ -17,6 +17,7 @@ const Index = (props: LogoutBtnprops) => {
         dispatch(reset())
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+        localStorage.removeItem("persist:root");
         navigate('/login');
     }
 

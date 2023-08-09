@@ -15,8 +15,9 @@
         text-align: left;
     }
     &--ordersFound{
-        display: block;
+        display: inline-block;
         font-size: 1.6rem;
+        margin-left: 1rem;
         color: lighten($color: variable.$Grey-shade, $amount: 0.6)
     }
   }  

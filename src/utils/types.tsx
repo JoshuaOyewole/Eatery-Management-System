@@ -119,6 +119,11 @@ export type loginErrResponse = {
 }
 
 
+export type loadingProps = {
+    color: string,
+    type: string
+  }
+  
 export type orderCartProps = {
     meal: string,
     quantity: number,

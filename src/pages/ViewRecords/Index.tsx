@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link,useNavigate,useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
 import Styles from "./_viewRecord.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +10,8 @@ import TableRow from "../../components/ui/Table/tablebody";
 import Table from "../../components/ui/Table/table";
 import { faArrowPointer } from "@fortawesome/free-solid-svg-icons";
 import { currentDate } from '../../utils/function'
-import { ordersProps } from "../../../types";
+import DashboardLayout from "../../Layout/Dashboard/Dashboard";
+import {AuthTransaction} from "../../utils/types"
 
 type Props = {
   record?: string;
@@ -24,7 +25,7 @@ const Index = (props: Props) => {
   // Get the EOD Date param from the URL.
   const [date] = useSearchParams();
   const query = date.get('q');
-  
+
   /* HOOK TO FETCH TODAY's DATE */
   const today = currentDate();
 
@@ -39,16 +40,16 @@ const Index = (props: Props) => {
     "Action",
   ]);
 
-  const [orders, setOrder] = useState<ordersProps[]>([]);
+  const [orders, setOrder] = useState<AuthTransaction[]>([]);
   //const [loading, setLoading] = useState<Boolean>(true);
 
 
   /* FETCH ORDERS FOR TODAY*/
   const fetchOrders = async () => {
     const response = await axios.get(`https://eatman-api.onrender.com/api/records?q=${query !== null ? query : today}`,
-    {
-      headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
-    });
+      {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+      });
     setOrder(response?.data);
     //setLoading(false);
   };
@@ -66,64 +67,68 @@ const Index = (props: Props) => {
   }, []);
 
   return (
-    <main className={Styles.transactions__heading}>
-      <div className={Styles.transactions__table}>
-        <div className={Styles.userContainer}>
-          <div className={Styles.navigateUser__header}>
-            <h2 className={Styles["transactions__heading--title"]}>
-              {orders.length ? orders.length : "0"}
-              <span className={Styles["transactions__heading--ordersFound"]}>
-                Orders Found
-              </span>
-            </h2>
-            <Button
-              text={"GO BACK"}
-              handleClick={()=>navigate(-1)}
-              classname={"primary-btn"}
-            />
-          </div>
-
-          <div className={Styles.userDetailsContainer}>
-            <section
-              className={`${TableStyles.table_container} ${TableStyles.tableContainer} `}
-            >
-              <div className={UserStyles.userDetails__sectionTitle}>
-                Transactions
+    <>
+      <DashboardLayout>
+        <main className={Styles.transactions__heading}>
+          <div className={Styles.transactions__table}>
+            <div className={Styles.userContainer}>
+              <div className={Styles.navigateUser__header}>
+                <h2 className={Styles["transactions__heading--title"]}>
+                  {orders.length ? orders.length : "0"}
+                  <span className={Styles["transactions__heading--ordersFound"]}>
+                    Orders Found
+                  </span>
+                </h2>
+                <Button
+                  text={"GO BACK"}
+                  handleClick={() => navigate(-1)}
+                  classname={"primary-btn"}
+                />
               </div>
-              {orders.length > 0 ? (
-                <Table tableHeader={tableHeader}>
-                  {orders?.map((order, index) => {
-                    const {name,payment_medium, payment_date,totalPrice,
-                    payment_status} = order
-                    return (
-                      <TableRow key={index}>
-                        <td>{index + 1}</td>
-                        <td>{name}</td>
-                        <td>{payment_medium}</td>
-                        <td>&#8358; {totalPrice}</td>
-                        <td>
-                          {payment_date}
-                        </td>
-                        <td>{payment_status.toUpperCase()}</td>
-                        <td>
-                          <Link to={`${order._id}`} key={index}>
-                            <FontAwesomeIcon icon={faArrowPointer} />
-                            <span> View</span>
-                            {/* <FontAwesomeIcon icon={faPenToSquare} size="xl" /> FOR EDITING*/}
-                          </Link>
-                        </td>
-                      </TableRow>
-                    );
-                  })}
-                </Table>
-              ) : (
-                <h2>No Transaction Found!</h2>
-              )}
-            </section>
+
+              <div className={Styles.userDetailsContainer}>
+                <section
+                  className={`${TableStyles.table_container} ${TableStyles.tableContainer} `}
+                >
+                  <div className={UserStyles.userDetails__sectionTitle}>
+                    Transactions
+                  </div>
+                  {orders.length > 0 ? (
+                    <Table tableHeader={tableHeader}>
+                      {orders?.map((order, index) => {
+                        const { name, payment_medium, payment_date, totalPrice,
+                          payment_status } = order
+                        return (
+                          <TableRow key={index}>
+                            <td>{index + 1}</td>
+                            <td>{name}</td>
+                            <td>{payment_medium}</td>
+                            <td>&#8358; {totalPrice}</td>
+                            <td>
+                              {payment_date}
+                            </td>
+                            <td>{payment_status.toUpperCase()}</td>
+                            <td>
+                              <Link to={`${order._id}`} key={index}>
+                                <FontAwesomeIcon icon={faArrowPointer} />
+                                <span> View</span>
+                                {/* <FontAwesomeIcon icon={faPenToSquare} size="xl" /> FOR EDITING*/}
+                              </Link>
+                            </td>
+                          </TableRow>
+                        );
+                      })}
+                    </Table>
+                  ) : (
+                    <h2>No Transaction Found!</h2>
+                  )}
+                </section>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </main>
+        </main>
+      </DashboardLayout>
+    </>
   );
 };
 
