@@ -122,8 +122,8 @@ export type loginErrResponse = {
 export type loadingProps = {
     color: string,
     type: string
-  }
-  
+}
+
 export type orderCartProps = {
     meal: string,
     quantity: number,
@@ -136,4 +136,10 @@ export type transactionInitialState = {
     orders: Array<Object>,
     error: string | undefined,
     success: boolean
+}
+
+
+export type OrderProps = {
+    orders: Array<Order>,
+    totalPrice:number,
 }
