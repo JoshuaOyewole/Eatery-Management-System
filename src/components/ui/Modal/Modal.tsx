@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faCheck} from "@fortawesome/free-solid-svg-icons"
+import { faCheck } from "@fortawesome/free-solid-svg-icons"
 
 type ModalProps = {
   orderID: string,
-  resetModal:()=>void;
+  resetModal: () => void;
   message?: string
 }
 
 const Modal = (props: ModalProps) => {
-  const { orderID,resetModal } = props;
+  const { orderID, resetModal } = props;
 
   const navigate = useNavigate();
   const [isOpen] = useState<Boolean>(true)
@@ -37,7 +37,7 @@ const Modal = (props: ModalProps) => {
           </p>
           <div className="modal__btnContainer">
             <button onClick={handlePrint} className="modal__btnContainer__btn">Print</button>
-            <button className='modal__btnContainer__btn' onClick={()=>resetModal()}>
+            <button className='modal__btnContainer__btn' onClick={() => resetModal()}>
               okay
             </button>
           </div>

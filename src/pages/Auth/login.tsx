@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import logo from "../../assets/images/logo.png";
 import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks';
 //import { fetchStaffs } from "../../redux/features/staffs/staffSlice";
-import { login} from "../../redux/features/auth/authSlice";
+import { login } from "../../redux/features/auth/authSlice";
 import { loginCredentialsProps, userLoginResData } from "../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -103,7 +103,7 @@ const Index = () => {
           className="btn primary-btn perfect-center"
           disabled={isLoading}
         >
-          {isLoading ? <FontAwesomeIcon icon={faSpinner} spin size="lg" /> : "Sign in"}
+          {isLoading ? <> <FontAwesomeIcon icon={faSpinner} spin size="lg" />Loading...</> : "Sign in"}
         </button>
 
       </form>
