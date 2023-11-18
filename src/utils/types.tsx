@@ -1,5 +1,6 @@
 //Staff props
 export type StaffProps = {
+    _id?:string,
     firstname: string,
     lastname: string,
     email: string,
@@ -143,3 +144,4 @@ export type OrderProps = {
     orders: Array<Order>,
     totalPrice:number,
 }
+

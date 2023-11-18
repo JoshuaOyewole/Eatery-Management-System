@@ -1,5 +1,5 @@
 import React from 'react'
-import Select from 'react-select'
+import Select, { ActionMeta, SingleValue } from 'react-select'
 import { mealProps } from '../../../utils/types';
 
 

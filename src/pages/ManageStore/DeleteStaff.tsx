@@ -8,13 +8,11 @@ import Table from "../../components/ui/Table/table";
 import { toast, ToastContainer } from "react-toastify";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
-import { staffProps } from "../../../types";
-
-
+import { StaffProps } from "../../utils/types";
 
 function DeleteStaff() {
   const navigate = useNavigate();
-  const [staff, setStaff] = useState<staffProps[]>([]);
+  const [staff, setStaff] = useState<StaffProps[]>([]);
   /* TABLE HEADER */
   const [tableHeader] = useState([
     "sn",
@@ -39,10 +37,10 @@ function DeleteStaff() {
     fetchStaff();
   }, []);
 
-  const handleDeleteStaff = async (_id: string) => {
+  const handleDeleteStaff = async (id: any) => {
     try {
       const response= await axios.delete(
-        `https://eatman-api.onrender.com/api/staff/${_id}`,
+        `https://eatman-api.onrender.com/api/staff/${id}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
         }
@@ -95,8 +93,8 @@ function DeleteStaff() {
             >
               {staff.length > 0 ? (
                 <Table tableHeader={tableHeader}>
-                  {staff?.map((staff, index) => {
-                    const {_id, firstname, lastname, email, gender, phone, state } =
+                  {staff.map((staff, index) => {
+                    const {_id:id, firstname, lastname, email, gender, phone, state } =
                       staff;
                     return (
                       <TableRow key={index}>
@@ -117,7 +115,7 @@ function DeleteStaff() {
                         <td>
                           <Button
                             text={"Delete staff"}
-                            handleClick={() => handleDeleteStaff(_id)}
+                            handleClick={() => handleDeleteStaff(id)}
                             classname={"danger-btn primary-btn__small"}
                           />
                         </td>

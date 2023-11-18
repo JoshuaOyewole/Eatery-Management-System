@@ -5,20 +5,9 @@ import Button from "../../components/ui/Button";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Input from "../../components/forms/formInput/Index";
 import axios from "axios";
+import { StaffProps } from "../../utils/types";
 
-type StaffProps = {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  phone: string;
-  gender: string;
-  homeAddress?: string;
-  dob: string;
-  state: string;
-  lga: string;
-  passport?: string;
-};
+
 const initialState = {
   firstname: "",
   lastname: "",
