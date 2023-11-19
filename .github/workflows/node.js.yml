@@ -3,9 +3,8 @@
 
 name: Node.js CI
 env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      VITE_API_URL: Mona
-      LAST_NAME: Octocat
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      VITE_API_URLL: https://eatman-api.onrender.com
 on:
   push:
     branches: [ "main" ]
