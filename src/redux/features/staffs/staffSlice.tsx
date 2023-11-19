@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
 //Staff props
 type Staff = {
+    _id: string,
     firstname: string,
     lastname: string,
     email: string,
@@ -44,17 +45,17 @@ const staffSlice = createSlice({
             { state.loading = true }
         })
         builder.addCase(fetchStaffs.fulfilled, (state, action) => {
-            { 
+            {
                 state.loading = false,
-                state.staffs = action.payload,
-                state.error = ''
+                    state.staffs = action.payload,
+                    state.error = ''
             }
         })
         builder.addCase(fetchStaffs.rejected, (state, action) => {
-            { 
+            {
                 state.loading = false,
-                state.staffs = [],
-                state.error = action.error.message || 'Something went wrong'
+                    state.staffs = [],
+                    state.error = action.error.message || 'Something went wrong'
             }
         })
     }

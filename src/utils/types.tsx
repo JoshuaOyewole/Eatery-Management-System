@@ -1,6 +1,6 @@
 //Staff props
 export type StaffProps = {
-    _id?:string,
+    _id?: string,
     firstname: string,
     lastname: string,
     email: string,
@@ -142,6 +142,21 @@ export type transactionInitialState = {
 
 export type OrderProps = {
     orders: Array<Order>,
-    totalPrice:number,
+    totalPrice: number,
 }
 
+export type MealProps = {
+    title?: string;
+    price?: number;
+    description?: string,
+    category?: string
+    qty?: number,
+    imageURL?: string
+};
+
+export type FoodCategory = {
+    _id?: string;
+    name?: string;
+    urlParam?: string;
+    icon?: string
+}
