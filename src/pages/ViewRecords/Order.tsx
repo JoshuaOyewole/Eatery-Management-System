@@ -8,21 +8,31 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthTransaction } from "../../utils/types";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
+import { Spinner } from "../../components/ui/Spinner/Spinner";
 //import DashboardLayout from "../../Layout/Dashboard/Dashboard";
+let baseURL = "https://eatman-api.onrender.com/api";
 
 const Index = () => {
   const { orderId } = useParams();
   const [orderInfo, setOrderInfo] = useState<AuthTransaction | null>(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<Boolean>(false);
 
   const fetchReceiptInfo = async () => {
-    const response = await axios.get(
-      `https://eatman-api.onrender.com/api/order/${orderId}`,
-      {
-        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-      }
-    );
-    setOrderInfo(response?.data);
+    setLoading(true)
+    try {
+      const response = await axios.get(
+        `${baseURL}/order/${orderId}`,
+        {
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+        }
+      );
+      let res = await response?.data;
+      setOrderInfo(res);
+      setLoading(false)
+    } catch (error) {
+      console.log(error);
+    };
   };
 
   useEffect(() => {
@@ -51,85 +61,87 @@ const Index = () => {
               </div>
 
               <div className={Styles.userDetailsContainer}>
-                <div className={UserStyles.userDetails__sectionTitle}>
-                  Transaction Details
-                </div>
-                <div className={Receipt.userDetailsContainer}>
-                  <section>
-                    <div className={Styles.bot}>
-                      <div className={Styles.infoTop}>
-                        <div className={Styles.customerDetails}>
-                          <h4>Customer Name: </h4>
-                          <p>{orderInfo?.name}</p>
+                {loading ? <Spinner /> : (<>
+                  <div className={UserStyles.userDetails__sectionTitle}>
+                    Transaction Details
+                  </div>
+                  <div className={Receipt.userDetailsContainer}>
+                    <section>
+                      <div className={Styles.bot}>
+                        <div className={Styles.infoTop}>
+                          <div className={Styles.customerDetails}>
+                            <h4>Customer Name: </h4>
+                            <p>{orderInfo?.name}</p>
+                          </div>
+                          <div className={Styles.customerDetails}>
+                            <h4>Payment Medium: </h4>
+                            <p>{orderInfo?.payment_medium}</p>
+                          </div>
+                          <div className={Styles.customerDetails}>
+                            <h4>Payment Date: </h4>
+                            <p>
+                              {orderInfo?.payment_date}
+                              {/* 12<sup>th</sup>, March 2023 */}
+                            </p>
+                          </div>
+                          <div className={Styles.customerDetails}>
+                            <h4>Payment Status: </h4>
+                            <p>{orderInfo?.payment_status}</p>
+                          </div>
                         </div>
-                        <div className={Styles.customerDetails}>
-                          <h4>Payment Medium: </h4>
-                          <p>{orderInfo?.payment_medium}</p>
-                        </div>
-                        <div className={Styles.customerDetails}>
-                          <h4>Payment Date: </h4>
-                          <p>
-                            {orderInfo?.payment_date}
-                            {/* 12<sup>th</sup>, March 2023 */}
-                          </p>
-                        </div>
-                        <div className={Styles.customerDetails}>
-                          <h4>Payment Status: </h4>
-                          <p>{orderInfo?.payment_status}</p>
-                        </div>
-                      </div>
-                      <div className={Styles.table}>
-                        <table className={Styles.table}>
-                          <>
-                            <thead>
-                              <tr className={Styles.tabletitle}>
-                                <td className={Styles.td}>
-                                  <h2>Item</h2>
-                                </td>
-                                <td className={Styles.td}>
-                                  <h2>Price</h2>
-                                </td>
-                                <td className={Styles.td}>
-                                  <h2>Qty</h2>
-                                </td>
-                                <td className={Styles.td}>
-                                  <h2>Sub Total</h2>
-                                </td>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <>
-                                {orderInfo?.orders.map((item, index: number) => {
-                                  return (
-                                    <tr className={Styles.service} key={index}>
-                                      <td className={Styles.itemtext}>{item.meal}</td>
-                                      <td className={Styles.itemtext}>&#8358; {item.price}</td>
-                                      <td className={Styles.itemtext}>
-                                        {item?.quantity}
-                                      </td>
-                                      <td className={Styles.itemtext}>
-                                        &#8358; {item?.totalAmount}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                                <tr className={Styles.service}>
-                                  <td></td>
-                                  <td className={Styles.itemtext}>
-                                    <h2>Total</h2>
+                        <div className={Styles.table}>
+                          <table className={Styles.table}>
+                            <>
+                              <thead>
+                                <tr className={Styles.tabletitle}>
+                                  <td className={Styles.td}>
+                                    <h2>Item</h2>
                                   </td>
-                                  <td className={Styles.itemtext}>
-                                    <h2>&#8358; {orderInfo?.totalPrice}</h2>
+                                  <td className={Styles.td}>
+                                    <h2>Price</h2>
+                                  </td>
+                                  <td className={Styles.td}>
+                                    <h2>Qty</h2>
+                                  </td>
+                                  <td className={Styles.td}>
+                                    <h2>Sub Total</h2>
                                   </td>
                                 </tr>
-                              </>
-                            </tbody>
-                          </>
-                        </table>
+                              </thead>
+                              <tbody>
+                                <>
+                                  {orderInfo?.orders.map((item, index: number) => {
+                                    return (
+                                      <tr className={Styles.service} key={index}>
+                                        <td className={Styles.itemtext}>{item.meal}</td>
+                                        <td className={Styles.itemtext}>&#8358; {item.price}</td>
+                                        <td className={Styles.itemtext}>
+                                          {item?.quantity}
+                                        </td>
+                                        <td className={Styles.itemtext}>
+                                          &#8358; {item?.totalAmount}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                  <tr className={Styles.service}>
+                                    <td></td>
+                                    <td className={Styles.itemtext}>
+                                      <h2>Total</h2>
+                                    </td>
+                                    <td className={Styles.itemtext}>
+                                      <h2>&#8358; {orderInfo?.totalPrice}</h2>
+                                    </td>
+                                  </tr>
+                                </>
+                              </tbody>
+                            </>
+                          </table>
+                        </div>
                       </div>
-                    </div>
-                  </section>
-                </div>
+                    </section>
+                  </div></>)}
+
               </div>
             </div>
           </div>

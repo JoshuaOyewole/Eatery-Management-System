@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
+import ReactLoading from "react-loading";
 import Styles from "./_viewRecord.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserStyles from "../../components/ui/UserInfoSection/_user.module.scss";
@@ -11,7 +12,9 @@ import Table from "../../components/ui/Table/table";
 import { faArrowPointer } from "@fortawesome/free-solid-svg-icons";
 import { currentDate } from '../../utils/function'
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
-import {AuthTransaction} from "../../utils/types"
+import { AuthTransaction } from "../../utils/types"
+let baseURL = "https://eatman-api.onrender.com/api";
+
 
 type Props = {
   record?: string;
@@ -20,7 +23,6 @@ type Props = {
 
 
 const Index = (props: Props) => {
-
   const navigate = useNavigate();
   // Get the EOD Date param from the URL.
   const [date] = useSearchParams();
@@ -41,17 +43,26 @@ const Index = (props: Props) => {
   ]);
 
   const [orders, setOrder] = useState<AuthTransaction[]>([]);
-  //const [loading, setLoading] = useState<Boolean>(true);
+  const [loading, setLoading] = useState<Boolean>(false);
 
 
   /* FETCH ORDERS FOR TODAY*/
   const fetchOrders = async () => {
-    const response = await axios.get(`https://eatman-api.onrender.com/api/records?q=${query !== null ? query : today}`,
-      {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/records`, {
+        params: {
+          "q": `${query !== null ? query : today}`,
+        },
         headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
       });
-    setOrder(response?.data);
-    //setLoading(false);
+      let res = await response?.data;
+      setOrder(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+
+    }
   };
 
   /* FETCH ORDERS FROM LOCALSTORAGE TO ENABLE FASTER LOADING */
@@ -71,7 +82,7 @@ const Index = (props: Props) => {
       <DashboardLayout>
         <main className={Styles.transactions__heading}>
           <div className={Styles.transactions__table}>
-            <div className={Styles.userContainer}>
+            {loading ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}><ReactLoading type={"bars"} color="#333" /></div> : <div className={Styles.userContainer}>
               <div className={Styles.navigateUser__header}>
                 <h2 className={Styles["transactions__heading--title"]}>
                   {orders.length ? orders.length : "0"}
@@ -124,7 +135,7 @@ const Index = (props: Props) => {
                   )}
                 </section>
               </div>
-            </div>
+            </div>}
           </div>
         </main>
       </DashboardLayout>

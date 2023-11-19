@@ -19,7 +19,7 @@ const OrderMeal = () => {
 
   //Fetch Meals state from Redux Store when the App loads
   const meals = useAppSelector(state => state.meal.meals);
-  
+
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
   const pRef = useRef<HTMLInputElement | null>(null);
@@ -31,7 +31,7 @@ const OrderMeal = () => {
   const [meal, setMeal] = useState<string>();
   const [paymentMedium, setPaymentMedium] = useState<string | null>(null);
 
-  const [quantity, setQty] = useState<number>(1);
+  const [quantity, setQty] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   let [totalOrderPrice, setTotalOrderPrice] = useState<number>(0);
   const [orderCart, setorderCart] = useState<orderCartProps[]>([]);
@@ -67,8 +67,11 @@ const OrderMeal = () => {
       //Get the MEAL selected inorder to get the Price
       const selectedmeal = meals.filter((mealList) => mealList.title === meal);
 
+
       //Get the PRICE from the MEAL selected
       setPrice(selectedmeal[0].price);
+      //Set the QTY to 1 before a user decides to INCREASE|DECREASE
+      setQty(1)
     }
   }, [meal, meals]);
 
@@ -152,7 +155,7 @@ const OrderMeal = () => {
           /* UPDATE RESPONSE MESSAGE */
           setResponseMessage(response.payload.message);
           /* UPDATE INVOICE ID */
-        
+
           setInvoiceID(response.payload.id);
           /* OPEN MODAL DISPLAY ORDER SUCCESS INFORMATION*/
           setIsModalOpen(true);
@@ -220,8 +223,8 @@ const OrderMeal = () => {
                 name="selectMeals"
               >
                 <>
-                  <option defaultValue={"Choose One"} disabled>
-                    Choose one
+                  <option defaultValue={"Choose One"}>
+                    --Select a Meal--
                   </option>
                 </>
                 {meals.map((meal, index) => {
