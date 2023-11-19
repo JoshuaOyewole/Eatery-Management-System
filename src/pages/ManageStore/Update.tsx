@@ -5,67 +5,67 @@ import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Input from "../../components/forms/formInput/Index";
 import Button from "../../components/ui/Button";
 import { useNavigate, useParams } from "react-router-dom";
+import { MealProps } from "../../utils/types";
+import { Spinner, SpinnerButton } from "../../components/ui/Spinner/Spinner";
+let baseURL = "https://eatman-api.onrender.com/api";
 
-type MealProps = {
-  title?: string,
-  price?: number,
-  category?: string,
-  description?:string
-};
 
 const initialState = {};
 
 function UpdateMeal() {
   const navigate = useNavigate();
+  const [loading, setIsloading] = useState(false)
   const { id } = useParams(); //Meal ID
   /* CURRENT VALUE WHICH WILL BE USED FOR THE INPUT PLACEHOLDER */
   const [meal, setMeal] = useState<MealProps>({} as MealProps);
   /* NEW VALUE'S WHICH WILL BE SENT VIA THE API ENDPOINT */
-  const [payload, setPayload] = useState<MealProps>({title:" ", price: 500, description:" "});
+  //const [payload, setPayload] = useState<MealProps>({title:" ", price: 500, description:" "});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-    setPayload({
-      ...payload,
+    setMeal({
+      ...meal,
       [e.currentTarget.name]: e.currentTarget.value,
     });
   };
 
-  
+
 
   useEffect(() => {
     const fetchMeal = async () => {
+      setIsloading(true)
       try {
-        const response = await axios.get(`https://eatman-api.onrender.com/api/meal/${id}`,
-        {
-          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
-        });
-        
+        const response = await axios.get(`${baseURL}/meal/${id}`,
+          {
+            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+          });
         setMeal(response.data);
+        setIsloading(false)
       } catch (error) {
         console.log(error);
+        setIsloading(false)
       }
     };
     fetchMeal();
-  },[id]);
+  }, [id]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsloading(true)
     try {
       const response = await axios.patch(
-        `https://eatman-api.onrender.com/api/meal/${id}`,
+        `${baseURL}/meal/${id}`,
         {
-          title: payload.title,
-          price: payload.price,
-          description: payload.description,
+          title: meal.title,
+          price: meal.price,
+          description: meal.description,
         },
         {
-          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         }
       );
 
-      if (response.data.success === true) {
-        setMeal(initialState);
+      if (response.data.success) {
         toast.success(`${response.data.message}`, {
           position: "top-right",
           autoClose: 3000,
@@ -75,6 +75,8 @@ function UpdateMeal() {
           draggable: true,
           progress: undefined,
         });
+        setIsloading(false)
+        navigate("/manage-store/update-meal")
       }
     } catch (error: any) {
       const errMsg = error.response.data.message
@@ -90,8 +92,11 @@ function UpdateMeal() {
         draggable: true,
         progress: undefined,
       });
+      setIsloading(false)
     }
   };
+
+
   return (
     <>
       <DashboardLayout>
@@ -115,11 +120,11 @@ function UpdateMeal() {
             </div>
           </div>
 
-          <form className="login-form" onSubmit={handleSubmit}>
+          {loading ? <Spinner /> : (<form className="login-form" onSubmit={handleSubmit}>
             <Input
               type="text"
               name="title"
-              value={payload.title}
+              value={meal.title}
               placeholder={meal.title}
               labelName="Meal Name"
               onChange={handleChange}
@@ -128,7 +133,7 @@ function UpdateMeal() {
             <Input
               type="number"
               name="price"
-              value={payload.price}
+              value={meal.price}
               onChange={handleChange}
               placeholder={meal.price?.toString()}
               labelName="Meal price"
@@ -137,14 +142,16 @@ function UpdateMeal() {
             <Input
               type="text"
               name="description"
-              value={payload.description}
+              value={meal.description}
               onChange={handleChange}
               placeholder={meal.description}
               labelName="Description"
               required
             />
-            <Input type="submit" value="Update" className="btn primary-btn" />
-          </form>
+            <button className="btn primary-btn">
+              {loading ? <SpinnerButton title="Updating" /> : "Update"}
+            </button>
+          </form>)}
         </main>
         <ToastContainer
           position="top-right"

@@ -9,18 +9,14 @@ import Modal from "./Modal";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
 import { getMeals } from "../../redux/features/meal/mealSlice";
-import { useAppDispatch } from "../../redux/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { Spinner } from "../../components/ui/Spinner/Spinner";
 
-type mealProps = {
-  _id: string;
-  title: string;
-  price: Number;
-};
 
 function UpdateMeal() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [meals, setMeal] = useState<mealProps[]>([]);
+  const mealData = useAppSelector(state => state.meal);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   /* TABLE HEADER */
@@ -28,19 +24,14 @@ function UpdateMeal() {
 
   useEffect(() => {
     //FETCH MEALS
-    const fetchMeals = async () => {
-    let x = await dispatch(getMeals());
-    console.log(x.payload)
-      //setMeal(data);
-      //setLoading(false);
-    };
-    fetchMeals();
+    dispatch(getMeals());
   }, []);
 
   const handleUpdateMeal = (_id: string) => {
     navigate(`${_id}`)
     setIsModalOpen(!isModalOpen);
   };
+
   return (
     <>
       <DashboardLayout>
@@ -61,12 +52,12 @@ function UpdateMeal() {
             </div>
           </div>
           <div className={Styles.userDetailsContainer}>
-            <section
+            {mealData.loading ? <Spinner /> : (<section
               className={`${TableStyles.table_container} ${TableStyles.tableContainer} `}
             >
-              {meals.length > 0 ? (
+              {mealData.meals.length > 0 ? (
                 <Table tableHeader={tableHeader}>
-                  {meals?.map((meal, index) => {
+                  {mealData.meals?.map((meal, index) => {
                     const { _id, title, price } = meal;
                     return (
                       <TableRow key={index}>
@@ -89,7 +80,7 @@ function UpdateMeal() {
               ) : (
                 <h2>No Meal Found!</h2>
               )}
-            </section>
+            </section>)}
           </div>
           {/* MODAL FOR UPDATE MEAL*/}
           {isModalOpen && (

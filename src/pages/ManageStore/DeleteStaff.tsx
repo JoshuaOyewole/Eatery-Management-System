@@ -8,11 +8,18 @@ import Table from "../../components/ui/Table/table";
 import { toast, ToastContainer } from "react-toastify";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
-import { StaffProps } from "../../utils/types";
+import Swal from "sweetalert2";
+let baseURL = "https://eatman-api.onrender.com/api";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { fetchStaffs } from "../../redux/features/staffs/staffSlice";
+import { Spinner } from "../../components/ui/Spinner/Spinner";
+
 
 function DeleteStaff() {
   const navigate = useNavigate();
-  const [staff, setStaff] = useState<StaffProps[]>([]);
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false)
+  const staffData = useAppSelector((state) => state.staff);
   /* TABLE HEADER */
   const [tableHeader] = useState([
     "sn",
@@ -24,38 +31,41 @@ function DeleteStaff() {
     "Action",
   ]);
 
-  /* FETCH Staff*/
-  const fetchStaff = async () => {
-    const response = await axios.get(`https://eatman-api.onrender.com/api/staff`,
-    {
-      headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
-    });
-    setStaff(response?.data);
-    //setLoading(false);
-  };
+
   useEffect(() => {
-    fetchStaff();
+    /* FETCH Staff*/
+    dispatch(fetchStaffs());
   }, []);
 
   const handleDeleteStaff = async (id: any) => {
-    try {
-      const response= await axios.delete(
-        `https://eatman-api.onrender.com/api/staff/${id}`,
-        {
-          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
-        }
-      );
 
-      toast.success(response?.data, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+    try {
+      let res = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
       });
-      fetchStaff();
+      if (res.isConfirmed) {
+        let response = await axios.delete(
+          `${baseURL}staff/${id}`,
+          {
+            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+          }
+        );
+        let data = await response.data;
+        if (data.success) {
+          Swal.fire({
+            title: "Deleted!",
+            text: `${data.message}`,
+            icon: "success",
+          });
+        }
+        dispatch(fetchStaffs()); /* FETCH Staff*/
+      }
     } catch (error) {
       toast.error(`${error}`, {
         position: "top-right",
@@ -91,10 +101,10 @@ function DeleteStaff() {
             <section
               className={`${TableStyles.table_container} ${TableStyles.tableContainer} `}
             >
-              {staff.length > 0 ? (
+              {staffData.loading ? <Spinner /> : staffData.staffs.length > 0 ? (
                 <Table tableHeader={tableHeader}>
-                  {staff.map((staff, index) => {
-                    const {_id:id, firstname, lastname, email, gender, phone, state } =
+                  {staffData.staffs.map((staff, index) => {
+                    const { _id: id, firstname, lastname, email, gender, phone, state } =
                       staff;
                     return (
                       <TableRow key={index}>

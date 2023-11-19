@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Styles from "../ViewRecords/_viewRecord.module.scss";
 import Button from "../../components/ui/Button";
 import Table from "../../components/ui/Table/table";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
-import Spinner from "../../components/ui/Spinner/Spinner"
-import { mealProps } from "../../utils/types";
+import { Spinner } from "../../components/ui/Spinner/Spinner"
+import { getMeals } from "../../redux/features/meal/mealSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+
 
 
 
 function ViewMeals() {
   const navigate = useNavigate();
-  const [meals, setMeal] = useState<mealProps[]>([]);
-  //const count = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useAppDispatch();
+const mealData = useAppSelector((state) => state.meal);
 
 
   /* TABLE HEADER */
@@ -25,21 +26,8 @@ function ViewMeals() {
     "Price",
   ]);
 
-  /* FETCH MEALS*/
-  const fetchMeals = async () => {
-    //Get Token from localStorage
-    let token = localStorage.getItem('token');
-
-    const response = await axios.get(`https://eatman-api.onrender.com/api/meal`,
-      {
-        headers: { "Authorization": `Bearer ${token}` } 
-      });
-    //Update the meals object
-    setMeal(response?.data);
-    //setLoading(false);
-  };
   useEffect(() => {
-    fetchMeals();
+    dispatch(getMeals());
   }, []);
 
   return (
@@ -65,23 +53,23 @@ function ViewMeals() {
             <section
               className={`${TableStyles.table_container} ${TableStyles.tableContainer} `}
             >
-              {meals.length > 0 ?
-               (
-                <Table tableHeader={tableHeader}>
-                  {meals?.map((meal, index) => {
-                    const { title, price } = meal;
-                    return (
-                      <TableRow key={index}>
-                        <td>{index + 1}</td>
-                        <td>{title}</td>
-                        <td>
-                          <>&#8358; {price}</>
-                        </td>
-                      </TableRow>
-                    );
-                  })}
-                </Table>
-              ) : <Spinner />}
+              {mealData.meals.length > 0 ?
+                (
+                  <Table tableHeader={tableHeader}>
+                    {mealData.meals?.map((meal, index) => {
+                      const { title, price } = meal;
+                      return (
+                        <TableRow key={index}>
+                          <td>{index + 1}</td>
+                          <td>{title}</td>
+                          <td>
+                            <>&#8358; {price}</>
+                          </td>
+                        </TableRow>
+                      );
+                    })}
+                  </Table>
+                ) : <Spinner />}
             </section>
           </div>
         </main>

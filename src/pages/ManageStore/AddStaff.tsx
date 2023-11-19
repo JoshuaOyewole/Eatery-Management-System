@@ -6,7 +6,7 @@ import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Input from "../../components/forms/formInput/Index";
 import axios from "axios";
 import { StaffProps } from "../../utils/types";
-
+let baseURL = "https://eatman-api.onrender.com/api";
 
 const initialState = {
   firstname: "",
@@ -37,14 +37,14 @@ function AddStaff() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `https://eatman-api.onrender.com/register`,
+        `${baseURL}/register`,
         staff,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         }
       );
 
-      if (response.data.success === true) {
+      if (response.data.success) {
         setStaff(initialState);
         toast.success(`${response.data.message}`, {
           position: "top-right",
@@ -220,7 +220,6 @@ function AddStaff() {
                 placeholder="Passport"
                 labelName="Choose a File"
                 accept="jpg,png"
-                required
               />
             </div>
             <Input

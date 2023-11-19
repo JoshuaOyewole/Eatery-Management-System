@@ -5,25 +5,14 @@ import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Input from "../../components/forms/formInput/Index";
 import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
+import { FoodCategory, MealProps } from "../../utils/types";
+import { SpinnerButton } from "../../components/ui/Spinner/Spinner";
+let baseURL = "https://eatman-api.onrender.com/api";
 /* import { GiFruitTree, GiChickenOven, GiBeerBottle, GiBowlOfRice } from "react-icons/gi";
 import { MdOutlineIcecream } from "react-icons/md";
 import { FaFish } from "react-icons/fa"; */
 
-type MealProps = {
-  title?: string;
-  price?: number;
-  description?: string,
-  category?: string
-  qty?: number,
-  imageURL?:string
-};
 
-type FoodCategory = {
-  _id?: string;
-  name?: string;
-  urlParam?: string;
-  icon?: string
-}
 
 const initalFoods = [{}]
 
@@ -33,11 +22,12 @@ const initialState = {
   description: '',
   category: '',
   qty: 0,
-  imageURL:""
+  imageURL: ""
 };
 
 function AddMeal() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false)
   const [meal, setMeal] = useState<MealProps>(initialState);
   const [categories, setCategory] = useState<FoodCategory[]>(initalFoods);
 
@@ -50,20 +40,22 @@ function AddMeal() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
     try {
-      const response = await axios.post(`https://eatman-api.onrender.com/api/meal`, {
+      const response = await axios.post(`${baseURL}/meal`, {
         title: meal.title,
         price: meal.price,
         description: meal.description,
         category: meal.category,
-        qty:meal.qty,
-        imageURL:meal.imageURL
-      },{
-        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+        qty: meal.qty,
+        imageURL: meal.imageURL
+      }, {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
       });
 
       if (response.data.success === true) {
         setMeal(initialState);
+        setIsLoading(false)
         toast.success(`${response.data.message}`, {
           position: "top-right",
           autoClose: 3000,
@@ -88,6 +80,7 @@ function AddMeal() {
         draggable: true,
         progress: undefined,
       });
+      setIsLoading(false)
     }
   };
 
@@ -104,9 +97,9 @@ function AddMeal() {
     const getCategories = async () => {
       try {
         const response = await axios.get(`https://eatman-api.onrender.com/api/foodCategories`,
-        {
-          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
-        });
+          {
+            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+          });
 
         if (response.data) {
           setCategory(response.data);
@@ -179,7 +172,6 @@ function AddMeal() {
                 onChange={handleChange}
                 placeholder="Short description of the Meal"
                 labelName="Meal Description"
-                required
               />
               <div>
                 <label htmlFor="category">Category:</label>
@@ -187,10 +179,11 @@ function AddMeal() {
                   onChange={selectChange}
                   className="selectMeal w-100 mb-m"
                   name="categories"
+                  required
                 >
                   <>
-                    <option defaultValue={"Choose One"} disabled>
-                      Choose one
+                    <option defaultValue={"Choose One"}>
+                      --Select a Category--
                     </option>
                   </>
                   {categories.map((cat, index) => {
@@ -202,16 +195,17 @@ function AddMeal() {
                   })}
                 </select>
               </div>
-              <Input type="submit" value="Add" className="btn primary-btn" />
+              <button type="submit" className="btn primary-btn" >
+                {isLoading ? <SpinnerButton /> : "Add"}
+              </button>
             </div>
             <div className="add-meal-form__right">
-            <Input
+              <Input
                 type="file"
                 name="imageURL"
                 value={meal.imageURL}
                 labelName="Kindly Upload an Image"
                 onChange={handleChange}
-                required
               />
             </div>
           </form>
