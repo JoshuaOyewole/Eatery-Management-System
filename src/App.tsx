@@ -60,6 +60,9 @@ function App() {
           <Route path="/eod/filter" element={<EODDate />} />
         </Route>
         <Route element={<ProtectedRoute />}>
+          <Route path="/records/orders" element={<EODDate />} />
+        </Route>
+        <Route element={<ProtectedRoute />}>
           <Route path="/records" element={<ViewOrderLayout />} />
         </Route>
         <Route element={<ProtectedRoute />}>
