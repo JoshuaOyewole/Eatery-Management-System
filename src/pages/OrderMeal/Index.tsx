@@ -223,7 +223,7 @@ const OrderMeal = () => {
                 name="selectMeals"
               >
                 <>
-                  <option defaultValue={"Choose One"}>
+                  <option defaultValue={"Choose One"} disabled >
                     --Select a Meal--
                   </option>
                 </>

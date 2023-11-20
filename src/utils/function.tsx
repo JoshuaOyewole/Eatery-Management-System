@@ -90,6 +90,7 @@ export const printEODSummary = (eod: AuthTransaction[], today: string, navigate:
     return eod?.length !== 0
         ? navigate(`/printEODSummary?q=${today}`)
         : alert("No Transaction Found");
+        
 }
 
 //Approved Transactions

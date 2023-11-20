@@ -51,19 +51,19 @@ function DeleteStaff() {
       });
       if (res.isConfirmed) {
         let response = await axios.delete(
-          `${baseURL}staff/${id}`,
+          `${baseURL}/staff/${id}`,
           {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
           }
         );
-        let data = await response.data;
-        if (data.success) {
-          Swal.fire({
-            title: "Deleted!",
-            text: `${data.message}`,
-            icon: "success",
-          });
-        }
+        let msg = await response.data;
+
+        Swal.fire({
+          title: "Deleted!",
+          text: `${msg}`,
+          icon: "success",
+        });
+
         dispatch(fetchStaffs()); /* FETCH Staff*/
       }
     } catch (error) {

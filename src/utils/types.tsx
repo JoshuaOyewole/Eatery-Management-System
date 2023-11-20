@@ -160,3 +160,7 @@ export type FoodCategory = {
     urlParam?: string;
     icon?: string
 }
+
+export type EodProps = {
+
+}

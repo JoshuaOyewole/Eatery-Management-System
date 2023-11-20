@@ -6,6 +6,7 @@ import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import Input from "../../components/forms/formInput/Index";
 import axios from "axios";
 import { StaffProps } from "../../utils/types";
+import { SpinnerButton } from "../../components/ui/Spinner/Spinner";
 let baseURL = "https://eatman-api.onrender.com/api";
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
 function AddStaff() {
   const navigate = useNavigate();
   const [staff, setStaff] = useState<StaffProps>(initialState);
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStaff({
@@ -35,6 +37,7 @@ function AddStaff() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await axios.post(
         `${baseURL}/register`,
@@ -56,6 +59,7 @@ function AddStaff() {
           progress: undefined,
         });
       }
+      setLoading(false)
     } catch (error: any) {
       const errMsg = error.response.data.message
         ? error.response.data.message
@@ -70,6 +74,7 @@ function AddStaff() {
         draggable: true,
         progress: undefined,
       });
+      setLoading(false)
     }
   };
 
@@ -222,11 +227,9 @@ function AddStaff() {
                 accept="jpg,png"
               />
             </div>
-            <Input
-              type="submit"
-              value="Add Staff"
-              className="btn primary-btn"
-            />
+            <button className="btn primary-btn">
+              {loading ? <SpinnerButton /> : "Add Staff"}
+            </button>
           </form>
         </main>
         <ToastContainer
