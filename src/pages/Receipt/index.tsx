@@ -40,9 +40,11 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    if (orderInfo !== null) {
-      printWindow();
-    }
+    setTimeout(() => {
+      if (orderInfo !== null) {
+        printWindow();
+      }
+    }, 2000);
   }, [orderInfo])
 
 

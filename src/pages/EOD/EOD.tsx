@@ -34,7 +34,7 @@ const EOD = () => {
     const fetchEOD = async () => {
       setLoading(true)
       const res = await axios.get(
-        `${env.VITE_API_URL}/api/records?q=${query}`,
+        `${env.VITE_API_URL}/records?q=${query}`,
         {
           headers: { "Authorization": `Bearer ${token}` }
         }

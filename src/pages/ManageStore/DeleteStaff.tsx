@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import TableRow from "../../components/ui/Table/tablebody";
 import TableStyles from "../../components/ui/Table/_table.module.scss";
 import Swal from "sweetalert2";
-let baseURL = "https://eatman-api.onrender.com/api";
+const env = import.meta.env;
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { fetchStaffs } from "../../redux/features/staffs/staffSlice";
 import { Spinner } from "../../components/ui/Spinner/Spinner";
@@ -51,7 +51,7 @@ function DeleteStaff() {
       });
       if (res.isConfirmed) {
         let response = await axios.delete(
-          `${baseURL}/staff/${id}`,
+          `${env.VITE_API_URL}/staff/${id}`,
           {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
           }

@@ -10,7 +10,7 @@ import { AuthTransaction } from "../../utils/types";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import { Spinner } from "../../components/ui/Spinner/Spinner";
 //import DashboardLayout from "../../Layout/Dashboard/Dashboard";
-let baseURL = "https://eatman-api.onrender.com/api";
+const env = import.meta.env;
 
 const Index = () => {
   const { orderId } = useParams();
@@ -22,7 +22,7 @@ const Index = () => {
     setLoading(true)
     try {
       const response = await axios.get(
-        `${baseURL}/order/${orderId}`,
+        `${env.VITE_API_URL}/order/${orderId}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         }

@@ -7,7 +7,7 @@ import Input from "../../components/forms/formInput/Index";
 import axios from "axios";
 import { StaffProps } from "../../utils/types";
 import { SpinnerButton } from "../../components/ui/Spinner/Spinner";
-let baseURL = "https://eatman-api.onrender.com/api";
+const env = import.meta.env;
 
 const initialState = {
   firstname: "",
@@ -40,7 +40,7 @@ function AddStaff() {
     setLoading(true)
     try {
       const response = await axios.post(
-        `${baseURL}/register`,
+        `${env.VITE_API_URL}/register`,
         staff,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }

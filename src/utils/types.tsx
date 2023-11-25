@@ -13,7 +13,16 @@ export type StaffProps = {
     lga: string,
     passport: string,
 }
+// Define the type for your option
+export interface mealSelectOptions {
+    value: string;
+    label: string;
+}
 
+export interface SelectProps {
+    options: mealSelectOptions[],
+    handleChange?: (selectedOption: mealSelectOptions | null) => void;
+}
 export type addOrderInitialState = {
     loading: boolean,
     order: {},

@@ -7,11 +7,7 @@ import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import { FoodCategory, MealProps } from "../../utils/types";
 import { SpinnerButton } from "../../components/ui/Spinner/Spinner";
-let baseURL = "https://eatman-api.onrender.com/api";
-/* import { GiFruitTree, GiChickenOven, GiBeerBottle, GiBowlOfRice } from "react-icons/gi";
-import { MdOutlineIcecream } from "react-icons/md";
-import { FaFish } from "react-icons/fa"; */
-
+const env = import.meta.env;
 
 
 const initalFoods = [{}]
@@ -42,7 +38,7 @@ function AddMeal() {
     e.preventDefault();
     setIsLoading(true)
     try {
-      const response = await axios.post(`${baseURL}/meal`, {
+      const response = await axios.post(`${env.VITE_API_URL}/meal`, {
         title: meal.title,
         price: meal.price,
         description: meal.description,

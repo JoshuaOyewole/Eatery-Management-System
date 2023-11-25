@@ -7,7 +7,7 @@ import Button from "../../components/ui/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { MealProps } from "../../utils/types";
 import { Spinner, SpinnerButton } from "../../components/ui/Spinner/Spinner";
-let baseURL = "https://eatman-api.onrender.com/api";
+const env = import.meta.env;
 
 
 const initialState = {};
@@ -35,7 +35,7 @@ function UpdateMeal() {
     const fetchMeal = async () => {
       setIsloading(true)
       try {
-        const response = await axios.get(`${baseURL}/meal/${id}`,
+        const response = await axios.get(`${env.VITE_API_URL}/meal/${id}`,
           {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
           });
@@ -54,7 +54,7 @@ function UpdateMeal() {
     setIsloading(true)
     try {
       const response = await axios.patch(
-        `${baseURL}/meal/${id}`,
+        `${env.VITE_API_URL}/meal/${id}`,
         {
           title: meal.title,
           price: meal.price,

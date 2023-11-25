@@ -5,7 +5,7 @@ import axios from "axios";
 import { approvedTrans, declinedTrans, getTodaySaleAmount } from "../../utils/function";
 import { AuthTransaction } from "../../utils/types";
 import { Spinner } from "../../components/ui/Spinner/Spinner";
-let baseURL = "https://eatman-api.onrender.com/api"
+const env = import.meta.env;
 
 
 function EODReport() {
@@ -30,7 +30,7 @@ function EODReport() {
   useEffect(() => {
     const fetchEODReport = async () => {
       setIsLoading(true)
-      const res = await axios.get(`${baseURL}/records/?q=${date}`,
+      const res = await axios.get(`${env.VITE_API_URL}/records/?q=${date}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         });
@@ -49,7 +49,7 @@ function EODReport() {
     if (eod !== null) {
       setTimeout(() => {
         printWindow();
-      }, 1000);
+      }, 2000);
     }
   }, []);
   {

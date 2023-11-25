@@ -13,7 +13,7 @@ import { faArrowPointer } from "@fortawesome/free-solid-svg-icons";
 import { currentDate } from '../../utils/function'
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import { AuthTransaction } from "../../utils/types"
-let baseURL = "https://eatman-api.onrender.com/api";
+const env = import.meta.env;
 
 
 type Props = {
@@ -50,7 +50,7 @@ const Index = (props: Props) => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${baseURL}/records`, {
+      const response = await axios.get(`${env.VITE_API_URL}/records`, {
         params: {
           "q": `${query !== null ? query : today}`,
         },

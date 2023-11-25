@@ -5,11 +5,12 @@ import Modal from "../../components/ui/Modal/Modal";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
-import { orderCartProps } from '../../utils/types'
+import { mealSelectOptions, orderCartProps } from '../../utils/types'
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { getMeals } from "../../redux/features/meal/mealSlice";
 import { currentDate } from "../../utils/function";
 import { addOrder, resetOrder } from "../../redux/features/addOrder/addOrderSlice";
+import Select from "../../components/forms/select/Select";
 
 const OrderMeal = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,10 @@ const OrderMeal = () => {
 
   //Fetch Meals state from Redux Store when the App loads
   const meals = useAppSelector(state => state.meal.meals);
+  let newMeal = meals.map(meal => {
+    return { value: meal.title, label: meal.title }
+  })
+
 
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
@@ -52,8 +57,13 @@ const OrderMeal = () => {
   }, []);
 
   //Change the Meal option selected by a user
-  const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setMeal(event.target.value)
+  const selectChange = (selectedOption: mealSelectOptions | null) => {
+    if (selectedOption) {
+      // 'selectedOption' will contain the selected option value and label
+      const { value } = selectedOption;
+      setMeal(value)
+    }
+
   };
 
   //Change Price to that of the Meal Selected
@@ -202,6 +212,7 @@ const OrderMeal = () => {
   }, [isOrderSucess])
 
 
+
   return (
     <>
       <DashboardLayout>
@@ -216,11 +227,11 @@ const OrderMeal = () => {
                 Select a Meal *
               </label>
 
-              <select
+              {/*  <select
                 ref={selectMealRef}
-                onChange={selectChange}
                 className="selectMeal"
                 name="selectMeals"
+
               >
                 <>
                   <option defaultValue={"Choose One"} disabled >
@@ -234,7 +245,9 @@ const OrderMeal = () => {
                     </option>
                   );
                 })}
-              </select>
+              </select> */}
+
+              <Select options={newMeal} handleChange={selectChange} />
             </div>
             <div className="formContainer">
               <label htmlFor="price" className="mealLabel">

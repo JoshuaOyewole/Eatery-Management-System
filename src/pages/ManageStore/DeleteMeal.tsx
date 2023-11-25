@@ -10,7 +10,7 @@ import TableStyles from "../../components/ui/Table/_table.module.scss";
 import Swal from "sweetalert2";
 import { Spinner } from "../../components/ui/Spinner/Spinner";
 import { mealProps } from "../../utils/types";
-let baseURL = "https://eatman-api.onrender.com/api";
+const env = import.meta.env;
 
 function DeleteMeal() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function DeleteMeal() {
   const fetchMeals = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${baseURL}/meal`,
+      const response = await axios.get(`${env.VITE_API_URL}/meal`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         });
@@ -51,7 +51,7 @@ function DeleteMeal() {
       });
       if (res.isConfirmed) {
         const response = await axios.delete(
-          `${baseURL}/meal/${_id}`,
+          `${env.VITE_API_URL}/meal/${_id}`,
           {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
           }
