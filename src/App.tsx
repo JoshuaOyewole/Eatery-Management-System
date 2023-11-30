@@ -26,7 +26,6 @@ import DeleteStaff from "./pages/ManageStore/DeleteStaff";
 
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
-import MySelect from "./pages/select";
 
 export const Home = () => {
   return (
@@ -50,7 +49,6 @@ function App() {
       />
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/select" element={<MySelect />} />
         <Route path="/admin/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Dashboard />} />
