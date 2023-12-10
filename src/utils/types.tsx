@@ -19,6 +19,23 @@ export interface mealSelectOptions {
     label: string;
 }
 
+export type totalForDay = {
+    totalAmount: number,
+    totalCount: number
+}
+export type totalForMonth = {
+    totalAmount: number,
+    totalCount: number
+}
+export type dashboardSummaryProps = {
+    totalForDay: totalForDay,
+    totalForMonth: totalForMonth
+}
+export type topSellingProps = {
+    totalQuantity: number,
+    _id: string
+}[]
+
 export interface SelectProps {
     options: mealSelectOptions[],
     handleChange?: (selectedOption: mealSelectOptions | null) => void;
@@ -74,6 +91,20 @@ export type loginResType = {
     details: userLoginResData | null,
     token: string | null,
     loading: boolean,
+}
+export type bestSelling = {
+    _id: String,
+    totalQuantity: number
+}[]
+export type salesSummary = {
+    totalForDay: {
+        totalAmount: String | number,
+        totalCount: String | number,
+    },
+    totalForMonth: {
+        totalAmount: String | number,
+        totalCount: String | number,
+    }
 }
 
 export type staffProps = {

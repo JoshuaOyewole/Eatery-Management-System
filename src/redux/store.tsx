@@ -14,7 +14,8 @@ import staffReducer from "./features/staffs/staffSlice";
 //import userReducer from "./features/users/userSlice";
 import mealReducer from "./features/meal/mealSlice";
 import addOrderReducer from "./features/addOrder/addOrderSlice";
-
+import topSelling from "./features/dashboard-summary/topSellingSlice";
+import dashboardSummary from "./features/dashboard-summary/dashboardsummarySlice";
 
 const persistConfig = {
   key: 'root',
@@ -28,6 +29,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
   meal: mealReducer,
   addOrder: addOrderReducer,
+  topSelling: topSelling,
+  dashboardSummary:dashboardSummary
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

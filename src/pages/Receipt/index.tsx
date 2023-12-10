@@ -4,7 +4,8 @@ import Styles from "./_receipt.module.scss";
 import axios from "axios";
 import { OrderProps } from "../../utils/types"
 import { Spinner } from "../../components/ui/Spinner/Spinner";
-let baseURL = "https://eatman-api.onrender.com/api";
+const env = import.meta.env;
+
 /* 
 TASK FOR TOMORROW
 Use the ID gottem from the parameter to query the database for the Receipt Info and update the UI
@@ -27,7 +28,7 @@ function Index() {
 
     const fetchReceiptInfo = async (id: string | undefined) => {
       setIsLoading(true)
-      const response = await axios.get(`${baseURL}/order/${id}`,
+      const response = await axios.get(`${env.VITE_API_URL}/order/${id}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         });

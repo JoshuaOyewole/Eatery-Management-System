@@ -92,7 +92,7 @@ function AddMeal() {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const response = await axios.get(`https://eatman-api.onrender.com/api/foodCategories`,
+        const response = await axios.get(`${env.VITE_API_URL}/foodCategories`,
           {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
           });

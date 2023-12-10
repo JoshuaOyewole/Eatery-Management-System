@@ -34,7 +34,7 @@ export const getMeals = createAsyncThunk('meal/fetchMeals', async () => {
 export const updateMeals = createAsyncThunk('meal/updateMeals', async (id) => {
     try {
         const res = await axios.patch(
-            `https://eatman-api.onrender.com/meal/${id}`,
+            `${env.VITE_API_URL}/meal/${id}`,
             { data: { title: String, price: Number, description: String } },
             {
                 headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }

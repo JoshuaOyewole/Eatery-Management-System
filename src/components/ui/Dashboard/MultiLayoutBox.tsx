@@ -17,18 +17,18 @@ const MultiLayoutBox = (props: BoxProps) => {
         <div className="dashboard__left">
           <div className="dashboard_box">
             <h2 className={`dashboard__content--heading ${hClass}`}>
-              {transfer}
+              {transfer?.toLocaleString()}
             </h2>
             <h4 className={`${pClass}`}>Transfers</h4>
           </div>
           <div className="dashboard_box">
-            <h2 className={`dashboard__content--heading ${hClass}`}>{POS}</h2>
+            <h2 className={`dashboard__content--heading ${hClass}`}>{POS?.toLocaleString()}</h2>
             <h4 className={`${pClass}`}>POS Trans</h4>
           </div>
         </div>
         <div className="dashboard__right">
           <div className="dashboard_box">
-            <h2 className={`dashboard__content--heading ${hClass}`}>{cash}</h2>
+            <h2 className={`dashboard__content--heading ${hClass}`}>{cash?.toLocaleString()}</h2>
             <h4 className={`${pClass}`}>Cash Payments</h4>
           </div>
         </div>

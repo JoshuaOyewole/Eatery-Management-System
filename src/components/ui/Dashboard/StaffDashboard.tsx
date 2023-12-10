@@ -1,49 +1,65 @@
+import { useEffect, useState } from "react";
 import Styles from "../../../pages/Dashboard/_dashboard.module.scss"
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks/hooks";
+import { top_selling } from "../../../redux/features/dashboard-summary/topSellingSlice";
+import { summary } from "../../../redux/features/dashboard-summary/dashboardsummarySlice";
+import { GetCurrentMonth } from "../../../utils/function";
 //import Chart from "../Chart/Chart"
 
 type Props = {
-    currentMonth:String,
-    name:String
+    name: String,
 }
 
 const StaffDashboard = (props: Props) => {
-    const {currentMonth,name} = props;
+    const dispatch = useAppDispatch();
+    const [currentMonth, setCurrentMonth] = useState<string>('')
+    let sales_summary = useAppSelector(state => state.dashboardSummary);
+    let best_selling = useAppSelector(state => state.topSelling);
+    const { name } = props;
 
-  return (
-    <main className={Styles.dashboard__content}>
-                    <div className={Styles["dashboard__content--top"]}>
-                        <h2 className={Styles.dashboard__heading}>Hi, {name} - Welcome to Dashboard</h2>
+    useEffect(() => {
+        dispatch(top_selling())
+        dispatch(summary());
+        //Get Current Month
+        setCurrentMonth(GetCurrentMonth());
+    }, [])
 
-                    </div>
-                    <div className={Styles["dashboard__box-container"]}>
-                        <div className={Styles["dashboard__box-content--left"]}>
 
-                            <div className={Styles["dashboard__box-content--leftWrapper"]}>
-                                <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--first"]}`}>
-                                    <div className={Styles["dashboard__sales-overview--top"]}>
-                                        <h4 className={Styles["dashboard__sales-overview--title"]}>Total Sales (Today)</h4>
-                                        <div className={Styles["dashboard__sales-overview--record-type"]}>Daily</div>
-                                    </div>
-                                    <p className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                        <strong>82</strong> Orders | 320,000
-                                    </p>
-                                </div>
+    return (
+        <main className={Styles.dashboard__content}>
+            <div className={Styles["dashboard__content--top"]}>
+                <h2 className={Styles.dashboard__heading}>Hi, {name} - Welcome to Dashboard</h2>
 
-                                <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--second"]} ml-s`} >
-                                    <div className={Styles["dashboard__sales-overview--top"]}>
-                                        <h4 className={Styles["dashboard__sales-overview--title"]}>{`${currentMonth} Overview`}</h4>
-                                        <div className={Styles["dashboard__sales-overview--record-type"]}>Monthly</div>
-                                    </div>
-                                    <p className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                        <strong>382</strong> Orders | 5,320,000
-                                    </p>
-                                </div>
+            </div>
+            <div className={Styles["dashboard__box-container"]}>
+                <div className={Styles["dashboard__box-content--left"]}>
+
+                    <div className={Styles["dashboard__box-content--leftWrapper"]}>
+                        <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--first"]}`}>
+                            <div className={Styles["dashboard__sales-overview--top"]}>
+                                <h4 className={Styles["dashboard__sales-overview--title"]}>Total Sales (Today)</h4>
+                                <div className={Styles["dashboard__sales-overview--record-type"]}>Daily</div>
                             </div>
-                            <div className={Styles["dashboard__sales-overview"]}>
-                                <div className={Styles["dashboard__sales-overview--top"]}>
-                                    <h4 className={Styles["dashboard__sales-overview--title"]}>Last 7 days</h4>
-                                </div>
-                               {/*  <Chart
+                            <p className={Styles["dashboard__sales-overview--sales-datas"]}>
+                                <strong className={Styles.orderValue}>{sales_summary?.dashboardSummary.totalForDay.totalCount}</strong> Orders | &#8358; {sales_summary?.dashboardSummary.totalForDay.totalAmount.toLocaleString()}
+                            </p>
+                        </div>
+
+                        <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--second"]} ml-s`} >
+                            <div className={Styles["dashboard__sales-overview--top"]}>
+                                <h4 className={Styles["dashboard__sales-overview--title"]}>{`${currentMonth} Overview`}</h4>
+                                <div className={Styles["dashboard__sales-overview--record-type"]}>Monthly</div>
+                            </div>
+                            <p className={Styles["dashboard__sales-overview--sales-datas"]}>
+                                <strong className={Styles.orderValue}>{sales_summary?.dashboardSummary.totalForMonth.totalCount.toLocaleString()}</strong> Orders | &#8358; {sales_summary?.dashboardSummary.totalForMonth.totalAmount.toLocaleString()}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={Styles["dashboard__sales-overview"]}>
+                        <div className={Styles["dashboard__sales-overview--top"]}>
+                            <h4 className={Styles["dashboard__sales-overview--title"]}>Last 7 days</h4>
+                        </div>
+                        {/*  <Chart
                                     options={{
                                         chart: {
                                             id: "basic-bar"
@@ -59,47 +75,33 @@ const StaffDashboard = (props: Props) => {
                                         }
                                     ]}
                                 /> */}
-                            </div>
+                    </div>
+                </div>
+                <div className={Styles["dashboard__box-content--right"]}>
+                    <div className={Styles["dashboard__sales-overview"]}>
+                        <div className={Styles["dashboard__sales-overview--top"]}>
+                            <h4 className={Styles["dashboard__sales-overview--title"]}>Top Selling Categories</h4>
                         </div>
-                        <div className={Styles["dashboard__box-content--right"]}>
-                            <div className={Styles["dashboard__sales-overview"]}>
-                                <div className={Styles["dashboard__sales-overview--top"]}>
-                                    <h4 className={Styles["dashboard__sales-overview--title"]}>Top Selling Categories</h4>
-                                </div>
-                                <ul className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                    <li>
+                        <ul className={Styles["dashboard__sales-overview--sales-datas"]}>
+                            {
+                                best_selling.topSelling.map((item, index) => {
+                                    return <li key={index}>
                                         <div className="flex space-between">
-                                            <div className={Styles.item}>Rice & Stew</div>
-                                            <div className={Styles.data}>40</div>
+                                            <div className={Styles.item}>{item._id}</div>
+                                            <div className={Styles.data}>{item.totalQuantity}</div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div className="flex space-between">
-                                            <div className={Styles.item}>Ice Cream</div>
-                                            <div className={Styles.data}>58</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="flex space-between">
-                                            <div className={Styles.item}>Fried Rice</div>
-                                            <div className={Styles.data}>88</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="flex space-between">
-                                            <div className={Styles.item}>Yohgurt</div>
-                                            <div className={Styles.data}>188</div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                })
+                            }
+                        </ul>
 
-                            </div>
-                            <div className={Styles["dashboard__sales-overview"]}>
-                                <div className={Styles["dashboard__sales-overview--top"]}>
-                                    <h4 className={Styles["dashboard__sales-overview--title"]}>Order Summary</h4>
-                                </div>
-                                <div className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                    {/* <Chart options={{
+                    </div>
+                    <div className={Styles["dashboard__sales-overview"]}>
+                        <div className={Styles["dashboard__sales-overview--top"]}>
+                            <h4 className={Styles["dashboard__sales-overview--title"]}>Order Summary</h4>
+                        </div>
+                        <div className={Styles["dashboard__sales-overview--sales-datas"]}>
+                            {/* <Chart options={{
                                         labels: ['Rice & Stew', 'Ice Cream', 'Fried Rice', 'Yohgurt'],
                                         responsive: [{
                                             breakpoint: 480,
@@ -113,13 +115,13 @@ const StaffDashboard = (props: Props) => {
                                             }
                                         }]
                                     }} series={[40, 58, 88, 188]} type="pie" width={380} /> */}
-                                </div>
-                            </div>
-
                         </div>
                     </div>
-                </main>
-  )
+
+                </div>
+            </div>
+        </main>
+    )
 }
 
 export default StaffDashboard

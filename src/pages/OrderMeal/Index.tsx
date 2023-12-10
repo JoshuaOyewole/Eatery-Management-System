@@ -8,9 +8,10 @@ import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
 import { mealSelectOptions, orderCartProps } from '../../utils/types'
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { getMeals } from "../../redux/features/meal/mealSlice";
-import { currentDate } from "../../utils/function";
 import { addOrder, resetOrder } from "../../redux/features/addOrder/addOrderSlice";
 import Select from "../../components/forms/select/Select";
+import { top_selling } from "../../redux/features/dashboard-summary/topSellingSlice";
+import { summary } from "../../redux/features/dashboard-summary/dashboardsummarySlice";
 
 const OrderMeal = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +25,6 @@ const OrderMeal = () => {
     return { value: meal.title, label: meal.title }
   })
 
-
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
   const pRef = useRef<HTMLInputElement | null>(null);
@@ -34,7 +34,7 @@ const OrderMeal = () => {
   const [invoiceID, setInvoiceID] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [meal, setMeal] = useState<string>();
-  const [paymentMedium, setPaymentMedium] = useState<string | null>(null);
+  const [paymentMedium, setPaymentMedium] = useState<string | undefined>('cash');
 
   const [quantity, setQty] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
@@ -42,9 +42,6 @@ const OrderMeal = () => {
   const [orderCart, setorderCart] = useState<orderCartProps[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(price * quantity);
   const tableHeader = ["SN", "Description", "Price", "Qty", "Total", "Actions"];
-
-  //Get current Date
-  const today = currentDate();
 
   //Refetch Meals if isSuccess state changes 
   useEffect(() => {
@@ -156,7 +153,7 @@ const OrderMeal = () => {
         name: "Customer ----",
         orders: orderCart,
         totalPrice: totalOrderPrice,
-        payment_date: today,
+        //payment_date: today,
         payment_medium: paymentMedium
       }
       try {
@@ -165,7 +162,6 @@ const OrderMeal = () => {
           /* UPDATE RESPONSE MESSAGE */
           setResponseMessage(response.payload.message);
           /* UPDATE INVOICE ID */
-
           setInvoiceID(response.payload.id);
           /* OPEN MODAL DISPLAY ORDER SUCCESS INFORMATION*/
           setIsModalOpen(true);
@@ -173,7 +169,9 @@ const OrderMeal = () => {
           setorderCart([]);
           /* UPDATE THE TOTAL ORDER PRICE TO 0 */
           setTotalOrderPrice(0);
-
+          //REFETCH DATA AND UPDATE DASHBOARD
+          dispatch(top_selling())
+          dispatch(summary())
         }
       } catch (error) {
         toast.success(`${error}`, {
@@ -197,8 +195,8 @@ const OrderMeal = () => {
 
   //Payment Methods
   const changePaymentMethod = (e: React.MouseEvent<HTMLButtonElement>) => {
-    let value = e.currentTarget.textContent;
-    setPaymentMedium(value)
+    //let value = e.currentTarget.textContent;
+    setPaymentMedium(e.currentTarget.dataset.paymentType)
 
   }
 
@@ -210,6 +208,7 @@ const OrderMeal = () => {
       dispatch(resetOrder())
     }
   }, [isOrderSucess])
+
 
 
 
@@ -362,9 +361,9 @@ const OrderMeal = () => {
               <div className={Styles.payment_type}>
                 <p>Select Payment Type: </p>
                 <div className={Styles.payment_method}>
-                  <button className={Styles.payment_btn} onClick={changePaymentMethod}>Cash</button>
-                  <button className={Styles.payment_btn} onClick={changePaymentMethod}>POS</button>
-                  <button className={Styles.payment_btn} onClick={changePaymentMethod}>Transfer</button>
+                  <button className={`${Styles.payment_btn} ${paymentMedium === "cash" ? Styles.payment_btn_clicked : ""}`} data-payment-type="cash" onClick={changePaymentMethod}>Cash</button>
+                  <button className={`${Styles.payment_btn} ${paymentMedium === "pos" ? Styles.payment_btn_clicked : ""}`} data-payment-type="pos" onClick={changePaymentMethod}>POS</button>
+                  <button className={`${Styles.payment_btn} ${paymentMedium === "transfer" ? Styles.payment_btn_clicked : ""}`} data-payment-type="transfer" onClick={changePaymentMethod}>Transfer</button>
                 </div>
               </div>
               <div className="flex mt-m">

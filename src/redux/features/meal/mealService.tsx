@@ -4,9 +4,9 @@ const env = import.meta.env;
 
 /* FETCH MEALS */
 const getMeals = async () => {
-    const response = await axios.get<Array<mealProps>>(`https://eatman-api.onrender.com/api/meal`);    
+    const response = await axios.get<Array<mealProps>>(`${env.VITE_API_URL}/meal`);
     return response.data
 }
 
 
-export default {getMeals} 
+export default { getMeals } 

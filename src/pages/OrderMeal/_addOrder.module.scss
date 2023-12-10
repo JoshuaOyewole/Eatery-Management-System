@@ -26,6 +26,11 @@ FEATURE TO REMOVE INDIVIDUAL ORDER ITEM
 }
 
 .payment {
+  &_btn_clicked {
+    background-color: variable.$primary !important;
+    color: variable.$white;
+    font-weight: 600;
+  }
   &_type {
     @include mixin.flex($align: center, $justify: center);
     width: 80%;
@@ -44,21 +49,16 @@ FEATURE TO REMOVE INDIVIDUAL ORDER ITEM
       padding: 1rem;
     }
   }
-  &_method{
+  &_method {
     margin-left: 2rem;
     flex-basis: 40%;
-    @include mixin.flex($align:center, $justify:space-between);
+    @include mixin.flex($align: center, $justify: space-between);
 
-    &>.payment_btn{
-        background-color: rgb(227, 227, 227);
-        font-size: 1.6rem;
-        text-transform: uppercase;
-        
-        &:focus{
-            background-color: variable.$primary;
-            color: variable.$white;
-            font-weight: 600;
-        }
+    & > .payment_btn {
+      background-color: rgb(227, 227, 227);
+      font-size: 1.6rem;
+      border-radius: 1rem;
+      text-transform: uppercase;
     }
   }
 }

@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
+const env = import.meta.env;
+
+
+
 //Staff props
 type Staff = {
     _id: string,
@@ -32,7 +36,7 @@ const initialState: InitialState = {
 
 export const fetchStaffs = createAsyncThunk('staff/fetchStaffs', async () => {
     return axios.get(
-        `https://eatman-api.onrender.com/api/staff`,
+        `${env.VITE_API_URL}/staff`,
     ).then(response => response.data)
 })
 
