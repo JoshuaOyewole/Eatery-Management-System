@@ -176,7 +176,7 @@ const EOD = () => {
                   />
                 </div>
               </div>
-              <section className="dashboard__content--bottom">
+            {/*   <section className="dashboard__content--bottom">
                 <div className="wrapper">
                   <div className="right">
                     <h3 className="dashboard__heading">Order Summary</h3>
@@ -212,7 +212,7 @@ const EOD = () => {
                     />
                   </div>
                 </div>
-              </section>
+              </section> */}
             </React.Fragment>
 
           </main>

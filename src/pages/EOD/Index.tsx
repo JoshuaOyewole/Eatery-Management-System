@@ -280,7 +280,7 @@ const EOD = () => {
                     </form>
                   </div>
                 </div>
-                <div className="right">
+                {/* <div className="right">
                   <h3 className="dashboard__heading">Order Summary</h3>
                   <Chart
                     options={{
@@ -312,7 +312,7 @@ const EOD = () => {
                     type="pie"
                     width={480}
                   />
-                </div>
+                </div> */}
               </div>
             </section>
           </main></div>}

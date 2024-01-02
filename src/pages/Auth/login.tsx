@@ -25,6 +25,8 @@ const Index = () => {
   const user = useAppSelector(state => state.auth.details)
   const success = useAppSelector(state => state.auth.success)
 
+  let check = useAppSelector(state => state.auth);
+
   const [credentials, setCredentials] = useState<loginCredentialsProps>({
     email: "",
     password: "",
@@ -61,6 +63,7 @@ const Index = () => {
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
     dispatch(login(credentials));
   };
@@ -101,7 +104,7 @@ const Index = () => {
         <button
           type="submit"
           className="btn primary-btn perfect-center"
-          disabled={isLoading}
+        // disabled={isLoading}
         >
           {isLoading ? <> <FontAwesomeIcon icon={faSpinner} spin size="lg" />Loading...</> : "Sign in"}
         </button>

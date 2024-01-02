@@ -71,7 +71,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="orders" element={<ViewRecord />} />
         </Route>
-    
+
         <Route element={<ProtectedRoute />}>
           <Route path="orders/search?date=eodDate" element={<ViewRecord />} />
         </Route>

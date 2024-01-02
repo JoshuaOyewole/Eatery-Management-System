@@ -38,7 +38,7 @@ const Sidebar = () => {
         </li>
         <li className="nav-list">
           <Link to="/orders" className="nav-link">
-            <FontAwesomeIcon icon={faBook} className="fontawesomeIcon" /> View
+            <FontAwesomeIcon icon={faBook} className="fontawesomeIcon" /> My
             Orders
           </Link>
         </li>
@@ -58,10 +58,10 @@ const Sidebar = () => {
               icon={faCartShopping}
               className="fontawesomeIcon"
             />{" "}
-            EOD
+            Reports
           </Link>
         </li>
-        <li className="nav-list">
+        <li className="nav-list d-none">
           <div className="nav-link">
             <FontAwesomeIcon icon={faUserGear} className="fontawesomeIcon" />
             <Logout className="text-white"/>

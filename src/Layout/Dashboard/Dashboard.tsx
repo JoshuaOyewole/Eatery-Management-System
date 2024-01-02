@@ -1,6 +1,11 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import profilePix from "../../assets/images/logo.png";
 import Sidebar from "../../components/layout/sidebar/Sidebar";
 import { useAppSelector } from "../../redux/hooks/hooks";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { faUserGear } from "@fortawesome/free-solid-svg-icons";
+import Logout from "../../components/Logout/index"
+import { useState } from "react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -8,9 +13,13 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = (props: DashboardLayoutProps) => {
   const { children } = props;
+  const [toggleMenu, setToggleMenu] = useState(false)
+  const f_name = useAppSelector(state => state.auth.details?.firstname);
+  const l_name = useAppSelector(state => state.auth.details?.lastname);
 
-  const f_name = useAppSelector(state=> state.auth.details?.firstname);
-  const l_name = useAppSelector(state=> state.auth.details?.lastname);
+  const toggleDropdown = () => {
+    setToggleMenu(!toggleMenu)
+  }
 
 
   return (
@@ -25,8 +34,16 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
                 alt="Profile Pixs"
                 className="profilePixs"
               />
-              <p className="username">{f_name}. {l_name?.slice(0,1)}</p>
+              <button onClick={toggleDropdown} className="username">{f_name}. {l_name?.slice(0, 1)} <MdKeyboardArrowDown /></button>
             </div>
+            {toggleMenu && <ul className="user__dropdown">
+              <li>
+                <div>
+                  <FontAwesomeIcon icon={faUserGear} className="fontawesomeIcon" />
+                  <Logout />
+                </div>
+              </li>
+            </ul>}
           </div>
         </header>
         {children}

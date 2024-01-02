@@ -14,16 +14,16 @@
     &__box-container {
         @include mixin.flex($justify: space-between);
         flex-wrap: wrap;
-        flex-basis: 30rem;
-        row-gap: 4rem;
-        width: 90%;
-        margin-top: 5rem;
+        //flex-basis: 30rem;
+        row-gap: 2rem;
+        width: 100%;
+        margin: 5rem auto ;
     }
 
     &__content {
-        @include mixin.flex($align: center);
+        @include mixin.flex();
         flex-direction: column;
-        padding: 2rem 0rem;
+        padding: 2rem 4rem;
         height: 100%;
         overflow: scroll;
 

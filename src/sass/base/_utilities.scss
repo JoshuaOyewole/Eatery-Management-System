@@ -1,110 +1,137 @@
 @use "../abstract/mixin" as mixin;
 @use "../abstract/variable" as variable;
 
-.fontawesomeIcon{
-    display: inline-block;
-    margin-right: 2rem;
+.fontawesomeIcon {
+  display: inline-block;
+  margin-right: 2rem;
 }
-.center{
-    text-align: center;
+.center {
+  text-align: center;
 }
-.uppercase{
-    text-transform: uppercase;
+.uppercase {
+  text-transform: uppercase;
 }
-.font-bold{
-    font-weight: 600;
+.font-bold {
+  font-weight: 600;
 }
-ul{
-    list-style-type: none;
+ul {
+  list-style-type: none;
+}
 
+.block {
+  display: block;
 }
+.d-none {
+  display: none;
+}
+.ml-s {
+  margin-left: 2rem;
+}
+.mt-m {
+  margin-top: 4rem;
+}
+.mt-s {
+  margin-top: 2rem;
+}
+.mt-xs {
+  margin-top: 0.5rem;
+}
+.mb-s {
+  margin-bottom: 2rem;
+}
+.mb-m {
+  margin-bottom: 4rem;
+}
+.flex {
+  display: flex;
+}
+.justify-start {
+  justify-content: flex-start !important;
+}
+.space-between {
+  justify-content: space-between;
+}
+.col {
+  flex-direction: column;
+}
+.w-80 {
+  width: 80% !important;
+}
+.w-50 {
+  width: 50% !important;
+}
+.gap-x-2 {
+  column-gap: 2rem;
+}
+.basis-32 {
+  flex-basis: 32%;
+}
+.basis-47 {
+  flex-basis: 47%;
+}
+.underline {
+  text-decoration: underline;
+}
+.align-center {
+  align-items: center;
+}
+.px-s {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.py-xs {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.content2 {
+  flex-basis: 33%;
+  height: 20rem;
+}
+.text-white {
+  color: #f4f4f4;
+}
+.w-100 {
+  width: 100% !important;
+}
+.w-48 {
+  width: 48% !important;
+}
+.text-primary {
+  color: variable.$primary;
+}
+.profilePixs {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.profile-pix {
+  @include mixin.flex($align: center);
+}
+.username {
+  margin-left: 1rem;
+  @include mixin.flex($align: center);
+}
+.user {
+  position: relative;
 
-.block{
-    display: block;
-}
-.ml-s{
-    margin-left: 2rem;
-}
-.mt-m{
-    margin-top: 4rem;
-}
-.mt-s{
-    margin-top: 2rem;
-}
-.mt-xs{
-    margin-top: .5rem;
-}
-.mb-s{
-    margin-bottom: 2rem;
-}
-.mb-m{
-    margin-bottom: 4rem;
-}
-.flex{
-    display: flex;
-}
-.justify-start{
-    justify-content: flex-start !important;
-}
-.space-between{
-    justify-content: space-between;  
-}
-.col{
-    flex-direction: column;
-}
-.w-80{
-    width: 80% !important;
-}
-.basis-32{
-    flex-basis: 32%;
-}
-.basis-47{
-    flex-basis: 47%;
-}
-.underline{
-    text-decoration: underline;
-}
-.align-center{
-    align-items: center;
-}
-.px-s{
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-.py-xs{
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-}
-.content2{
-    flex-basis: 33%;
-    height: 20rem;
-}
-.text-white{
-    color: #f4f4f4;
-}
-.w-100{
-    width: 100% !important;
-}
-.w-48{
-    width: 48% !important;
-}
-.profilePixs{
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-}
-.profile-pix{
-    @include mixin.flex($align:center)
-}
-.username{
-    margin-left: 1rem;
-}
-.bg-primary{
-    background-color: variable.$primary;
-}.line-break{
-    margin-top: 4px;
-    border:  .2px solid variable.$primary;
+  &__dropdown {
+    position: absolute;
+    background: #fff;
+    padding: 1rem;
+    width: 100%;
+    z-index: 345;
+    box-shadow: 1px 1px #d2b9b9;
+    border-radius: 0 0 1rem 1rem;
+    top: 5.2rem;
   }
-  .perfect-center{
-    @include mixin.flex($justify:center, $align:center)
-  }
+}
+.bg-primary {
+  background-color: variable.$primary;
+}
+.line-break {
+  margin-top: 4px;
+  border: 0.2px solid variable.$primary;
+}
+.perfect-center {
+  @include mixin.flex($justify: center, $align: center);
+}

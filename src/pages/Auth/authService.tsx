@@ -11,13 +11,23 @@ const register = async (userData: any) => {
 
 
 /* LOGIN USER */
-const login = async (userData: any) => {
-    const response = await axios.post<loginResType>(`${env.VITE_API_URL}/login`, userData);
+const login = async (userData: { email: string, password: string }) => {
+    try {
+        const response = await axios.post<loginResType>(`${env.VITE_API_URL}/login`, userData);
+        let res = response.data
+        
 
-    if (response.data) {
-        localStorage.setItem('token', JSON.stringify(response.data.token))
-        localStorage.setItem('user', JSON.stringify(response.data.details))
+        if (res) {
+            localStorage.setItem('token', JSON.stringify(response.data.token))
+            localStorage.setItem('user', JSON.stringify(response.data.details))
+            return response.data
+        }
+
+    } catch (error: any) {
+        return error.response.data.message;
     }
-    return response.data
+
+
+
 }
-export default { register, login} 
+export default { register, login } 
