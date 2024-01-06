@@ -6,16 +6,19 @@ import ReactApexChart from "react-apexcharts";
 import { Link } from "react-router-dom";
 import Table from "../Table/table";
 import TableRow from "../Table/tablebody";
-import TableStyles from "../../../components/ui/Table/_table.module.scss"
-
-
-
+import { lastTransaction } from "../../../redux/features/dashboard-summary/lastTransactionsSlice";
+import { Spinner } from "../Spinner/Spinner";
 
 const AdminDashboard = (props: { name: String; }) => {
     const [currentMonth, setCurrentMonth] = useState<string>('')
     let sales_summary = useAppSelector(state => state.dashboardSummary);
     let best_selling = useAppSelector(state => state.topSelling);
-    const { name } = props;
+    let getTotalOrdersLast7Days = useAppSelector(state => state.getTotalOrdersLast7Days);
+    let lastTrans = useAppSelector(state => state.getLastTransactions)
+
+    console.log(lastTrans);
+
+    // const { name } = props;
 
     useEffect(() => {
         //Get Current Month
@@ -32,7 +35,6 @@ const AdminDashboard = (props: { name: String; }) => {
         "Status",
         "Payment Type",
     ]);
-
 
     return (
         <main className={Styles.dashboard__content}>
@@ -68,7 +70,12 @@ const AdminDashboard = (props: { name: String; }) => {
                         <div className={Styles["dashboard__sales-overview--top"]}>
                             <h4 className={`${Styles["dashboard__sales-overview--title"]} text-primary`}>Top Selling Categories</h4>
                         </div>
-                        <ul className={Styles["dashboard__sales-overview--sales-datas"]} style={{ marginLeft: "2rem", listStyle: "disclosure-open" }}>
+                        <ul className={Styles["dashboard__sales-overview--sales-datas"]} style={{ marginLeft: "2rem", listStyle: "circle" }}>
+                            <div className="flex space-between" style={{ marginBottom: "0.5rem", fontStyle: "italic" }}>
+                                <div className={Styles.item} style={{ fontWeight: "bold" }}>Product Name</div>
+                                <div className={Styles.item} style={{ fontWeight: "bold" }}> Qty</div>
+                            </div>
+
                             {
                                 best_selling.topSelling.map((item, index) => {
                                     return <li key={index}>
@@ -91,7 +98,7 @@ const AdminDashboard = (props: { name: String; }) => {
                             series={[
                                 {
                                     name: "Order",
-                                    data: [6, 8, 53, 13, 33, 14],
+                                    data: getTotalOrdersLast7Days.totalOrders.values,
                                 },
                             ]}
                             options={{
@@ -135,7 +142,7 @@ const AdminDashboard = (props: { name: String; }) => {
                                 },
                                 xaxis: {
                                     type: "category",
-                                    categories: ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"],
+                                    categories: getTotalOrdersLast7Days.totalOrders.days,
                                     tickAmount: 10,
                                     decimalsInFloat: 0,
                                     labels: {
@@ -165,35 +172,28 @@ const AdminDashboard = (props: { name: String; }) => {
                     <div className={Styles["dashboard__sales-overview--top"]}>
                         <h4 className={`${Styles["dashboard__sales-overview--title"]} text-primary`}>New Orders</h4>
                     </div>
-                    <Table tableHeader={tableHeader} extraClass={{ padding: "1rem" }} th={{color: "#333"}}>
-                        <TableRow>
-                            <td>0014322</td>
-                            <td>Joshua Oyewole</td>
-                            <td>May 13, 2024</td>
-                            <td>10:12 AM</td>
-                            <td>&#x20A6; 2,000</td>
-                            <td>Pending</td>
-                            <td>Online</td>
-                        </TableRow>
-                        <TableRow>
-                            <td>0014323</td>
-                            <td>John Doe</td>
-                            <td>May 12, 2024</td>
-                            <td>11:18 AM</td>
-                            <td>&#x20A6; 2,300</td>
-                            <td>Completed</td>
-                            <td>Cash</td>
-                        </TableRow>
-                        <TableRow>
-                            <td>0014327</td>
-                            <td>Mark Allen</td>
-                            <td>May 11, 2024</td>
-                            <td>10:12 AM</td>
-                            <td>&#x20A6; 9,000</td>
-                            <td>Completed</td>
-                            <td>POS</td>
-                        </TableRow>
-                    </Table>
+                    {
+                        lastTrans.isLoading ? <Spinner /> : <Table tableHeader={tableHeader} extraClass={{ padding: "1rem" }} th={{ color: "#333" }}>
+                            <>
+                                {lastTrans.lastTransactions.transactions.map((trans, index) => {
+                                    const originalDate = new Date(trans.payment_date);
+                                    const formattedTime = originalDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });   
+                                    const formattedDate = originalDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+
+                                    return <TableRow key={index}>
+                                        <td>{trans._id.slice(0, 6)}</td>
+                                        <td>{trans.name}</td>
+                                        <td>{formattedDate}</td>
+                                        <td>{formattedTime}</td>
+                                        <td>&#x20A6; {trans.totalPrice}</td>
+                                        <td>{trans.payment_status}</td>
+                                        <td>{trans.payment_medium}</td>
+                                    </TableRow>
+                                })}
+                            </>
+
+                        </Table>
+                    }
                 </div>
             </div>
         </main>

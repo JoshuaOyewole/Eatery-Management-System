@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/forms/formInput/Index";
 /* import { RootState } from "../../redux/store"; */
 import { ToastContainer, toast } from "react-toastify";
@@ -7,10 +7,14 @@ import { ToastContainer, toast } from "react-toastify";
 import logo from "../../assets/images/logo.png";
 import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks';
 //import { fetchStaffs } from "../../redux/features/staffs/staffSlice";
-import { login } from "../../redux/features/auth/authSlice";
-import { loginCredentialsProps, userLoginResData } from "../../utils/types";
+import { login } from "../../redux/features/auth/authSlice2";
+import { loginCredentialsProps } from "../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { getTotalOrders } from "../../redux/features/dashboard-summary/getTotalOrdersLast7Days";
+import { lastTransaction } from "../../redux/features/dashboard-summary/lastTransactionsSlice";
+import { summary } from "../../redux/features/dashboard-summary/dashboardsummarySlice";
+
 
 
 
@@ -19,23 +23,16 @@ const Index = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const message = useAppSelector(state => state.auth.message)
-  const isLoading = useAppSelector(state => state.auth.loading)
-  const token = useAppSelector(state => state.auth.token)
-  const user = useAppSelector(state => state.auth.details)
-  const success = useAppSelector(state => state.auth.success)
-
-  let check = useAppSelector(state => state.auth);
+  const { message, errorMsg, loading, success } = useAppSelector(state => state.auth);
+  const user = useAppSelector(state => state.auth.user);
 
   const [credentials, setCredentials] = useState<loginCredentialsProps>({
     email: "",
     password: "",
   });
+  //console.log(loading);
 
   useEffect(() => {
-    /* 
-     ERROR: Once the Login page loads it automatically throw up the toast of Logged Out Successfully each time which is not supposed to be. It should only render that when te Logout button is clicked
-    */
     if (!success) {
       toast.error(message)
     }
@@ -43,14 +40,14 @@ const Index = () => {
       toast.success(message)
     }
 
-    if (success && token !== null && user) {
-      localStorage.setItem('token', token)
+    if (success && user?.token !== null && user) {
+      localStorage.setItem('token', user?.token)
       localStorage.setItem('user', JSON.stringify(user))
       navigate('/')
     }
 
     //dispatch(reset());
-  }, [success, token, user, dispatch])
+  }, [success, user?.token, user, dispatch])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({
@@ -59,11 +56,7 @@ const Index = () => {
     });
   };
 
-
-
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
     dispatch(login(credentials));
   };
@@ -101,12 +94,16 @@ const Index = () => {
           labelName="Enter your password"
           required
         />
+
+        <p style={{ fontSize: "1.4rem", marginBottom: "2rem" }}>
+          <Link to={"/reset_password"} className="text-primary">Forget Password? </Link>
+        </p>
         <button
           type="submit"
           className="btn primary-btn perfect-center"
-        // disabled={isLoading}
+          disabled={loading == "loading" ? true : false}
         >
-          {isLoading ? <> <FontAwesomeIcon icon={faSpinner} spin size="lg" />Loading...</> : "Sign in"}
+          {loading == "loading" ? <> <FontAwesomeIcon icon={faSpinner} spin size="lg" />Loading...</> : "Sign in"}
         </button>
 
       </form>

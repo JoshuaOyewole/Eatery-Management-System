@@ -2,8 +2,8 @@ import React from "react";
 import TableStyles from "./_table.module.scss";
 
 export interface TableProps {
-  th: any;
-  extraClass: any;
+  th?: any;
+  extraClass?: any;
   children: React.ReactNode;
   tableHeader: Array<string>;
   tableClass?: string;

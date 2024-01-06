@@ -111,6 +111,9 @@ ul {
   margin-left: 1rem;
   @include mixin.flex($align: center);
 }
+.capitalize {
+  text-transform: capitalize !important;
+}
 .user {
   position: relative;
 

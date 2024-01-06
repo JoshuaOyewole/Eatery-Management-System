@@ -11,7 +11,9 @@ import { getMeals } from "../../redux/features/meal/mealSlice";
 import { addOrder, resetOrder } from "../../redux/features/addOrder/addOrderSlice";
 import Select from "../../components/forms/select/Select";
 import { top_selling } from "../../redux/features/dashboard-summary/topSellingSlice";
+import { getTotalOrders } from "../../redux/features/dashboard-summary/getTotalOrdersLast7Days";
 import { summary } from "../../redux/features/dashboard-summary/dashboardsummarySlice";
+import { lastTransaction } from "../../redux/features/dashboard-summary/lastTransactionsSlice"
 
 const OrderMeal = () => {
   const dispatch = useAppDispatch();
@@ -172,6 +174,8 @@ const OrderMeal = () => {
           //REFETCH DATA AND UPDATE DASHBOARD
           dispatch(top_selling())
           dispatch(summary())
+          dispatch(getTotalOrders())
+          dispatch(lastTransaction(1))
         }
       } catch (error) {
         toast.success(`${error}`, {
@@ -208,9 +212,6 @@ const OrderMeal = () => {
       dispatch(resetOrder())
     }
   }, [isOrderSucess])
-
-
-
 
   return (
     <>

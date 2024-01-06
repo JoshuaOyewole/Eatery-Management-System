@@ -7,7 +7,7 @@ export const currentDate = () => {
     let mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
     let yyyy = date.getFullYear();
 
-    let today = `${yyyy}-${mm}-${dd}`;
+    let today = `${dd}-${mm}-${yyyy}`;
     return today;
 };
 
@@ -61,36 +61,36 @@ export const getTodaySaleAmount = (successfulTransactions: AuthTransaction[]) =>
 //Get Payments made by Cash
 export const cashPayment = (successfulTransactions: AuthTransaction[]) => {
     return successfulTransactions.filter((transaction: AuthTransaction) => {
-        return transaction.payment_medium === "Cash";
+        return transaction.payment_medium === "cash";
     });
 }
 
 //Get Payments made by POS
 export const POSPayment = (successfulTransactions: AuthTransaction[]) => {
     return successfulTransactions.filter((transaction: AuthTransaction) => {
-        return transaction.payment_medium === "POS";
+        return transaction.payment_medium === "POS" || "pos";
     })
 }
 //Get Payments made by Transfer
 export const TransferPayment = (successfulTransactions: AuthTransaction[]) => {
     return successfulTransactions.filter((transaction: AuthTransaction) => {
-        return transaction.payment_medium === "Transfer";
+        return transaction.payment_medium === "transfer";
     });
 }
 
 //Print EOD Report
-export const printEODReport = (eod: AuthTransaction[], today: string, navigate:NavigateFunction) => {
+export const printEODReport = (eod: AuthTransaction[], today: string, navigate: NavigateFunction) => {
     return eod?.length !== 0
         ? navigate(`/printEODReport?q=${today}`)
         : alert("No Transaction Found");
 };
 
 //Print EOD Summary
-export const printEODSummary = (eod: AuthTransaction[], today: string, navigate:NavigateFunction) => {
+export const printEODSummary = (eod: AuthTransaction[], today: string, navigate: NavigateFunction) => {
     return eod?.length !== 0
         ? navigate(`/printEODSummary?q=${today}`)
         : alert("No Transaction Found");
-        
+
 }
 
 //Approved Transactions

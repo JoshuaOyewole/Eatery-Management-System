@@ -3,7 +3,9 @@
 
 .dashboard {
   &__content {
-    width: 90%;
+    padding: 2rem 4rem 8rem 4rem;
+    height: 100%;
+    overflow-x: scroll;
     margin: 0 auto;
 
     &--top {
@@ -12,7 +14,7 @@
     }
     &--eod-top {
       margin: 1rem 0 2rem 0;
-      @include mixin.flex($justify: space-between, $align:center);
+      @include mixin.flex($justify: space-between, $align: center);
     }
     &--bottom {
       margin: 3rem 2rem 2rem 2rem;

@@ -60,9 +60,6 @@ const EOD = () => {
   const POSPaymens = POSPayment(successfulTransactions)
   /* FILTER TRANSFER PAYMENTS TRANSACTIONS FROM EOD */
   const transferPayments = TransferPayment(successfulTransactions);
-
-
-
   useEffect(() => {
     document.title = `EOD Report for ${date}`;
   }, [date])
@@ -74,7 +71,7 @@ const EOD = () => {
       date: string,
       state: React.Dispatch<React.SetStateAction<AuthTransaction[]>>
     ) => {
-      setLoading(true)
+      setLoading(true);
       try {
         const res = await axios.get(`${env.VITE_API_URL}/records/?q=${date}`,
           {
@@ -119,7 +116,7 @@ const EOD = () => {
 
   const orderSummary = async () => {
     const res = await axios.get(
-      `${env.VITE_API_URL}/records?q=2023-11-19`,
+      `${env.VITE_API_URL}/records?q=05-01-2024`,
       {
         headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
       }
@@ -132,6 +129,8 @@ const EOD = () => {
     //console.log(transactions);
 
     transactions.forEach((transact, index) => {
+
+
       const lastcard = transact.orders.map((order, index, array) => {
         return filterSalesData.push({
           meal: order.meal,
@@ -161,7 +160,7 @@ const EOD = () => {
   return (
     <>
       <DashboardLayout>
-        {loading ? <Spinner /> : <div>
+        {loading ? <Spinner /> :
           <main className="dashboard__content">
             <div className="dashboard__content--eod-top">
               <h2 className="dashboard__heading">
@@ -315,7 +314,7 @@ const EOD = () => {
                 </div> */}
               </div>
             </section>
-          </main></div>}
+          </main>}
       </DashboardLayout>
     </>
   );

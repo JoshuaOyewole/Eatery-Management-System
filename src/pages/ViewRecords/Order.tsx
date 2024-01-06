@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthTransaction } from "../../utils/types";
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import { Spinner } from "../../components/ui/Spinner/Spinner";
+import moment from "moment";
 //import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 const env = import.meta.env;
 
@@ -75,13 +76,13 @@ const Index = () => {
                           </div>
                           <div className={Styles.customerDetails}>
                             <h4>Payment Medium: </h4>
-                            <p>{orderInfo?.payment_medium}</p>
+                            <p>{orderInfo?.payment_medium.toUpperCase()}</p>
                           </div>
                           <div className={Styles.customerDetails}>
                             <h4>Payment Date: </h4>
                             <p>
-                              {orderInfo?.payment_date}
-                              {/* 12<sup>th</sup>, March 2023 */}
+                              {moment(orderInfo?.payment_date).format('dddd Do MMM. YYYY')}{""}
+                              <span style={{paddingLeft:"2rem"}}>{moment(orderInfo?.payment_date).format('hh:mmA')}</span>
                             </p>
                           </div>
                           <div className={Styles.customerDetails}>
