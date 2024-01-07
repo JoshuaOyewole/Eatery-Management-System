@@ -33,18 +33,18 @@ const Index = (props: Props) => {
 
   /* TABLE HEADER */
   const [tableHeader] = useState([
-    "sn",
+   
     "Customer Name",
     "Payment Medium",
     "Total Amount",
     "payment date",
+    "time",
     "payment status",
     "Action",
   ]);
 
   const [orders, setOrder] = useState<AuthTransaction[]>([]);
   const [loading, setLoading] = useState<Boolean>(false);
-
 
   /* FETCH ORDERS FOR TODAY*/
   const fetchOrders = async () => {
@@ -77,6 +77,7 @@ const Index = (props: Props) => {
     fetchOrders();
   }, []);
 
+
   return (
     <>
       <DashboardLayout>
@@ -108,16 +109,20 @@ const Index = (props: Props) => {
                     <Table tableHeader={tableHeader}>
                       {orders?.map((order, index) => {
                         const { name, payment_medium, payment_date, totalPrice,
-                          payment_status } = order
+                          payment_status } = order;
+                        const originalDate = new Date(payment_date);
+                        const formattedTime = originalDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+                        const formattedDate = originalDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
                         return (
                           <TableRow key={index}>
-                            <td>{index + 1}</td>
+                           
                             <td>{name}</td>
                             <td>{payment_medium}</td>
                             <td>&#8358; {totalPrice}</td>
                             <td>
-                              {payment_date}
+                              {formattedDate}
                             </td>
+                            <td>{formattedTime}</td>
                             <td>{payment_status.toUpperCase()}</td>
                             <td>
                               <Link to={`${order._id}`} key={index}>

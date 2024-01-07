@@ -16,8 +16,9 @@ FEATURE TO REMOVE INDIVIDUAL ORDER ITEM
   &__content {
     @include mixin.flex($align: center);
     flex-direction: column;
-    padding: 2rem 0rem;
+    padding: 2rem 0rem 8rem 0rem;
     height: 100%;
+    overflow-x: scroll;
 
     &--top {
       text-align: center;

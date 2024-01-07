@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import authService from "../../../pages/Auth/authService";
-import { loginCredentialsProps, loginResType } from "../../../utils/types"
+import { loginCredentialsProps } from "../../../utils/types"
 import { getToken } from "../../../utils/utils";
 
 
@@ -8,15 +8,42 @@ import { getToken } from "../../../utils/utils";
 //Get user token from localStorage 
 const user_token = getToken();
 
-//initialState
-const initialState: loginResType = {
-    success: false,
-    message: undefined,
-    details: null,
-    token: user_token ? user_token : null,
-    loading: false,
+export interface LoginResponse {
+    details: {
+        _id: string;
+        rank: string;
+        firstname: string;
+        lastname: string;
+    };
+    message: string;
+    token: string;
+    success: boolean
 }
 
+// Define your initial state interface
+interface initialStateProps {
+    user: {
+        _id: string;
+        rank: string;
+        firstname: string;
+        lastname: string;
+    };
+    loading: boolean;
+    message: string | null;
+    errorMsg: string | null;
+    success: boolean | null;
+    token: string | null
+}
+
+// Define the initial state
+const initialState: initialStateProps = {
+    user: { _id: "", rank: "", firstname: "", lastname: "" },
+    loading: false,
+    message: null,
+    errorMsg: null,
+    success: null,
+    token: null
+};
 
 //Generates Pending, fulfilled and rejected action types
 //LOGIN
@@ -47,29 +74,28 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.details = null,
+            state.user = { _id: "", rank: "", firstname: "", lastname: "" },
                 state.loading = false,
-                state.token = null,
                 state.success = false,
-                state.message = undefined
+                state.message = null
         }
     },
     extraReducers: (builder) => {
         builder.addCase(login.pending, (state) => {
             state.loading = true
         })
-        builder.addCase(login.fulfilled, (state, action: PayloadAction<loginResType>) => {
+        builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false,
-                state.token = action.payload.token,
-                state.details = action.payload.details,
+                state.user = action.payload.details,
                 state.success = action.payload.success,
-                state.message = action.payload.message
+                state.message = action.payload.message,
+                state.token = action.payload.token
 
         })
         builder.addCase(login.rejected, (state, action) => {
             state.loading = false,
-                state.token = null
-                state.message = 'An Error Ocurred!'
+                state.user = { _id: "", rank: "", firstname: "", lastname: "" },
+                state.message = action.payload as string
         })
     }
 })

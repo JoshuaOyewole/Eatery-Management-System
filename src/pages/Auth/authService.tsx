@@ -1,5 +1,4 @@
 import axios from "axios";
-import { loginResType } from "../../utils/types";
 const env = import.meta.env;
 
 
@@ -13,9 +12,13 @@ const register = async (userData: any) => {
 /* LOGIN USER */
 const login = async (userData: { email: string, password: string }) => {
     try {
-        const response = await axios.post<loginResType>(`${env.VITE_API_URL}/login`, userData);
+        const response = await axios.post(`${env.VITE_API_URL}/login`, userData);
         let res = response.data
-        
+
+        console.log('It went through successfully!');
+        console.log(res);
+        console.log(response);
+
 
         if (res) {
             localStorage.setItem('token', JSON.stringify(response.data.token))
@@ -24,7 +27,12 @@ const login = async (userData: { email: string, password: string }) => {
         }
 
     } catch (error: any) {
-        return error.response.data.message;
+        console.log('An error occured at the authService');
+        console.log(error);
+
+
+        return { message: error.response.data.message, details: null, token: null, success: false }
+        //return error.response.data.message;
     }
 
 

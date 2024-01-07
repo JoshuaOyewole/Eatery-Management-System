@@ -4,7 +4,7 @@ import Input from '../../components/forms/formInput/Index'
 import {  toast } from 'react-toastify';
 import logo from '../../assets/images/logo.png'
 import { useAppDispatch } from '../../redux/hooks/hooks';
-import {  register } from "../../redux/features/auth/authSlice";
+import {  register } from "../../redux/features/auth/1authSlice";
 import { loginCredentialsProps } from '../../utils/types';
 
 
@@ -65,6 +65,7 @@ const Register = () => {
                     <Input
                         type='submit'
                         value='Register'
+                        //disabled={loading == "loading" ? true : false}
                         className='btn primary-btn'
                     />
 

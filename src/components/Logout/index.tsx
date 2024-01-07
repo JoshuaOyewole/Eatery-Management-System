@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { reset } from "../../redux/features/auth/authSlice";
+import { reset } from "../../redux/features/auth/1authSlice";
 import { useAppDispatch } from "../../redux/hooks/hooks";
 
 type LogoutBtnprops = {

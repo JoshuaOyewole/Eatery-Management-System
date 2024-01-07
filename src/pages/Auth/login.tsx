@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/forms/formInput/Index";
 /* import { RootState } from "../../redux/store"; */
 import { ToastContainer, toast } from "react-toastify";
@@ -22,24 +22,20 @@ const Index = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const message = useAppSelector(state => state.auth.message)
-  const isLoading = useAppSelector(state => state.auth.loading)
-  const token = useAppSelector(state => state.auth.token)
-  const user = useAppSelector(state => state.auth.details)
-  const success = useAppSelector(state => state.auth.success)
-
-  let check = useAppSelector(state => state.auth);
+  const { message, errorMsg, loading, success, token } = useAppSelector(state => state.auth);
+  const user = useAppSelector(state => state.auth.user);
 
   const [credentials, setCredentials] = useState<loginCredentialsProps>({
     email: "",
     password: "",
   });
+  //console.log(loading);
 
   useEffect(() => {
     /* 
      ERROR: Once the Login page loads it automatically throw up the toast of Logged Out Successfully each time which is not supposed to be. It should only render that when te Logout button is clicked
     */
-    if (!success && isLoading == false) {
+    if (!success && (loading === false)) {
       toast.error("Incorrrect Login Details")
     }
     else {
@@ -56,7 +52,7 @@ const Index = () => {
     }
 
     //dispatch(reset());
-  }, [success, token, user, dispatch, isLoading])
+  }, [success, token, user, dispatch, loading])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({
@@ -65,11 +61,7 @@ const Index = () => {
     });
   };
 
-
-
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
     dispatch(login(credentials));
   };
@@ -107,12 +99,16 @@ const Index = () => {
           labelName="Enter your password"
           required
         />
+
+        <p style={{ fontSize: "1.4rem", marginBottom: "2rem" }}>
+          <Link to={"/reset_password"} className="text-primary">Forget Password? </Link>
+        </p>
         <button
           type="submit"
           className="btn primary-btn perfect-center"
-        // disabled={isLoading}
+          disabled={loading ? true : false}
         >
-          {isLoading ? <> <FontAwesomeIcon icon={faSpinner} spin size="lg" />Loading...</> : "Sign in"}
+          {loading ? <> <FontAwesomeIcon icon={faSpinner} spin size="lg" />Loading...</> : "Sign in"}
         </button>
 
       </form>

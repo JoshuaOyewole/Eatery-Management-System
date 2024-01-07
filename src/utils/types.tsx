@@ -87,6 +87,12 @@ export type userLoginResData = {
     firstname: string,
     lastname: string
 }
+export type loginResType2 = {
+    success: boolean,
+    token: string | null,
+    error: string | undefined,
+    details: userLoginResData | null,
+}
 
 export type loginResType = {
     success: boolean,

@@ -11,8 +11,11 @@ import {
   faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../../assets/images/logo.png";
+import { useAppSelector } from "../../../redux/hooks/hooks";
 
 const Sidebar = () => {
+  const rank = useAppSelector(state => state.auth.details?.rank);
+
 
   return (
     <div className="sidebar">
@@ -42,16 +45,19 @@ const Sidebar = () => {
             Orders
           </Link>
         </li>
-        <li className="nav-list">
-          <Link to="/manage-store" className="nav-link">
-            {" "}
-            <FontAwesomeIcon
-              icon={faFilePen}
-              className="fontawesomeIcon"
-            />{" "}
-            Manage Store (Admin)
-          </Link>
-        </li>
+        {
+          rank == "admin" && <li className="nav-list">
+            <Link to="/manage-store" className="nav-link">
+              {" "}
+              <FontAwesomeIcon
+                icon={faFilePen}
+                className="fontawesomeIcon"
+              />{" "}
+              Manage Store (Admin)
+            </Link>
+          </li>
+        }
+
         <li className="nav-list">
           <Link to="/eod" className="nav-link">
             <FontAwesomeIcon
@@ -64,7 +70,7 @@ const Sidebar = () => {
         <li className="nav-list d-none">
           <div className="nav-link">
             <FontAwesomeIcon icon={faUserGear} className="fontawesomeIcon" />
-            <Logout className="text-white"/>
+            <Logout className="text-white" />
           </div>
         </li>
       </ul>

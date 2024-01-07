@@ -14,8 +14,7 @@ interface DashboardLayoutProps {
 const DashboardLayout = (props: DashboardLayoutProps) => {
   const { children } = props;
   const [toggleMenu, setToggleMenu] = useState(false)
-  const f_name = useAppSelector(state => state.auth.details?.firstname);
-  const l_name = useAppSelector(state => state.auth.details?.lastname);
+  const details = useAppSelector(state => state.auth.user?.details);
 
   const toggleDropdown = () => {
     setToggleMenu(!toggleMenu)
@@ -34,7 +33,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
                 alt="Profile Pixs"
                 className="profilePixs"
               />
-              <button onClick={toggleDropdown} className="username">{f_name}. {l_name?.slice(0, 1)} <MdKeyboardArrowDown /></button>
+              <button onClick={toggleDropdown} className="username">{details?.firstname}. {details?.lastname?.slice(0, 1)} <MdKeyboardArrowDown /></button>
             </div>
             {toggleMenu && <ul className="user__dropdown">
               <li>
