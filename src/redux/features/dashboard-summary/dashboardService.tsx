@@ -1,5 +1,5 @@
 import axios from "axios";
-import { dashboardSummaryProps, topSellingProps, } from "../../../utils/types";
+import { dashboardSummaryProps, topSellingProps } from "../../../utils/types";
 const env = import.meta.env;
 
 
@@ -18,6 +18,28 @@ const topSelling = async () => {
     })
     return res.data
 }
+/* TOTAL ORDERS */
+const totalOrders = async () => {
+    const res = await axios.get(`${env.VITE_API_URL}/dashboard-summary/getTotalOrdersLast7Days`, {
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+    })
+
+    return res.data
+}
+
+/*GET LAST TRANSACTIONS^*/
+const lastTransactions = async (page:number) => {
+    const res = await axios.get(`${env.VITE_API_URL}/dashboard-summary/lastTransactions`, {
+        params:{
+            page
+        },
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    return res.data;
+}
 
 
-export { dashboardSummary, topSelling } 
+
+export { dashboardSummary, topSelling, totalOrders, lastTransactions } 
