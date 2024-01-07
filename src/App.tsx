@@ -7,6 +7,8 @@ import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import ManageStore from "./pages/ManageStore/Index";
 import Register from "./pages/Auth/register";
+import ResetPassword from "./pages/Auth/resetPassword";
+import NewPassword from "./pages/Auth/newPassword";
 import EODSummary from "./pages/Receipt/EODSummary";
 import EODReport from "./pages/Receipt/EODReport";
 import Receipt from "./pages/Receipt/index";
@@ -50,6 +52,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/admin/register" element={<Register />} />
+        <Route path="/reset_password" element={<ResetPassword />} />
+        <Route path="/new_pwd" element={<NewPassword />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Dashboard />} />
         </Route>
