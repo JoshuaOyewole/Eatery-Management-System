@@ -16,6 +16,8 @@ import mealReducer from "./features/meal/mealSlice";
 import addOrderReducer from "./features/addOrder/addOrderSlice";
 import topSelling from "./features/dashboard-summary/topSellingSlice";
 import dashboardSummary from "./features/dashboard-summary/dashboardsummarySlice";
+import getTotalOrdersLast7Days from "./features/dashboard-summary/getTotalOrdersLast7Days";
+import lastTransactionsSlice from "./features/dashboard-summary/lastTransactionsSlice";
 
 const persistConfig = {
   key: 'root',
@@ -29,8 +31,10 @@ const rootReducer = combineReducers({
   auth: authReducer,
   meal: mealReducer,
   addOrder: addOrderReducer,
-  topSelling: topSelling,
-  dashboardSummary:dashboardSummary
+  topSelling,
+  dashboardSummary,
+  getTotalOrdersLast7Days,
+  getLastTransactions: lastTransactionsSlice
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

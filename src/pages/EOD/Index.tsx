@@ -38,8 +38,11 @@ const EOD = () => {
   const [yesterdayTotalSale, setYesterdayTotalSale] = useState<number>();
   const [twoDaysAgoTotalSale, setTwoDaysAgoTotalSale] = useState<number>();
   const [eod, setEod] = useState<AuthTransaction[]>([]);
-  const [yesterdayEod, setYesterdayEod] = useState<AuthTransaction[]>([]);
-  const [twoDaysAgoEod, setTwoDaysAgoEod] = useState<AuthTransaction[]>([]);
+ // const [yesterdayEod, setYesterdayEod] = useState<AuthTransaction[]>([]);
+  //const [twoDaysAgoEod, setTwoDaysAgoEod] = useState<AuthTransaction[]>([]);
+
+
+
 
   /* Handle Custom Search EOD Transaction Form  */
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -76,6 +79,8 @@ const EOD = () => {
     ) => {
       setLoading(true)
       try {
+        console.log(`date here is ${date}`);
+        
         const res = await axios.get(`${env.VITE_API_URL}/records/?q=${date}`,
           {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
@@ -89,22 +94,22 @@ const EOD = () => {
       }
     };
     fetchEOD(today, setEod);
-    fetchEOD(yesterday, setYesterdayEod);
-    fetchEOD(twoDaysago, setTwoDaysAgoEod);
+    //fetchEOD(yesterday, setYesterdayEod);
+    //fetchEOD(twoDaysago, setTwoDaysAgoEod);
   }, [today, yesterday, twoDaysago]);
 
   /* TOTAL AMOUNT SOLD */
   useEffect(() => {
     let totalTransactionAmount = getTodaySaleAmount(eod);
-    let yesterdayTotalAmount = getTodaySaleAmount(yesterdayEod);
-    let twoDaysAgoTotalAmount = getTodaySaleAmount(twoDaysAgoEod);
+    //let yesterdayTotalAmount = getTodaySaleAmount(yesterdayEod);
+    //let twoDaysAgoTotalAmount = getTodaySaleAmount(twoDaysAgoEod);
 
     //UPDATES EACH DAY WITH THEIR TOTAL AMOUNT RESPECTIVELY
     setTotalSale(totalTransactionAmount);
-    setYesterdayTotalSale(yesterdayTotalAmount);
-    setTwoDaysAgoTotalSale(twoDaysAgoTotalAmount);
+    //setYesterdayTotalSale(yesterdayTotalAmount);
+    //setTwoDaysAgoTotalSale(twoDaysAgoTotalAmount);
 
-  }, [eod, yesterdayEod, twoDaysAgoEod]);
+  }, [eod]);
 
   /*   const printEODReport = () => {
       eod?.length !== 0

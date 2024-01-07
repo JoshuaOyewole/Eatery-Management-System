@@ -18,7 +18,11 @@ export interface mealSelectOptions {
     value: string;
     label: string;
 }
-
+export interface lastTransactionProps {
+    transactions: Array<AuthTransaction>;
+    currentPage: number;
+    totalPages: number;
+}
 export type totalForDay = {
     totalAmount: number,
     totalCount: number
@@ -61,7 +65,7 @@ export type loginCredentialsProps = {
 }
 
 //initial State props
-export type InitialState =
+/* export type InitialState =
     {
         success: boolean,
         status: number | undefined,
@@ -69,7 +73,7 @@ export type InitialState =
         details: userLoginResData | null,
         token: string,
         loading: boolean,
-    }
+    } */
 //initial State props
 export type mealInitialState = {
     loading: boolean,
@@ -77,7 +81,6 @@ export type mealInitialState = {
     error: string | undefined,
     success: boolean
 }
-
 export type userLoginResData = {
     _id: string,
     rank: string,
@@ -92,6 +95,26 @@ export type loginResType = {
     token: string | null,
     loading: boolean,
 }
+/* export type userLoginResData = {
+    _id: string,
+    rank: string,
+    firstname: string,
+    lastname: string
+}
+export type loginResType2 = {
+    success: boolean,
+    token: string | null,
+    error: string | undefined,
+    details: userLoginResData | null,
+}
+
+export type loginResType = {
+    success: boolean,
+    message: string | undefined,
+    details: userLoginResData | null,
+    token: string | null,
+    loading: boolean,
+} */
 export type bestSelling = {
     _id: String,
     totalQuantity: number
