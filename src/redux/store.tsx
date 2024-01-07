@@ -9,7 +9,7 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import authReducer from "./features/auth/authSlice2";
+import authReducer from "./features/auth/authSlice";
 import staffReducer from "./features/staffs/staffSlice";
 //import userReducer from "./features/users/userSlice";
 import mealReducer from "./features/meal/mealSlice";
