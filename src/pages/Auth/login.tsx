@@ -8,9 +8,12 @@ import logo from "../../assets/images/logo.png";
 import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks';
 //import { fetchStaffs } from "../../redux/features/staffs/staffSlice";
 import { login } from "../../redux/features/auth/authSlice";
-import { loginCredentialsProps, userLoginResData } from "../../utils/types";
+import { loginCredentialsProps } from "../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { top_selling } from "../../redux/features/dashboard-summary/topSellingSlice";
+import { summary } from "../../redux/features/dashboard-summary/dashboardsummarySlice";
+import { lastTransaction } from "../../redux/features/dashboard-summary/lastTransactionsSlice";
 
 
 
@@ -36,8 +39,8 @@ const Index = () => {
     /* 
      ERROR: Once the Login page loads it automatically throw up the toast of Logged Out Successfully each time which is not supposed to be. It should only render that when te Logout button is clicked
     */
-    if (!success) {
-      toast.error(message)
+    if (!success && isLoading == false) {
+      toast.error("Incorrrect Login Details")
     }
     else {
       toast.success(message)
@@ -46,11 +49,14 @@ const Index = () => {
     if (success && token !== null && user) {
       localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(user))
+      dispatch(top_selling());
+      dispatch(summary());
+      dispatch(lastTransaction(1))
       navigate('/')
     }
 
     //dispatch(reset());
-  }, [success, token, user, dispatch])
+  }, [success, token, user, dispatch, isLoading])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({
