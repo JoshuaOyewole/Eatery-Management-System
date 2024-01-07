@@ -5,7 +5,7 @@ import DashboardLayout from '../../Layout/Dashboard/Dashboard';
 import { useAppSelector } from "../../redux/hooks/hooks";
 
 const Dashboard = () => {
-    const details = useAppSelector(state => state.auth?.user?.details);
+    const details = useAppSelector(state => state.auth.user);
     console.log(details);
 
     return (
