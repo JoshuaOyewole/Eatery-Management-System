@@ -14,7 +14,7 @@ interface DashboardLayoutProps {
 const DashboardLayout = (props: DashboardLayoutProps) => {
   const { children } = props;
   const [toggleMenu, setToggleMenu] = useState(false)
-  const details = useAppSelector(state => state.auth.user?.details);
+  const details = useAppSelector(state => state.auth.user);
 
   const toggleDropdown = () => {
     setToggleMenu(!toggleMenu)
@@ -38,7 +38,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
             {toggleMenu && <ul className="user__dropdown">
               <li>
                 <div>
-                  <FontAwesomeIcon icon={faUserGear} className="fontawesomeIcon" />
+                  <FontAwesomeIcon icon={faUserGear} className="fontawesomeIcon" style={{marginRight:"1rem"}}/>
                   <Logout />
                 </div>
               </li>

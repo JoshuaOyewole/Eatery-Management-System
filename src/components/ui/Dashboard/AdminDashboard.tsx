@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import Table from "../Table/table";
 import TableRow from "../Table/tablebody";
 import { Spinner } from "../Spinner/Spinner";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const AdminDashboard = (props: { name: String; }) => {
     const [currentMonth, setCurrentMonth] = useState<string>('')
@@ -15,7 +17,7 @@ const AdminDashboard = (props: { name: String; }) => {
     let getTotalOrdersLast7Days = useAppSelector(state => state.getTotalOrdersLast7Days);
     let lastTrans = useAppSelector(state => state.getLastTransactions)
 
-    // const { name } = props;
+    const { name } = props;
 
     useEffect(() => {
         //Get Current Month
@@ -47,7 +49,11 @@ const AdminDashboard = (props: { name: String; }) => {
                             <div className={Styles["dashboard__sales-overview--record-type"]}>Daily</div>
                         </div>
                         <p className={Styles["dashboard__sales-overview--sales-datas"]}>
-                            <strong className={Styles.orderValue}>{sales_summary?.dashboardSummary.totalForDay.totalCount}</strong> Orders | &#8358; {sales_summary?.dashboardSummary.totalForDay.totalAmount.toLocaleString()}
+                            <strong className={Styles.orderValue}>
+                                {
+                                    sales_summary?.isLoading ? (<FontAwesomeIcon icon={faSpinner} spin size="lg" />) : sales_summary?.dashboardSummary?.totalForDay?.totalCount}</strong> Orders | &#8358; {sales_summary?.dashboardSummary?.totalForDay?.totalAmount?.toLocaleString()
+                            }
+
                         </p>
                     </div>
 
@@ -58,7 +64,8 @@ const AdminDashboard = (props: { name: String; }) => {
                             <div className={Styles["dashboard__sales-overview--record-type"]}>Monthly</div>
                         </div>
                         <p className={Styles["dashboard__sales-overview--sales-datas"]}>
-                            <strong className={Styles.orderValue}>{sales_summary?.dashboardSummary.totalForMonth.totalCount.toLocaleString()}</strong> Orders | &#8358; {sales_summary?.dashboardSummary.totalForMonth.totalAmount.toLocaleString()}
+                            <strong className={Styles.orderValue}>
+                                {sales_summary.isLoading ? <FontAwesomeIcon icon={faSpinner} spin size="lg" /> : sales_summary?.dashboardSummary?.totalForMonth?.totalCount.toLocaleString()}</strong> Orders | &#8358; {sales_summary?.dashboardSummary?.totalForMonth?.totalAmount?.toLocaleString()}
                         </p>
                     </div>
                 </div>
@@ -73,7 +80,7 @@ const AdminDashboard = (props: { name: String; }) => {
                                 <div className={Styles.item} style={{ fontWeight: "bold" }}> Qty</div>
                             </div>
 
-                            {
+                            {best_selling.isLoading ? <FontAwesomeIcon icon={faSpinner} spin size="lg" /> :
                                 best_selling.topSelling.map((item, index) => {
                                     return <li key={index}>
                                         <div className="flex space-between">
@@ -91,78 +98,81 @@ const AdminDashboard = (props: { name: String; }) => {
                         <div className={Styles["dashboard__sales-overview--top"]}>
                             <h4 className={`${Styles["dashboard__sales-overview--title"]} text-primary`}>Total Orders</h4>
                         </div>
-                        <ReactApexChart
-                            series={[
-                                {
-                                    name: "Order",
-                                    data: getTotalOrdersLast7Days.totalOrders.values,
-                                },
-                            ]}
-                            options={{
-                                chart: {
-                                    height: 180,
-                                    parentHeightOffset: 0,
-                                    stacked: true,
-                                    toolbar: {
-                                        show: false,
+                        {
+                            getTotalOrdersLast7Days.isLoading ? <FontAwesomeIcon icon={faSpinner} spin size="lg" /> : <ReactApexChart
+                                series={[
+                                    {
+                                        name: "Order",
+                                        data: getTotalOrdersLast7Days.totalOrders.values,
                                     },
-                                },
-                                colors: ["#506fd9", "#85b6ff"],
-                                grid: {
-                                    borderColor: "rgba(72,94,144, 0.07)",
-                                    padding: {
-                                        top: -20,
+                                ]}
+                                options={{
+                                    chart: {
+                                        height: 180,
+                                        parentHeightOffset: 0,
+                                        stacked: true,
+                                        toolbar: {
+                                            show: false,
+                                        },
+                                    },
+                                    colors: ["#506fd9", "#85b6ff"],
+                                    grid: {
+                                        borderColor: "rgba(72,94,144, 0.07)",
+                                        padding: {
+                                            top: -20,
+                                        },
+                                        yaxis: {
+                                            lines: {
+                                                show: true,
+                                            },
+                                        },
+                                    },
+                                    plotOptions: {
+                                        bar: {
+                                            horizontal: false,
+                                            columnWidth: "60%",
+                                            /*     endingShape: "rounded", */
+                                        },
+                                    },
+                                    dataLabels: {
+                                        enabled: false,
+                                    },
+                                    stroke: {
+                                        show: true,
+                                        width: 2,
+                                        colors: ["transparent"],
                                     },
                                     yaxis: {
-                                        lines: {
-                                            show: true,
+                                        show: true,
+                                    },
+                                    xaxis: {
+                                        type: "category",
+                                        categories: getTotalOrdersLast7Days.totalOrders.days,
+                                        tickAmount: 10,
+                                        decimalsInFloat: 0,
+                                        labels: {
+                                            style: {
+                                                colors: "#6e7985",
+                                                fontSize: "10px",
+                                            },
                                         },
                                     },
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        horizontal: false,
-                                        columnWidth: "60%",
-                                        /*     endingShape: "rounded", */
+                                    fill: {
+                                        opacity: 1,
                                     },
-                                },
-                                dataLabels: {
-                                    enabled: false,
-                                },
-                                stroke: {
-                                    show: true,
-                                    width: 2,
-                                    colors: ["transparent"],
-                                },
-                                yaxis: {
-                                    show: true,
-                                },
-                                xaxis: {
-                                    type: "category",
-                                    categories: getTotalOrdersLast7Days.totalOrders.days,
-                                    tickAmount: 10,
-                                    decimalsInFloat: 0,
-                                    labels: {
-                                        style: {
-                                            colors: "#6e7985",
-                                            fontSize: "10px",
-                                        },
+                                    legend: {
+                                        show: false,
                                     },
-                                },
-                                fill: {
-                                    opacity: 1,
-                                },
-                                legend: {
-                                    show: false,
-                                },
-                                tooltip: {
-                                    enabled: true,
-                                },
-                            }}
-                            type="bar"
-                            height={250}
-                            className="apex-chart-one mb-3"
-                        />
+                                    tooltip: {
+                                        enabled: true,
+                                    },
+                                }}
+                                type="bar"
+                                height={250}
+                                className="apex-chart-one mb-3"
+                            />
+                        }
+
                     </div>
                 </div>
                 <div className={`${Styles["dashboard__sales-overview"]} `}>
@@ -170,11 +180,11 @@ const AdminDashboard = (props: { name: String; }) => {
                         <h4 className={`${Styles["dashboard__sales-overview--title"]} text-primary`}>New Orders</h4>
                     </div>
                     {
-                        lastTrans.isLoading ? <Spinner /> : <Table tableHeader={tableHeader} extraClass={{ padding: "1rem" }} th={{ color: "#333" }}>
+                        lastTrans.isLoading ? <FontAwesomeIcon icon={faSpinner} spin size="lg" /> : <Table tableHeader={tableHeader} extraClass={{ padding: "1rem" }} th={{ color: "#333" }}>
                             <>
-                                {lastTrans.lastTransactions.transactions.map((trans, index) => {
+                                {lastTrans?.lastTransactions?.transactions?.map((trans, index) => {
                                     const originalDate = new Date(trans.payment_date);
-                                    const formattedTime = originalDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });   
+                                    const formattedTime = originalDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
                                     const formattedDate = originalDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
                                     return <TableRow key={index}>

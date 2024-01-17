@@ -14,7 +14,7 @@ import logo from "../../../assets/images/logo.png";
 import { useAppSelector } from "../../../redux/hooks/hooks";
 
 const Sidebar = () => {
-  const rank = useAppSelector(state => state.auth.details?.rank);
+  const rank = useAppSelector(state => state.auth.user.rank);
 
 
   return (

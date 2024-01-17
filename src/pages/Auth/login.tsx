@@ -14,45 +14,25 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { top_selling } from "../../redux/features/dashboard-summary/topSellingSlice";
 import { summary } from "../../redux/features/dashboard-summary/dashboardsummarySlice";
 import { lastTransaction } from "../../redux/features/dashboard-summary/lastTransactionsSlice";
-
-
-
+import { getTotalOrders } from "../../redux/features/dashboard-summary/getTotalOrdersLast7Days";
+import axios from "axios";
+const env = import.meta.env;
 
 const Index = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { message, errorMsg, loading, success, token } = useAppSelector(state => state.auth);
-  const user = useAppSelector(state => state.auth.user);
+  const { message, errorMsg, loading, success, token, user } = useAppSelector(state => state.auth);
+  //const user = useAppSelector(state => state.auth.user);
+
 
   const [credentials, setCredentials] = useState<loginCredentialsProps>({
     email: "",
     password: "",
   });
-  //console.log(loading);
+  //console.log({ message, errorMsg, loading, success, token });
 
-  useEffect(() => {
-    /* 
-     ERROR: Once the Login page loads it automatically throw up the toast of Logged Out Successfully each time which is not supposed to be. It should only render that when te Logout button is clicked
-    */
-    if (!success && (loading === false)) {
-      toast.error("Incorrrect Login Details")
-    }
-    else {
-      toast.success(message)
-    }
 
-    if (success && token !== null && user) {
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user))
-      dispatch(top_selling());
-      dispatch(summary());
-      dispatch(lastTransaction(1))
-      navigate('/')
-    }
-
-    //dispatch(reset());
-  }, [success, token, user, dispatch, loading])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({
@@ -63,9 +43,27 @@ const Index = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(login(credentials));
-  };
+    try {
 
+      let response = await dispatch(login(credentials)).unwrap();
+      if (response.success) {
+        toast.success(response.message);
+        navigate('/')
+        dispatch(top_selling());
+        dispatch(summary(user._id));
+        dispatch(lastTransaction(1));
+        dispatch(getTotalOrders())
+
+      }
+      else {
+        toast.error(response.message)
+      }
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
 
   const loginComponent = <div className="login-container">
     <div className="loginLeft">

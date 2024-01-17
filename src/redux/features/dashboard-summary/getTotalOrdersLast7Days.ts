@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { totalOrders } from "./dashboardService";
-//const env = import.meta.env;
-
 
 //initialState
 type totalOrdersInitialState = {

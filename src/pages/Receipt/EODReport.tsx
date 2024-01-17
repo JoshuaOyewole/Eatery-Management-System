@@ -59,19 +59,19 @@ function EODReport() {
     else {
       return <div className={Styles["invoice-POS"]}>
         <div className={Styles.top}>
-          <div className={Styles.logo}></div>
+          {/*  <div className={Styles.logo}></div> */}
           <div className={Styles.info}>
-            <h2 className={Styles.legal}>Rukky Cuisine</h2>
+            <h2 className={Styles.legal}>Bella Cuisine</h2>
             {/* <p className={Styles.address}>
     Motto : Customer's Satisfactory is our priority{" "}
   </p> */}
-            <p className={Styles.address}>Address : Angle 90, Auchi Edo state </p>
-            <p className={Styles.address}>Email : info@orisfinaeatery.com </p>
+            <p className={Styles.address}>Address : No. 22 Agege, Lagos State </p>
+            <p className={Styles.address}>Email : info@bellacuisine.com </p>
           </div>
         </div>
 
         <div className={Styles.mid}>
-          <div className={`${Styles.info} px-s`}>
+          <div className={`${Styles.info} `}>
             <span>
               <h3>EOD Report</h3>{" "}
             </span>
@@ -82,30 +82,30 @@ function EODReport() {
               <strong>{date}</strong>
             </span>
           </div>
-          <div className={`${Styles.row} px-s`}>
+          <div className={`${Styles.row} `}>
             <h6 className={Styles.header}> Approved Sales</h6>
             <p className={Styles.data}>{approvedTransactions.length}</p>
           </div>
-          <div className={`${Styles.row} px-s`}>
+          <div className={`${Styles.row} `}>
             <h6 className={Styles.header}>Approved Amount</h6>
             <p className={Styles.data}>{approvedAmount}</p>
           </div>
-          <div className={`${Styles.row} px-s`}>
+          <div className={`${Styles.row} `}>
             <h6 className={Styles.header}> Declined Sales</h6>
             <p className={Styles.data}>{declinedTransactions.length}</p>
           </div>
-          <div className={`${Styles.row} px-s`}>
+          <div className={`${Styles.row} `}>
             <h6 className={Styles.header}>Declined Amount</h6>
             <p className={Styles.data}>{declinedAmount}</p>
           </div>
           <div className={Styles["line-break"]}></div>
-          <div className={`${Styles["total-row"]} px-s `}>
+          <div className={`${Styles["total-row"]}  `} style={{ marginBottom: "1rem" }}>
             <h6 className={`${Styles.bal}`}>Balance</h6>
             <p className={Styles.bal}>NGN {approvedAmount}</p>
           </div>
         </div>
 
-        <p className={`${Styles.information} mt-s`}>
+        <p className={`${Styles.information}`}>
           For Queries kindly contact us on: +2347032054367 or{" "}
           <span className={Styles.break}>
             email us at queries@orisfinaEatery.com.ng

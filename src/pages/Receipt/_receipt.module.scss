@@ -41,7 +41,7 @@
   .top {
     @include mixin.flex($justify: center, $align: center);
     flex-direction: column;
-    min-height: 10rem;
+    min-height: 4rem;
   }
   .mid {
     min-height: 3rem;
@@ -125,6 +125,7 @@
 }
 .bal{
   font-weight: 600;
+  font-size: 0.8rem;
 }
 .line-break{
   margin-top: 4px;

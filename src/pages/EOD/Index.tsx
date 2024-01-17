@@ -21,6 +21,7 @@ import {
 import Button from "../../components/ui/Button";
 import { AuthTransaction } from "../../utils/types";
 import { Spinner } from "../../components/ui/Spinner/Spinner";
+import { useAppSelector } from "../../redux/hooks/hooks";
 const env = import.meta.env;
 
 
@@ -38,17 +39,12 @@ const EOD = () => {
   const [yesterdayTotalSale, setYesterdayTotalSale] = useState<number>();
   const [twoDaysAgoTotalSale, setTwoDaysAgoTotalSale] = useState<number>();
   const [eod, setEod] = useState<AuthTransaction[]>([]);
- // const [yesterdayEod, setYesterdayEod] = useState<AuthTransaction[]>([]);
+  // const [yesterdayEod, setYesterdayEod] = useState<AuthTransaction[]>([]);
   //const [twoDaysAgoEod, setTwoDaysAgoEod] = useState<AuthTransaction[]>([]);
 
 
 
-
-  /* Handle Custom Search EOD Transaction Form  */
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    navigate(`/eod/filter?q=${date}`);
-  };
+  let userId = useAppSelector(state => state.auth.user._id);
 
 
   /* FILTER SUCCESSFUL TRANSACTIONS FROM EOD */
@@ -63,12 +59,12 @@ const EOD = () => {
   const POSPaymens = POSPayment(successfulTransactions)
   /* FILTER TRANSFER PAYMENTS TRANSACTIONS FROM EOD */
   const transferPayments = TransferPayment(successfulTransactions);
-  useEffect(() => {
-    document.title = `EOD Report for ${date}`;
-  }, [date])
 
   /* Fetch Today, Yesterday and Two Days Ago EOD */
   useEffect(() => {
+
+    document.title = `EOD Report for ${date}`;
+
     //FETCH EOD
     const fetchEOD = async (
       date: string,
@@ -76,12 +72,19 @@ const EOD = () => {
     ) => {
       setLoading(true);
       try {
-        console.log(`date here is ${date}`);
-        
-        const res = await axios.get(`${env.VITE_API_URL}/records/?q=${date}`,
-          {
-            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-          });
+        const [day, month, year] = date.split("-");
+        let formattedDate = `${day}-${month}-${year}`
+
+        const res = await axios.get(`${env.VITE_API_URL}/records`, {
+          params: {
+            userId: userId,
+            q: formattedDate,
+          },
+
+          headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+        });
+
+
         let data = await res.data;
         state(data);
         setLoading(false)
@@ -90,10 +93,10 @@ const EOD = () => {
         setLoading(false)
       }
     };
-    fetchEOD(today, setEod);
+    fetchEOD(date, setEod);
     //fetchEOD(yesterday, setYesterdayEod);
     //fetchEOD(twoDaysago, setTwoDaysAgoEod);
-  }, [today, yesterday, twoDaysago]);
+  }, []);
 
   /* TOTAL AMOUNT SOLD */
   useEffect(() => {
@@ -160,7 +163,20 @@ const EOD = () => {
 
   };
 
-  orderSummary();
+  // orderSummary();
+  /* Handle Custom Search EOD Transaction Form  */
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    navigate(`/eod/filter?q=${date}&userId=${userId}`);
+  };
+
+  const handleDateSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [year, month, day] = e.target.value.split("-");
+    navigate(`/eod/filter?q=${day}-${month}-${year}&userId=${userId}`);
+
+    setDate(`${year}-${month}-${day}`);
+  }
+
 
   return (
     <>
@@ -230,7 +246,7 @@ const EOD = () => {
             <section className="dashboard__content--bottom">
               <div className="wrapper">
                 <div className="left">
-                  <div className="top">
+                  <div className="top d-none">
                     <h3 className="mb-s tertiary-header">Previous Records</h3>
                     <div className="flex w-100 space-between">
                       <Link
@@ -271,9 +287,7 @@ const EOD = () => {
                         name="eod-date"
                         className="dashboard__search-form--input"
                         value={date}
-                        onChange={(e) => {
-                          setDate(e.target.value);
-                        }}
+                        onChange={(e) => handleDateSelection(e)}
                         required
                       />
                       <input

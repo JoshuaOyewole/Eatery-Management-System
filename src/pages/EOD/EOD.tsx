@@ -22,6 +22,7 @@ const EOD = () => {
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false)
   const query = searchParams.get("q");
+  const userId = searchParams.get("userId");
   const token = getToken();
 
   const navigate = useNavigate();
@@ -29,12 +30,13 @@ const EOD = () => {
   const [totalSale, setTotalSale] = useState<number>();
   const [eod, setEod] = useState<AuthTransaction[]>([]);
 
+
   /* FETCH EOD BASED ON THE DATE PASSED */
   useEffect(() => {
     const fetchEOD = async () => {
       setLoading(true)
       const res = await axios.get(
-        `${env.VITE_API_URL}/records?q=${query}`,
+        `${env.VITE_API_URL}/records?q=${query}&userId=${userId}`,
         {
           headers: { "Authorization": `Bearer ${token}` }
         }
@@ -68,12 +70,12 @@ const EOD = () => {
 
   const printEODReport = () => {
     eod?.length !== 0
-      ? navigate(`/printEODReport?q=${query}`)
+      ? navigate(`/printEODReport?q=${query}&userId=${userId}`)
       : alert("No Transaction Found");
   };
   const printEODSummary = () => {
     eod?.length !== 0
-      ? navigate(`/printEODSummary?q=${query}`)
+      ? navigate(`/printEODSummary?q=${query}&userId=${userId}`)
       : alert("No Transaction Found");
   };
 
@@ -176,7 +178,7 @@ const EOD = () => {
                   />
                 </div>
               </div>
-            {/*   <section className="dashboard__content--bottom">
+              {/*   <section className="dashboard__content--bottom">
                 <div className="wrapper">
                   <div className="right">
                     <h3 className="dashboard__heading">Order Summary</h3>

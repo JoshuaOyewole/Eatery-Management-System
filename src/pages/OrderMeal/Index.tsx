@@ -19,13 +19,16 @@ const OrderMeal = () => {
   const dispatch = useAppDispatch();
 
   const isSucess = useAppSelector(state => state.meal.success)
-  const isOrderSucess = useAppSelector(state => state.addOrder.success)
+  const isOrderSucess = useAppSelector(state => state.addOrder.success);
+  const userId = useAppSelector(state => state.auth.user._id);
 
   //Fetch Meals state from Redux Store when the App loads
-  const meals = useAppSelector(state => state.meal.meals);
-  let newMeal = meals.map(meal => {
+  const meals = useAppSelector(state => state?.meal?.meals);
+  console.log(meals);
+  
+  let newMeal = meals!==null ? meals?.map(meal => {
     return { value: meal.title, label: meal.title }
-  })
+  }) :[];
 
   const qtyRef = useRef<HTMLInputElement | null>(null);
   const totalAmountRef = useRef<HTMLInputElement | null>(null);
@@ -52,6 +55,8 @@ const OrderMeal = () => {
 
   // Focus the Meal select input when the page finish loading
   useEffect(() => {
+    document.title = `Make an Order`;
+
     selectMealRef.current?.focus();
   }, []);
 
@@ -74,11 +79,11 @@ const OrderMeal = () => {
   useEffect(() => {
     if (meal !== undefined) {
       //Get the MEAL selected inorder to get the Price
-      const selectedmeal = meals.filter((mealList) => mealList.title === meal);
+      const selectedmeal = meals?.filter((mealList) => mealList.title === meal);
 
 
       //Get the PRICE from the MEAL selected
-      setPrice(selectedmeal[0].price);
+      setPrice(selectedmeal[0]?.price);
       //Set the QTY to 1 before a user decides to INCREASE|DECREASE
       setQty(1)
     }
@@ -133,13 +138,13 @@ const OrderMeal = () => {
   useEffect(() => {
     /* GET TOTAL AMOUNT OF GOODS */
     let sum = 0;
-    orderCart.map((order) => (sum += order.totalAmount));
+    orderCart?.map((order) => (sum += order.totalAmount));
     setTotalOrderPrice(sum);
-  }, [orderCart.length, orderCart]);
+  }, [orderCart?.length, orderCart]);
 
   const handleSubmit = async () => {
     /* Check if totalPrice and orders are empty. If EMPTY then throw up an ERROR message */
-    if (orderCart.length === 0 || totalOrderPrice === 0) {
+    if (orderCart?.length === 0 || totalOrderPrice === 0) {
       return toast.error(`Kindly select an Item to Order`, {
         position: "top-center",
         autoClose: 3000,
@@ -152,6 +157,7 @@ const OrderMeal = () => {
     } else if (window.confirm("Are you sure you want to Proceed?")) {
       /* IF NOT EMPTY THEN SEND THE ORDER TO THE ENDPOINT */
       const data = {
+        user: userId,
         name: "Customer ----",
         orders: orderCart,
         totalPrice: totalOrderPrice,
@@ -160,9 +166,9 @@ const OrderMeal = () => {
       }
       try {
         let response = await dispatch(addOrder(data))
-        if (response.payload) {
+        if (response?.payload) {
           /* UPDATE RESPONSE MESSAGE */
-          setResponseMessage(response.payload.message);
+          setResponseMessage(response?.payload.message);
           /* UPDATE INVOICE ID */
           setInvoiceID(response.payload.id);
           /* OPEN MODAL DISPLAY ORDER SUCCESS INFORMATION*/
@@ -173,7 +179,7 @@ const OrderMeal = () => {
           setTotalOrderPrice(0);
           //REFETCH DATA AND UPDATE DASHBOARD
           dispatch(top_selling())
-          dispatch(summary())
+          dispatch(summary(userId))
           dispatch(getTotalOrders())
           dispatch(lastTransaction(1))
         }

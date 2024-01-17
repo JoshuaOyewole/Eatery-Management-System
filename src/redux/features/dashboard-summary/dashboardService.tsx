@@ -4,10 +4,10 @@ const env = import.meta.env;
 
 
 /* DASHBOARD SUMMARY */
-const dashboardSummary = async () => {
-    const res = await axios.get<dashboardSummaryProps>(`${env.VITE_API_URL}/dashboard-summary`, {
-        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-    })
+const dashboardSummary = async (userId: string) => {
+    const res = await axios.post(`${env.VITE_API_URL}/dashboard-summary`, { id: userId },
+        { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } }
+    )
     return res.data
 }
 
@@ -20,17 +20,20 @@ const topSelling = async () => {
 }
 /* TOTAL ORDERS */
 const totalOrders = async () => {
-    const res = await axios.get(`${env.VITE_API_URL}/dashboard-summary/getTotalOrdersLast7Days`, {
-        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-    })
+    const res = await axios.get(`${env.VITE_API_URL}/dashboard-summary/getTotalOrdersLast7Days`,
+        { 
+            headers: 
+            { "Authorization": `Bearer ${localStorage.getItem('token')}` } 
+        }
+    )
 
     return res.data
 }
 
 /*GET LAST TRANSACTIONS^*/
-const lastTransactions = async (page:number) => {
+const lastTransactions = async (page: number) => {
     const res = await axios.get(`${env.VITE_API_URL}/dashboard-summary/lastTransactions`, {
-        params:{
+        params: {
             page
         },
         headers: {

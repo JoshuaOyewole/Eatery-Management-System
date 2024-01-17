@@ -13,6 +13,7 @@ import { faArrowPointer } from "@fortawesome/free-solid-svg-icons";
 import { currentDate } from '../../utils/function'
 import DashboardLayout from "../../Layout/Dashboard/Dashboard";
 import { AuthTransaction } from "../../utils/types"
+import { useAppSelector } from "../../redux/hooks/hooks";
 const env = import.meta.env;
 
 
@@ -24,16 +25,19 @@ type Props = {
 
 const Index = (props: Props) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   // Get the EOD Date param from the URL.
   const [date] = useSearchParams();
   const query = date.get('q');
+  let userId = useAppSelector(state => state.auth.user._id)
+
 
   /* HOOK TO FETCH TODAY's DATE */
   const today = currentDate();
 
   /* TABLE HEADER */
   const [tableHeader] = useState([
-   
+
     "Customer Name",
     "Payment Medium",
     "Total Amount",
@@ -53,6 +57,7 @@ const Index = (props: Props) => {
       const response = await axios.get(`${env.VITE_API_URL}/records`, {
         params: {
           "q": `${query !== null ? query : today}`,
+          userId
         },
         headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
       });
@@ -60,6 +65,7 @@ const Index = (props: Props) => {
       setOrder(res);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
 
     }
@@ -68,7 +74,7 @@ const Index = (props: Props) => {
   /* FETCH ORDERS FROM LOCALSTORAGE TO ENABLE FASTER LOADING */
   useEffect(() => {
     const fetchOrder = localStorage.getItem("orders");
-
+    document.title = `Recent Orders`;
     // Check if the Order Data was gotten and not null
     if (fetchOrder != null) {
       const getOrder = JSON.parse(fetchOrder);
@@ -115,7 +121,7 @@ const Index = (props: Props) => {
                         const formattedDate = originalDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
                         return (
                           <TableRow key={index}>
-                           
+
                             <td>{name}</td>
                             <td>{payment_medium}</td>
                             <td>&#8358; {totalPrice}</td>

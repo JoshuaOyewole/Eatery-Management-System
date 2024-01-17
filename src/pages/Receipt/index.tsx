@@ -56,14 +56,14 @@ function Index() {
     else {
       return <div className={Styles["invoice-POS"]}>
         <div className={Styles.top}>
-          <div className={Styles.logo}></div>
+          {/*   <div className={Styles.logo}></div> */}
           <div className={Styles.info}>
-            <h2 className={Styles.legal}>Orisfina Eatery</h2>
+            <h2 className={Styles.legal}>Bella Cusine</h2>
             {/* <p className={Styles.address}>
       Motto : Customer's Satisfactory is our priority{" "}
     </p> */}
-            <p className={Styles.address}>Address : Angle 90, Auchi Edo state </p>
-            <p className={Styles.address}>Email : info@orisfinaeatery.com </p>
+            <p className={Styles.address}>Address : No. 22 Agege, Lagos State</p>
+            <p className={Styles.address}>Email : info@bellacuisine.com  </p>
           </div>
         </div>
 

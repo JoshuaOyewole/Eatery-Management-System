@@ -1,88 +1,78 @@
-import { useEffect, useState } from "react";
 import Styles from "../../../pages/Dashboard/_dashboard.module.scss"
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks/hooks";
-import { top_selling } from "../../../redux/features/dashboard-summary/topSellingSlice";
-import { summary } from "../../../redux/features/dashboard-summary/dashboardsummarySlice";
+import { useAppSelector } from "../../../redux/hooks/hooks";
+import { useEffect, useState } from "react";
 import { GetCurrentMonth } from "../../../utils/function";
-//import Chart from "../Chart/Chart"
+import ReactApexChart from "react-apexcharts";
+import { Link } from "react-router-dom";
+import Table from "../Table/table";
+import TableRow from "../Table/tablebody";
+import { Spinner } from "../Spinner/Spinner";
 
-type Props = {
-    name: String,
-}
-
-const StaffDashboard = (props: Props) => {
-    const dispatch = useAppDispatch();
+const AdminDashboard = (props: { name: String; }) => {
     const [currentMonth, setCurrentMonth] = useState<string>('')
     let sales_summary = useAppSelector(state => state.dashboardSummary);
     let best_selling = useAppSelector(state => state.topSelling);
+    let getTotalOrdersLast7Days = useAppSelector(state => state.getTotalOrdersLast7Days);
+    let lastTrans = useAppSelector(state => state.getLastTransactions)
+
     const { name } = props;
 
     useEffect(() => {
-        dispatch(top_selling())
-        dispatch(summary());
         //Get Current Month
         setCurrentMonth(GetCurrentMonth());
     }, [])
 
+    /* TABLE HEADER */
+    const [tableHeader] = useState([
+        "Order ID",
+        "Customer Name",
+        "Date",
+        "Time",
+        "Amount",
+        "Status",
+        "Payment Type",
+    ]);
 
     return (
         <main className={Styles.dashboard__content}>
-            <div className={Styles["dashboard__content--top"]}>
-                <h2 className={Styles.dashboard__heading}>Hi, {name} - Welcome to Dashboard</h2>
-
+            <div className="flex">
+                <h2>Dashboard</h2>
             </div>
+
             <div className={Styles["dashboard__box-container"]}>
-                <div className={Styles["dashboard__box-content--left"]}>
-
-                    <div className={Styles["dashboard__box-content--leftWrapper"]}>
-                        <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--first"]}`}>
-                            <div className={Styles["dashboard__sales-overview--top"]}>
-                                <h4 className={Styles["dashboard__sales-overview--title"]}>Total Sales (Today)</h4>
-                                <div className={Styles["dashboard__sales-overview--record-type"]}>Daily</div>
-                            </div>
-                            <p className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                <strong className={Styles.orderValue}>{sales_summary?.dashboardSummary.totalForDay.totalCount}</strong> Orders | &#8358; {sales_summary?.dashboardSummary.totalForDay.totalAmount.toLocaleString()}
-                            </p>
-                        </div>
-
-                        <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--second"]} ml-s`} >
-                            <div className={Styles["dashboard__sales-overview--top"]}>
-                                <h4 className={Styles["dashboard__sales-overview--title"]}>{`${currentMonth} Overview`}</h4>
-                                <div className={Styles["dashboard__sales-overview--record-type"]}>Monthly</div>
-                            </div>
-                            <p className={Styles["dashboard__sales-overview--sales-datas"]}>
-                                <strong className={Styles.orderValue}>{sales_summary?.dashboardSummary.totalForMonth.totalCount.toLocaleString()}</strong> Orders | &#8358; {sales_summary?.dashboardSummary.totalForMonth.totalAmount.toLocaleString()}
-                            </p>
-                        </div>
-                    </div>
-                    <div className={Styles["dashboard__sales-overview"]}>
+                <div className={`${Styles["dashboard__box-content--leftWrapper"]} justify-start`} style={{ columnGap: "2rem" }}>
+                    <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--first"]} basis-32`}>
                         <div className={Styles["dashboard__sales-overview--top"]}>
-                            <h4 className={Styles["dashboard__sales-overview--title"]}>Last 7 days</h4>
+                            <h4 className={Styles["dashboard__sales-overview--title"]}>Total Sales (Today)</h4>
+                            <div className={Styles["dashboard__sales-overview--record-type"]}>Daily</div>
                         </div>
-                        {/*  <Chart
-                                    options={{
-                                        chart: {
-                                            id: "basic-bar"
-                                        },
-                                        xaxis: {
-                                            categories: ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
-                                        }
-                                    }}
-                                    series={[
-                                        {
-                                            name: "Total Sales",
-                                            data: [30000, 50000, 49000, 60000, 39000, 70000, 91000]
-                                        }
-                                    ]}
-                                /> */}
+                        <p className={Styles["dashboard__sales-overview--sales-datas"]}>
+                            <strong className={Styles.orderValue}>{sales_summary?.dashboardSummary.totalForDay.totalCount}</strong> Orders | &#8358; {sales_summary?.dashboardSummary.totalForDay.totalAmount.toLocaleString()}
+                        </p>
+                    </div>
+
+                    <div className={`${Styles["dashboard__sales-overview"]} ${Styles["dashboard__sales-overview--second"]} basis-32`} >
+                        <div className={Styles["dashboard__sales-overview--top"]}>
+                            <h4 className={Styles["dashboard__sales-overview--title"]}>{`${currentMonth} Overview`}
+                            </h4>
+                            <div className={Styles["dashboard__sales-overview--record-type"]}>Monthly</div>
+                        </div>
+                        <p className={Styles["dashboard__sales-overview--sales-datas"]}>
+                            <strong className={Styles.orderValue}>{sales_summary?.dashboardSummary.totalForMonth.totalCount.toLocaleString()}</strong> Orders | &#8358; {sales_summary?.dashboardSummary.totalForMonth.totalAmount.toLocaleString()}
+                        </p>
                     </div>
                 </div>
-                <div className={Styles["dashboard__box-content--right"]}>
-                    <div className={Styles["dashboard__sales-overview"]}>
+                <div className="flex w-100 gap-x-2">
+                    <div className={`${Styles["dashboard__sales-overview"]}  w-50`}>
                         <div className={Styles["dashboard__sales-overview--top"]}>
-                            <h4 className={Styles["dashboard__sales-overview--title"]}>Top Selling Categories</h4>
+                            <h4 className={`${Styles["dashboard__sales-overview--title"]} text-primary`}>Top Selling Categories</h4>
                         </div>
-                        <ul className={Styles["dashboard__sales-overview--sales-datas"]}>
+                        <ul className={Styles["dashboard__sales-overview--sales-datas"]} style={{ marginLeft: "2rem", listStyle: "circle" }}>
+                            <div className="flex space-between" style={{ marginBottom: "0.5rem", fontStyle: "italic" }}>
+                                <div className={Styles.item} style={{ fontWeight: "bold" }}>Product Name</div>
+                                <div className={Styles.item} style={{ fontWeight: "bold" }}> Qty</div>
+                            </div>
+
                             {
                                 best_selling.topSelling.map((item, index) => {
                                     return <li key={index}>
@@ -93,35 +83,118 @@ const StaffDashboard = (props: Props) => {
                                     </li>
                                 })
                             }
+
                         </ul>
 
                     </div>
-                    <div className={Styles["dashboard__sales-overview"]}>
+                    <div className={`${Styles["dashboard__sales-overview"]}  w-50`}>
                         <div className={Styles["dashboard__sales-overview--top"]}>
-                            <h4 className={Styles["dashboard__sales-overview--title"]}>Order Summary</h4>
+                            <h4 className={`${Styles["dashboard__sales-overview--title"]} text-primary`}>Total Orders</h4>
                         </div>
-                        <div className={Styles["dashboard__sales-overview--sales-datas"]}>
-                            {/* <Chart options={{
-                                        labels: ['Rice & Stew', 'Ice Cream', 'Fried Rice', 'Yohgurt'],
-                                        responsive: [{
-                                            breakpoint: 480,
-                                            options: {
-                                                chart: {
-                                                    width: 200
-                                                },
-                                                legend: {
-                                                    position: 'bottom'
-                                                }
-                                            }
-                                        }]
-                                    }} series={[40, 58, 88, 188]} type="pie" width={380} /> */}
-                        </div>
+                        <ReactApexChart
+                            series={[
+                                {
+                                    name: "Order",
+                                    data: getTotalOrdersLast7Days.totalOrders.values,
+                                },
+                            ]}
+                            options={{
+                                chart: {
+                                    height: 180,
+                                    parentHeightOffset: 0,
+                                    stacked: true,
+                                    toolbar: {
+                                        show: false,
+                                    },
+                                },
+                                colors: ["#506fd9", "#85b6ff"],
+                                grid: {
+                                    borderColor: "rgba(72,94,144, 0.07)",
+                                    padding: {
+                                        top: -20,
+                                    },
+                                    yaxis: {
+                                        lines: {
+                                            show: true,
+                                        },
+                                    },
+                                },
+                                plotOptions: {
+                                    bar: {
+                                        horizontal: false,
+                                        columnWidth: "60%",
+                                        /*     endingShape: "rounded", */
+                                    },
+                                },
+                                dataLabels: {
+                                    enabled: false,
+                                },
+                                stroke: {
+                                    show: true,
+                                    width: 2,
+                                    colors: ["transparent"],
+                                },
+                                yaxis: {
+                                    show: true,
+                                },
+                                xaxis: {
+                                    type: "category",
+                                    categories: getTotalOrdersLast7Days.totalOrders.days,
+                                    tickAmount: 10,
+                                    decimalsInFloat: 0,
+                                    labels: {
+                                        style: {
+                                            colors: "#6e7985",
+                                            fontSize: "10px",
+                                        },
+                                    },
+                                },
+                                fill: {
+                                    opacity: 1,
+                                },
+                                legend: {
+                                    show: false,
+                                },
+                                tooltip: {
+                                    enabled: true,
+                                },
+                            }}
+                            type="bar"
+                            height={250}
+                            className="apex-chart-one mb-3"
+                        />
                     </div>
+                </div>
+                <div className={`${Styles["dashboard__sales-overview"]} `}>
+                    <div className={Styles["dashboard__sales-overview--top"]}>
+                        <h4 className={`${Styles["dashboard__sales-overview--title"]} text-primary`}>New Orders</h4>
+                    </div>
+                    {
+                        lastTrans.isLoading ? <Spinner /> : <Table tableHeader={tableHeader} extraClass={{ padding: "1rem" }} th={{ color: "#333" }}>
+                            <>
+                                {lastTrans.lastTransactions.transactions.map((trans, index) => {
+                                    const originalDate = new Date(trans.payment_date);
+                                    const formattedTime = originalDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+                                    const formattedDate = originalDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
+                                    return <TableRow key={index}>
+                                        <td>{trans._id.slice(0, 6)}</td>
+                                        <td>{trans.name}</td>
+                                        <td>{formattedDate}</td>
+                                        <td>{formattedTime}</td>
+                                        <td>&#x20A6; {trans.totalPrice}</td>
+                                        <td>{trans.payment_status}</td>
+                                        <td>{trans.payment_medium}</td>
+                                    </TableRow>
+                                })}
+                            </>
+
+                        </Table>
+                    }
                 </div>
             </div>
         </main>
     )
 }
 
-export default StaffDashboard
+export default AdminDashboard
