@@ -24,7 +24,7 @@ const OrderMeal = () => {
 
   //Fetch Meals state from Redux Store when the App loads
   const meals = useAppSelector(state => state?.meal?.meals);
-  console.log(meals);
+
   
   let newMeal = meals!==null ? meals?.map(meal => {
     return { value: meal.title, label: meal.title }

@@ -16,7 +16,7 @@ const login = async (userData: { email: string, password: string }) => {
         let res = response.data
 
         if (res.success) {
-            localStorage.setItem('token', JSON.stringify(response.data.token))
+            localStorage.setItem('token', response.data.token)
             localStorage.setItem('user', JSON.stringify(response.data.details))
             return response.data
         }

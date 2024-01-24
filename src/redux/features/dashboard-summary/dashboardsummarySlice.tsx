@@ -29,7 +29,6 @@ const initialState: dashboardSummaryInitialState = {
 //TOP SELLING ITEMS
 export const summary = createAsyncThunk('dashboard/dashboardSummary', async (userId: string) => {
     try {
-        console.log(userId);
 
         return await dashboardSummary(userId);
     } catch (error: any) {

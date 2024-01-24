@@ -80,8 +80,8 @@ const AdminDashboard = (props: { name: String; }) => {
                                 <div className={Styles.item} style={{ fontWeight: "bold" }}> Qty</div>
                             </div>
 
-                            {best_selling.isLoading ? <FontAwesomeIcon icon={faSpinner} spin size="lg" /> :
-                                best_selling.topSelling.map((item, index) => {
+                            {best_selling.isLoading ? <FontAwesomeIcon icon={faSpinner} spin size="lg" /> : Array.isArray(best_selling.topSelling) &&
+                                best_selling?.topSelling?.map((item, index) => {
                                     return <li key={index}>
                                         <div className="flex space-between">
                                             <div className={Styles.item}>{item._id}</div>

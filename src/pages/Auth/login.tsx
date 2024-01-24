@@ -46,13 +46,15 @@ const Index = () => {
     try {
 
       let response = await dispatch(login(credentials)).unwrap();
+
       if (response.success) {
+
         toast.success(response.message);
-        navigate('/')
         dispatch(top_selling());
-        dispatch(summary(user._id));
+        dispatch(summary(response.details._id));
         dispatch(lastTransaction(1));
         dispatch(getTotalOrders())
+        navigate('/')
 
       }
       else {
