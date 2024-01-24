@@ -30,19 +30,19 @@ const Sidebar = () => {
               icon={faHouseChimney}
               className="fontawesomeIcon"
             />
-            Dashboard
+            <span className="sidebar__nav_label">Dashboard</span>
           </Link>
         </li>
         <li className="nav-list">
           <Link to="/order-meal" className="nav-link">
             <FontAwesomeIcon icon={faCreditCard} className="fontawesomeIcon" />
-            Make an Order
+            <span className="sidebar__nav_label">Make an Order</span>
           </Link>
         </li>
         <li className="nav-list">
           <Link to="/orders" className="nav-link">
-            <FontAwesomeIcon icon={faBook} className="fontawesomeIcon" /> My
-            Orders
+            <FontAwesomeIcon icon={faBook} className="fontawesomeIcon" />
+            <span className="sidebar__nav_label"> My Orders</span>
           </Link>
         </li>
         {
@@ -53,7 +53,7 @@ const Sidebar = () => {
                 icon={faFilePen}
                 className="fontawesomeIcon"
               />{" "}
-              Manage Store (Admin)
+              <span className="sidebar__nav_label">Manage Store (Admin)</span>
             </Link>
           </li>
         }
@@ -64,7 +64,7 @@ const Sidebar = () => {
               icon={faCartShopping}
               className="fontawesomeIcon"
             />{" "}
-            Reports
+            <span className="sidebar__nav_label">Reports</span>
           </Link>
         </li>
         <li className="nav-list d-none">
